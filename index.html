@@ -163,10 +163,14 @@
         /* KART CSS'İ */
         .part-card { position: relative; background: var(--surface-color); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; transition: transform 0.3s, box-shadow 0.3s; scroll-margin-top: 100px; }
         .part-card:hover { transform: translateY(-8px); box-shadow: 0 12px 24px rgba(30, 58, 138, 0.08); border-color: rgba(30, 58, 138, 0.3); }
+        .part-card.target-focus { transform: translateY(-10px) scale(1.04); box-shadow: 0 20px 45px rgba(30, 58, 138, 0.25), 0 0 0 3px rgba(29, 78, 216, 0.25); z-index: 30; }
 
         /* PINTEREST TARGET EFEKTİ */
         .part-card:target { border-color: var(--primary-accent) !important; box-shadow: 0 0 0 4px rgba(30, 58, 138, 0.2), 0 15px 30px rgba(0,0,0,0.15) !important; transform: translateY(-8px); animation: highlightPulse 1.5s ease-out; }
         @keyframes highlightPulse { 0% { box-shadow: 0 0 0 0 rgba(30, 58, 138, 0.6); } 100% { box-shadow: 0 0 0 15px rgba(30, 58, 138, 0); } }
+        .focus-mode .focus-eligible:not(.target-focus) { filter: blur(1.6px) saturate(0.85); opacity: 0.5; transform: scale(0.98); transition: all 0.25s ease; }
+        .focus-mode .focus-eligible.target-focus .part-image,
+        .focus-mode .focus-eligible.target-focus .stealth-part-image { transform: scale(1.08); }
 
         /* RESİM WRAPPER VE PINTEREST BUTONU */
         .img-wrapper { width: 100%; border-radius: 8px; margin-bottom: 15px; overflow: hidden; }
@@ -959,6 +963,37 @@
                     });
                 });
             });
+
+            function applyHashFocusMode() {
+                var cards = document.querySelectorAll('.part-card');
+                var eligibleCards = document.querySelectorAll('.setup-content-grid > .part-card:not(.case-unit-card)');
+
+                cards.forEach(function(card) {
+                    card.classList.remove('target-focus');
+                    card.classList.remove('focus-eligible');
+                });
+
+                eligibleCards.forEach(function(card) {
+                    card.classList.add('focus-eligible');
+                });
+
+                var targetId = window.location.hash ? window.location.hash.substring(1) : '';
+                if (!targetId) {
+                    document.body.classList.remove('focus-mode');
+                    return;
+                }
+
+                var targetCard = document.getElementById(targetId);
+                if (targetCard && targetCard.classList.contains('focus-eligible')) {
+                    document.body.classList.add('focus-mode');
+                    targetCard.classList.add('target-focus');
+                } else {
+                    document.body.classList.remove('focus-mode');
+                }
+            }
+
+            applyHashFocusMode();
+            window.addEventListener('hashchange', applyHashFocusMode);
         });
     </script>
 </body>
