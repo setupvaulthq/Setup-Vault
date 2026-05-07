@@ -142,12 +142,11 @@
             margin-bottom: 40px;
         }
 
-        /* --- FOTOĞRAF YAKINLAŞTIRMA (CROP) ÇÖZÜMÜ --- */
         .build-hero-image {
             width: 100%;
-            max-height: 600px; /* Çok uzamasını engeller */
-            object-fit: contain; /* Fotoğrafı kesmeden tam sığdırır */
-            background-color: #E2E8E4; /* Boşluk kalırsa stüdyo fonu gibi yeşilimsi gri yapar */
+            height: auto;
+            object-fit: contain; 
+            background-color: #E2E8E4; 
             border-bottom: 1px solid rgba(0,0,0,0.05);
             display: block;
         }
@@ -169,7 +168,11 @@
             margin-bottom: 30px;
         }
 
-        /* --- YUMUŞAK AÇILAN (SMOOTH) MENÜ ANİMASYONU --- */
+        @keyframes slideDownSmooth {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
         .parts-accordion summary {
             background-color: var(--accent-black);
             color: white;
@@ -183,39 +186,24 @@
             transition: transform 0.2s ease, background-color 0.2s ease;
         }
 
-        .parts-accordion summary::-webkit-details-marker {
-            display: none; 
-        }
+        .parts-accordion summary::-webkit-details-marker { display: none; }
 
         .parts-accordion summary:hover {
             transform: scale(1.01);
             background-color: #222;
         }
 
-        .parts-accordion summary::after {
-            content: ' ▼';
-            font-size: 12px;
-            margin-left: 8px;
+        .parts-accordion summary::after { content: ' ▼'; font-size: 12px; margin-left: 8px; }
+        .parts-accordion[open] summary::after { content: ' ▲'; }
+
+        .parts-accordion[open] .setup-content-grid {
+            animation: slideDownSmooth 0.7s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
 
-        .parts-accordion[open] summary::after {
-            content: ' ▲';
-        }
-
-        /* Açılma Animasyonu Tanımı */
-        @keyframes slideDownSmooth {
-            0% { opacity: 0; transform: translateY(-15px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        .parts-accordion[open] .parts-grid {
-            animation: slideDownSmooth 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .parts-grid {
+        .setup-content-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
             margin-top: 30px;
             padding-top: 30px;
             border-top: 1px solid rgba(0,0,0,0.05);
@@ -238,7 +226,7 @@
 
         .part-image {
             width: 100%;
-            height: 160px;
+            height: 180px;
             object-fit: contain; 
             margin-bottom: 15px;
             mix-blend-mode: multiply; 
@@ -261,7 +249,7 @@
         }
 
         .part-title {
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 700;
             margin: 0 0 15px; 
             line-height: 1.4;
@@ -274,10 +262,10 @@
             border: 1px solid var(--accent-black);
             color: var(--accent-black);
             text-decoration: none;
-            padding: 10px;
+            padding: 12px;
             border-radius: 8px;
             font-weight: 600;
-            font-size: 13px;
+            font-size: 14px;
             transition: all 0.2s;
         }
 
@@ -285,6 +273,62 @@
             background: var(--accent-black);
             color: white;
         }
+
+        .case-unit-card {
+            grid-column: 1 / -1; 
+            background-color: var(--surface-color);
+            border: 2px solid rgba(0,0,0,0.05);
+            display: grid;
+            grid-template-columns: 1fr 1.5fr; 
+            gap: 30px;
+            align-items: center;
+            padding: 30px;
+        }
+
+        .case-assembled-image {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            object-fit: cover;
+            cursor: pointer; 
+            transition: transform 0.2s ease;
+        }
+
+        .case-assembled-image:hover {
+            transform: scale(1.02);
+        }
+
+        .case-internals-accordion {
+            margin-top: 20px;
+        }
+
+        .case-internals-accordion summary {
+            background-color: transparent;
+            color: var(--accent-black);
+            border: 1px solid var(--accent-black);
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .case-internals-accordion summary:hover {
+            background-color: #f5f5f5;
+        }
+
+        .case-internals-accordion[open] .case-parts-grid {
+            animation: slideDownSmooth 0.7s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        .case-parts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            grid-column: 1 / -1; 
+        }
+
     </style>
 </head>
 <body>
@@ -308,71 +352,132 @@
             <h2>☁️ The Zen Workspace</h2>
             
             <div class="build-master-card">
-                <img src="Full_Angell.jfif" alt="The Angel Build" class="build-hero-image">
+                <img src="ANGEL_SETUP.jfif" alt="The Angel Setup Full View" class="build-hero-image">
                 
                 <div class="build-content">
                     <h3 class="build-title">The Angel Build</h3>
-                    <p class="build-desc">Pristine white aesthetics meeting uncompromising 1440p gaming performance. The ultimate minimalist showcase featuring NZXT flow architecture and stealthy air cooling.</p>
+                    <p class="build-desc">Born from a vision of absolute purity, The Angel Build delivers flawless 1080p performance wrapped in a pristine, minimalist design. It's an ethereal sanctuary for your workspace—where high-end responsiveness meets angelic tranquility.</p>
                     
                     <details class="parts-accordion">
-                        <summary>View Build Parts (8 Items)</summary>
+                        <summary>View Setup Content</summary>
                         
-                        <div class="parts-grid">
+                        <div class="setup-content-grid">
                             
                             <div class="part-card">
-                                <img src="angel_Case.jpg" class="part-image" alt="NZXT H5 Flow">
-                                <div class="medal-badge">🏆 4.5+ Elite Choice</div>
-                                <h4 class="part-title">NZXT H5 Flow Compact ATX</h4>
-                                <a href="https://amzn.to/4tnQsjc" target="_blank" class="part-btn">Check on Amazon</a>
-                            </div>
-
-                            <div class="part-card">
-                                <img src="angel_ekrankarti.jpg" class="part-image" alt="ASUS RTX 4060 Ti">
-                                <div class="medal-badge">🥇 Premium Tier</div>
-                                <h4 class="part-title">ASUS Dual RTX™ 4060 Ti 8GB</h4>
-                                <a href="https://amzn.to/48Opqdj" target="_blank" class="part-btn">Check on Amazon</a>
-                            </div>
-
-                            <div class="part-card">
-                                <img src="angel_cpu.jpg" class="part-image" alt="AMD Ryzen 5 7600X">
-                                <div class="medal-badge">🎖️ Verified Quality</div>
-                                <h4 class="part-title">AMD Ryzen 5 7600X 6-Core</h4>
-                                <a href="https://amzn.to/3QLMzHc" target="_blank" class="part-btn">Check on Amazon</a>
-                            </div>
-
-                            <div class="part-card">
-                                <img src="angel_anakart.jpg" class="part-image" alt="MSI B650">
-                                <div class="medal-badge">🏆 4.5+ Elite Choice</div>
-                                <h4 class="part-title">MSI B650 Gaming Plus WiFi</h4>
-                                <a href="https://amzn.to/4tlfb7E" target="_blank" class="part-btn">Check on Amazon</a>
-                            </div>
-
-                            <div class="part-card">
-                                <img src="angel_ram.jpg" class="part-image" alt="Corsair Vengeance">
+                                <img src="angel_keyboard.jpg" class="part-image" alt="Wireless Mechanical Keyboard">
                                 <div class="medal-badge">🥇 Top Rated</div>
-                                <h4 class="part-title">Corsair Vengeance 32GB DDR5</h4>
-                                <a href="https://amzn.to/42h54pt" target="_blank" class="part-btn">Check on Amazon</a>
+                                <h4 class="part-title">Cloud-Touch Mechanical Board</h4>
+                                <a href="https://amzn.to/4nl8dyg" target="_blank" class="part-btn">Check on Amazon</a>
                             </div>
 
                             <div class="part-card">
-                                <img src="angel_Ssd.jpg" class="part-image" alt="Crucial P3 Plus">
-                                <div class="medal-badge">🎖️ Bestseller</div>
-                                <h4 class="part-title">Crucial P3 Plus 1TB NVMe M.2</h4>
-                                <a href="https://amzn.to/48LdmJK" target="_blank" class="part-btn">Check on Amazon</a>
-                            </div>
-
-                            <div class="part-card">
-                                <img src="angel_cooler.jpg" class="part-image" alt="Thermalright">
+                                <img src="angel_mouse.jpg" class="part-image" alt="Sleek Wireless Mouse">
                                 <div class="medal-badge">🏆 4.5+ Elite Choice</div>
-                                <h4 class="part-title">Thermalright Peerless Assassin 120</h4>
-                                <a href="https://amzn.to/49Bq8uD" target="_blank" class="part-btn">Check on Amazon</a>
+                                <h4 class="part-title">Zero-Gravity Wireless Glide</h4>
+                                <a href="https://amzn.to/4duNPHq" target="_blank" class="part-btn">Check on Amazon</a>
                             </div>
 
                             <div class="part-card">
-                                <img src="angel_power.jpg" class="part-image" alt="Corsair RM750x">
+                                <img src="angel_headset.jpg" class="part-image" alt="Premium White Headset">
                                 <div class="medal-badge">🥇 Premium Tier</div>
-                                <h4 class="part-title">Corsair RM750x 80+ Gold</h4>
-                                <a href="https://amzn.to/4tS70AF" target="_blank" class="part-btn">Check on Amazon</a>
+                                <h4 class="part-title">Halo-Acoustic Gaming Headset</h4>
+                                <a href="https://amzn.to/3PrB9b5" target="_blank" class="part-btn">Check on Amazon</a>
+                            </div>
+
+                            <div class="part-card">
+                                <img src="angel_monitor.jpg" class="part-image" alt="1080p IPS Monitor">
+                                <div class="medal-badge">🎖️ Verified Quality</div>
+                                <h4 class="part-title">1080p Pure Vision Display</h4>
+                                <a href="https://amzn.to/4uyDNL0" target="_blank" class="part-btn">Check on Amazon</a>
+                            </div>
+
+                            <div class="part-card">
+                                <img src="angel_mousepad.jpg" class="part-image" alt="XXL White Desk Mat">
+                                <div class="medal-badge">🎖️ Bestseller</div>
+                                <h4 class="part-title">Archangel XXL Desk Mat</h4>
+                                <a href="https://amzn.to/49zmjWN" target="_blank" class="part-btn">Check on Amazon</a>
+                            </div>
+
+                            <div class="part-card">
+                                <img src="angel_light.jpg" class="part-image" alt="Monitor Light Bar">
+                                <div class="medal-badge">🏆 4.5+ Elite Choice</div>
+                                <h4 class="part-title">Divine Glow Monitor Bar</h4>
+                                <a href="https://amzn.to/4da8RK9" target="_blank" class="part-btn">Check on Amazon</a>
+                            </div>
+
+
+                            <div class="part-card case-unit-card">
+                                <img src="Full_Angell.jfif" class="case-assembled-image" alt="Assembled Angel PC Build" onclick="document.getElementById('caseInternals').open = !document.getElementById('caseInternals').open">
+                                
+                                <div class="case-unit-details">
+                                    <div class="medal-badge">👑 Masterpiece</div>
+                                    <h4 class="part-title">The Angel Core (PC Unit)</h4>
+                                    <p class="build-desc" style="font-size: 14px; margin-bottom: 15px;">The central powerhouse. Curved glass aesthetics with elite internal component management.</p>
+                                    
+                                    <details class="case-internals-accordion" id="caseInternals">
+                                        <summary>View PC Build Parts (8 Items)</summary>
+                                        
+                                        <div class="case-parts-grid">
+                                            
+                                            <div class="part-card">
+                                                <img src="angel_Case.jpg" class="part-image" alt="NZXT H5 Flow">
+                                                <div class="medal-badge">🏆 4.5+ Elite Choice</div>
+                                                <h4 class="part-title">NZXT H5 Flow Compact ATX</h4>
+                                                <a href="https://amzn.to/4tnQsjc" target="_blank" class="part-btn">Check on Amazon</a>
+                                            </div>
+                
+                                            <div class="part-card">
+                                                <img src="angel_ekrankarti.jpg" class="part-image" alt="ASUS RTX 4060 Ti">
+                                                <div class="medal-badge">🥇 Premium Tier</div>
+                                                <h4 class="part-title">ASUS Dual RTX™ 4060 Ti 8GB</h4>
+                                                <a href="https://amzn.to/48Opqdj" target="_blank" class="part-btn">Check on Amazon</a>
+                                            </div>
+                
+                                            <div class="part-card">
+                                                <img src="angel_cpu.jpg" class="part-image" alt="AMD Ryzen 5 7600X">
+                                                <div class="medal-badge">🎖️ Verified Quality</div>
+                                                <h4 class="part-title">AMD Ryzen 5 7600X 6-Core</h4>
+                                                <a href="https://amzn.to/3QLMzHc" target="_blank" class="part-btn">Check on Amazon</a>
+                                            </div>
+                
+                                            <div class="part-card">
+                                                <img src="angel_anakart.jpg" class="part-image" alt="MSI B650">
+                                                <div class="medal-badge">🏆 4.5+ Elite Choice</div>
+                                                <h4 class="part-title">MSI B650 Gaming Plus WiFi</h4>
+                                                <a href="https://amzn.to/4tlfb7E" target="_blank" class="part-btn">Check on Amazon</a>
+                                            </div>
+                
+                                            <div class="part-card">
+                                                <img src="angel_ram.jpg" class="part-image" alt="Corsair Vengeance">
+                                                <div class="medal-badge">🥇 Top Rated</div>
+                                                <h4 class="part-title">Corsair Vengeance 32GB DDR5</h4>
+                                                <a href="https://amzn.to/42h54pt" target="_blank" class="part-btn">Check on Amazon</a>
+                                            </div>
+                
+                                            <div class="part-card">
+                                                <img src="angel_Ssd.jpg" class="part-image" alt="Crucial P3 Plus">
+                                                <div class="medal-badge">🎖️ Bestseller</div>
+                                                <h4 class="part-title">Crucial P3 Plus 1TB NVMe M.2</h4>
+                                                <a href="https://amzn.to/48LdmJK" target="_blank" class="part-btn">Check on Amazon</a>
+                                            </div>
+                
+                                            <div class="part-card">
+                                                <img src="angel_cooler.jpg" class="part-image" alt="Thermalright">
+                                                <div class="medal-badge">🏆 4.5+ Elite Choice</div>
+                                                <h4 class="part-title">Thermalright Peerless Assassin 120</h4>
+                                                <a href="https://amzn.to/49Bq8uD" target="_blank" class="part-btn">Check on Amazon</a>
+                                            </div>
+                
+                                            <div class="part-card">
+                                                <img src="angel_power.jpg" class="part-image" alt="Corsair RM750x">
+                                                <div class="medal-badge">🥇 Premium Tier</div>
+                                                <h4 class="part-title">Corsair RM750x 80+ Gold</h4>
+                                                <a href="https://amzn.to/4tS70AF" target="_blank" class="part-btn">Check on Amazon</a>
+                                            </div>
+
+                                        </div>
+                                    </details>
+                                </div>
                             </div>
 
                         </div>
