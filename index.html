@@ -171,6 +171,11 @@
         .focus-mode .focus-eligible:not(.target-focus) { filter: blur(1.6px) saturate(0.85); opacity: 0.5; transform: scale(0.98); transition: all 0.25s ease; }
         .focus-mode .focus-eligible.target-focus .part-image,
         .focus-mode .focus-eligible.target-focus .stealth-part-image { transform: scale(1.08); }
+        .focus-close-btn { position: fixed; top: 18px; right: 18px; z-index: 1600; display: none; align-items: center; gap: 8px; border: 1px solid rgba(15, 23, 42, 0.2); background: rgba(255,255,255,0.92); color: #0F172A; font-size: 12px; font-weight: 700; border-radius: 999px; padding: 10px 14px; cursor: pointer; backdrop-filter: blur(6px); box-shadow: 0 8px 24px rgba(15,23,42,0.15); }
+        .focus-close-btn:hover { background: #FFFFFF; border-color: rgba(29, 78, 216, 0.35); color: #1D4ED8; }
+        .focus-mode .focus-close-btn { display: inline-flex; }
+        @keyframes focusCardIn { 0% { transform: translateY(22px) scale(0.96); opacity: 0.7; } 100% { transform: translateY(-10px) scale(1.04); opacity: 1; } }
+        .part-card.target-focus.focus-enter { animation: focusCardIn 0.45s ease; }
 
         /* RESİM WRAPPER VE PINTEREST BUTONU */
         .img-wrapper { width: 100%; border-radius: 8px; margin-bottom: 15px; overflow: hidden; }
@@ -240,6 +245,7 @@
     </style>
 </head>
 <body>
+    <button type="button" class="focus-close-btn" id="focusCloseBtn" aria-label="Exit focus mode">✕ Focus Mode Off</button>
 
     <div class="app-layout">
         
@@ -912,6 +918,8 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            var focusCloseBtn = document.getElementById('focusCloseBtn');
+
             var amazonBtns = document.querySelectorAll('.part-btn');
             amazonBtns.forEach(function(btn) {
                 btn.addEventListener('click', function() {
@@ -964,6 +972,19 @@
                 });
             });
 
+            function exitFocusMode() {
+                document.body.classList.remove('focus-mode');
+                var focusedCard = document.querySelector('.part-card.target-focus');
+                if (focusedCard) {
+                    focusedCard.classList.remove('target-focus');
+                    focusedCard.classList.remove('focus-enter');
+                }
+
+                if (window.location.hash) {
+                    history.replaceState(null, '', window.location.pathname + window.location.search);
+                }
+            }
+
             function applyHashFocusMode() {
                 var cards = document.querySelectorAll('.part-card');
                 var eligibleCards = document.querySelectorAll('.setup-content-grid > .part-card:not(.case-unit-card)');
@@ -987,10 +1008,23 @@
                 if (targetCard && targetCard.classList.contains('focus-eligible')) {
                     document.body.classList.add('focus-mode');
                     targetCard.classList.add('target-focus');
+                    targetCard.classList.remove('focus-enter');
+                    void targetCard.offsetWidth;
+                    targetCard.classList.add('focus-enter');
+                    targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 } else {
                     document.body.classList.remove('focus-mode');
                 }
             }
+
+            if (focusCloseBtn) {
+                focusCloseBtn.addEventListener('click', exitFocusMode);
+            }
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && document.body.classList.contains('focus-mode')) {
+                    exitFocusMode();
+                }
+            });
 
             applyHashFocusMode();
             window.addEventListener('hashchange', applyHashFocusMode);
