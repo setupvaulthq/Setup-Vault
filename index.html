@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L7XNSR95T3"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LLV9DT0GBS"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-L7XNSR95T3');
+      gtag('config', 'G-LLV9DT0GBS');
     </script>
 
     <script>
@@ -145,7 +145,7 @@
         .setup-content-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-top: 30px; padding-top: 30px; border-top: 1px solid rgba(0,0,0,0.05); }
 
         /* KART CSS'İ */
-        .part-card { position: relative; background: var(--surface-color); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; transition: transform 0.3s, box-shadow 0.3s; scroll-margin-top: 80px; }
+        .part-card { position: relative; background: var(--surface-color); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; transition: transform 0.3s, box-shadow 0.3s; scroll-margin-top: 100px; }
         .part-card:hover { transform: translateY(-8px); box-shadow: 0 12px 24px rgba(30, 58, 138, 0.08); border-color: rgba(30, 58, 138, 0.3); }
 
         /* PINTEREST TARGET EFEKTİ */
@@ -170,9 +170,9 @@
         /* BAŞLIK VE KOPYALA İKONU */
         .title-wrapper { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 15px; }
         .part-title { font-size: 15px; font-weight: 700; margin: 0; line-height: 1.4; flex: 1; }
-        .copy-link-icon { opacity: 0; color: #94A3B8; text-decoration: none; font-size: 16px; transition: opacity 0.2s, color 0.2s; cursor: pointer; }
+        .copy-link-icon { opacity: 0; color: #94A3B8; text-decoration: none; font-size: 16px; transition: opacity 0.2s, color 0.2s, transform 0.2s, text-shadow 0.2s; cursor: pointer; }
         .part-card:hover .copy-link-icon { opacity: 1; }
-        .copy-link-icon:hover { color: var(--primary-accent); }
+        .copy-link-icon:hover { color: var(--primary-accent); transform: translateY(-1px) scale(1.08); text-shadow: 0 0 10px rgba(30, 58, 138, 0.35); }
 
         /* AMAZON BUTONU CSS (FLEX İLE ORTALANDI) */
         .part-btn { margin-top: auto; display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--surface-color); border: 1px solid var(--accent-black); color: var(--accent-black); text-decoration: none; padding: 12px; border-radius: 8px; font-weight: 700; font-size: 13px; transition: all 0.2s ease; cursor: pointer;}
@@ -383,9 +383,15 @@
                                             <div class="case-parts-grid">
                                                 
                                                 <div class="part-card" id="angel-pc-case">
-                                                    <img src="angel_Case.jpg" class="part-image" alt="NZXT H5 Flow" loading="lazy">
+                                                    <div class="img-wrapper">
+                                                        <a href="https://pinterest.com/pin/create/button/?url=https://setupvaulthq.com/#angel-pc-case&media=https://setupvaulthq.com/angel_Case.jpg&description=NZXT%20H5%20Flow%20Compact%20ATX%20-%20Setup%20Vault" target="_blank" class="pinterest-save-btn">Save</a>
+                                                        <img src="angel_Case.jpg" class="part-image" alt="NZXT H5 Flow" loading="lazy">
+                                                    </div>
                                                     <div class="medal-badge">🏆 4.5+ Elite Choice</div>
-                                                    <h4 class="part-title">NZXT H5 Flow Compact ATX</h4>
+                                                    <div class="title-wrapper">
+                                                        <h4 class="part-title">NZXT H5 Flow Compact ATX</h4>
+                                                        <a href="#angel-pc-case" class="copy-link-icon" title="Sağ tıkla ve bağlantıyı kopyala">🔗</a>
+                                                    </div>
                                                     <a href="https://amzn.to/4tnQsjc" target="_blank" class="part-btn">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M11 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1z"/><path d="M2 2.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V3h-12v-.5z"/><path d="M14 5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5zM1 4v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4H1z"/></svg>
                                                         View on Amazon
@@ -393,9 +399,15 @@
                                                 </div>
                     
                                                 <div class="part-card" id="angel-pc-gpu">
-                                                    <img src="angel_ekrankarti.jpg" class="part-image" alt="ASUS RTX 4060 Ti" loading="lazy">
+                                                    <div class="img-wrapper">
+                                                        <a href="https://pinterest.com/pin/create/button/?url=https://setupvaulthq.com/#angel-pc-gpu&media=https://setupvaulthq.com/angel_ekrankarti.jpg&description=ASUS%20Dual%20RTX%204060%20Ti%208GB%20-%20Setup%20Vault" target="_blank" class="pinterest-save-btn">Save</a>
+                                                        <img src="angel_ekrankarti.jpg" class="part-image" alt="ASUS RTX 4060 Ti" loading="lazy">
+                                                    </div>
                                                     <div class="medal-badge">🥇 Premium Tier</div>
-                                                    <h4 class="part-title">ASUS Dual RTX™ 4060 Ti 8GB</h4>
+                                                    <div class="title-wrapper">
+                                                        <h4 class="part-title">ASUS Dual RTX™ 4060 Ti 8GB</h4>
+                                                        <a href="#angel-pc-gpu" class="copy-link-icon" title="Sağ tıkla ve bağlantıyı kopyala">🔗</a>
+                                                    </div>
                                                     <a href="https://amzn.to/48Opqdj" target="_blank" class="part-btn">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M11 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1z"/><path d="M2 2.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V3h-12v-.5z"/><path d="M14 5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5zM1 4v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4H1z"/></svg>
                                                         View on Amazon
@@ -403,9 +415,15 @@
                                                 </div>
                     
                                                 <div class="part-card" id="angel-pc-cpu">
-                                                    <img src="angel_cpu.jpg" class="part-image" alt="AMD Ryzen 5 7600X" loading="lazy">
+                                                    <div class="img-wrapper">
+                                                        <a href="https://pinterest.com/pin/create/button/?url=https://setupvaulthq.com/#angel-pc-cpu&media=https://setupvaulthq.com/angel_cpu.jpg&description=AMD%20Ryzen%205%207600X%206-Core%20-%20Setup%20Vault" target="_blank" class="pinterest-save-btn">Save</a>
+                                                        <img src="angel_cpu.jpg" class="part-image" alt="AMD Ryzen 5 7600X" loading="lazy">
+                                                    </div>
                                                     <div class="medal-badge">🎖️ Verified Quality</div>
-                                                    <h4 class="part-title">AMD Ryzen 5 7600X 6-Core</h4>
+                                                    <div class="title-wrapper">
+                                                        <h4 class="part-title">AMD Ryzen 5 7600X 6-Core</h4>
+                                                        <a href="#angel-pc-cpu" class="copy-link-icon" title="Sağ tıkla ve bağlantıyı kopyala">🔗</a>
+                                                    </div>
                                                     <a href="https://amzn.to/3QLMzHc" target="_blank" class="part-btn">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M11 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1z"/><path d="M2 2.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V3h-12v-.5z"/><path d="M14 5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5zM1 4v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4H1z"/></svg>
                                                         View on Amazon
@@ -413,9 +431,15 @@
                                                 </div>
                     
                                                 <div class="part-card" id="angel-pc-mobo">
-                                                    <img src="angel_anakart.jpg" class="part-image" alt="MSI B650" loading="lazy">
+                                                    <div class="img-wrapper">
+                                                        <a href="https://pinterest.com/pin/create/button/?url=https://setupvaulthq.com/#angel-pc-mobo&media=https://setupvaulthq.com/angel_anakart.jpg&description=MSI%20B650%20Gaming%20Plus%20WiFi%20-%20Setup%20Vault" target="_blank" class="pinterest-save-btn">Save</a>
+                                                        <img src="angel_anakart.jpg" class="part-image" alt="MSI B650" loading="lazy">
+                                                    </div>
                                                     <div class="medal-badge">🏆 4.5+ Elite Choice</div>
-                                                    <h4 class="part-title">MSI B650 Gaming Plus WiFi</h4>
+                                                    <div class="title-wrapper">
+                                                        <h4 class="part-title">MSI B650 Gaming Plus WiFi</h4>
+                                                        <a href="#angel-pc-mobo" class="copy-link-icon" title="Sağ tıkla ve bağlantıyı kopyala">🔗</a>
+                                                    </div>
                                                     <a href="https://amzn.to/4tlfb7E" target="_blank" class="part-btn">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M11 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1z"/><path d="M2 2.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V3h-12v-.5z"/><path d="M14 5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5zM1 4v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4H1z"/></svg>
                                                         View on Amazon
@@ -423,9 +447,15 @@
                                                 </div>
                     
                                                 <div class="part-card" id="angel-pc-ram">
-                                                    <img src="angel_ram.jpg" class="part-image" alt="Corsair Vengeance" loading="lazy">
+                                                    <div class="img-wrapper">
+                                                        <a href="https://pinterest.com/pin/create/button/?url=https://setupvaulthq.com/#angel-pc-ram&media=https://setupvaulthq.com/angel_ram.jpg&description=Corsair%20Vengeance%2032GB%20DDR5%20-%20Setup%20Vault" target="_blank" class="pinterest-save-btn">Save</a>
+                                                        <img src="angel_ram.jpg" class="part-image" alt="Corsair Vengeance" loading="lazy">
+                                                    </div>
                                                     <div class="medal-badge">🥇 Top Rated</div>
-                                                    <h4 class="part-title">Corsair Vengeance 32GB DDR5</h4>
+                                                    <div class="title-wrapper">
+                                                        <h4 class="part-title">Corsair Vengeance 32GB DDR5</h4>
+                                                        <a href="#angel-pc-ram" class="copy-link-icon" title="Sağ tıkla ve bağlantıyı kopyala">🔗</a>
+                                                    </div>
                                                     <a href="https://amzn.to/42h54pt" target="_blank" class="part-btn">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M11 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1z"/><path d="M2 2.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V3h-12v-.5z"/><path d="M14 5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5zM1 4v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4H1z"/></svg>
                                                         View on Amazon
@@ -433,9 +463,15 @@
                                                 </div>
                     
                                                 <div class="part-card" id="angel-pc-ssd">
-                                                    <img src="angel_Ssd.jpg" class="part-image" alt="Crucial P3 Plus" loading="lazy">
+                                                    <div class="img-wrapper">
+                                                        <a href="https://pinterest.com/pin/create/button/?url=https://setupvaulthq.com/#angel-pc-ssd&media=https://setupvaulthq.com/angel_Ssd.jpg&description=Crucial%20P3%20Plus%201TB%20NVMe%20M.2%20-%20Setup%20Vault" target="_blank" class="pinterest-save-btn">Save</a>
+                                                        <img src="angel_Ssd.jpg" class="part-image" alt="Crucial P3 Plus" loading="lazy">
+                                                    </div>
                                                     <div class="medal-badge">🎖️ Bestseller</div>
-                                                    <h4 class="part-title">Crucial P3 Plus 1TB NVMe M.2</h4>
+                                                    <div class="title-wrapper">
+                                                        <h4 class="part-title">Crucial P3 Plus 1TB NVMe M.2</h4>
+                                                        <a href="#angel-pc-ssd" class="copy-link-icon" title="Sağ tıkla ve bağlantıyı kopyala">🔗</a>
+                                                    </div>
                                                     <a href="https://amzn.to/48LdmJK" target="_blank" class="part-btn">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M11 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1z"/><path d="M2 2.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V3h-12v-.5z"/><path d="M14 5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5zM1 4v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4H1z"/></svg>
                                                         View on Amazon
@@ -443,9 +479,15 @@
                                                 </div>
                     
                                                 <div class="part-card" id="angel-pc-cooler">
-                                                    <img src="angel_cooler.jpg" class="part-image" alt="Thermalright" loading="lazy">
+                                                    <div class="img-wrapper">
+                                                        <a href="https://pinterest.com/pin/create/button/?url=https://setupvaulthq.com/#angel-pc-cooler&media=https://setupvaulthq.com/angel_cooler.jpg&description=Thermalright%20Peerless%20Assassin%20120%20-%20Setup%20Vault" target="_blank" class="pinterest-save-btn">Save</a>
+                                                        <img src="angel_cooler.jpg" class="part-image" alt="Thermalright" loading="lazy">
+                                                    </div>
                                                     <div class="medal-badge">🏆 4.5+ Elite Choice</div>
-                                                    <h4 class="part-title">Thermalright Peerless Assassin 120</h4>
+                                                    <div class="title-wrapper">
+                                                        <h4 class="part-title">Thermalright Peerless Assassin 120</h4>
+                                                        <a href="#angel-pc-cooler" class="copy-link-icon" title="Sağ tıkla ve bağlantıyı kopyala">🔗</a>
+                                                    </div>
                                                     <a href="https://amzn.to/49Bq8uD" target="_blank" class="part-btn">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M11 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1z"/><path d="M2 2.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V3h-12v-.5z"/><path d="M14 5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5zM1 4v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4H1z"/></svg>
                                                         View on Amazon
@@ -453,9 +495,15 @@
                                                 </div>
                     
                                                 <div class="part-card" id="angel-pc-psu">
-                                                    <img src="angel_power.jpg" class="part-image" alt="Corsair RM750x" loading="lazy">
+                                                    <div class="img-wrapper">
+                                                        <a href="https://pinterest.com/pin/create/button/?url=https://setupvaulthq.com/#angel-pc-psu&media=https://setupvaulthq.com/angel_power.jpg&description=Corsair%20RM750x%2080+%20Gold%20-%20Setup%20Vault" target="_blank" class="pinterest-save-btn">Save</a>
+                                                        <img src="angel_power.jpg" class="part-image" alt="Corsair RM750x" loading="lazy">
+                                                    </div>
                                                     <div class="medal-badge">🥇 Premium Tier</div>
-                                                    <h4 class="part-title">Corsair RM750x 80+ Gold</h4>
+                                                    <div class="title-wrapper">
+                                                        <h4 class="part-title">Corsair RM750x 80+ Gold</h4>
+                                                        <a href="#angel-pc-psu" class="copy-link-icon" title="Sağ tıkla ve bağlantıyı kopyala">🔗</a>
+                                                    </div>
                                                     <a href="https://amzn.to/4tS70AF" target="_blank" class="part-btn">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M11 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1z"/><path d="M2 2.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V3h-12v-.5z"/><path d="M14 5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5zM1 4v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4H1z"/></svg>
                                                         View on Amazon
@@ -601,72 +649,120 @@
                                             
                                             <div class="case-parts-grid" style="border-top-color: #334155; margin-top: 25px;">
                                                 <div class="part-card" style="background: #0F172A; border-color: #334155;" id="stealth-pc-case">
-                                                    <img src="stealth_case.jpg" class="stealth-part-image" alt="Fractal North" loading="lazy">
+                                                    <div class="img-wrapper">
+                                                        <a href="https://pinterest.com/pin/create/button/?url=https://setupvaulthq.com/#stealth-pc-case&media=https://setupvaulthq.com/stealth_case.jpg&description=Obsidian%20Woodcraft%20Chassis%20-%20Setup%20Vault" target="_blank" class="pinterest-save-btn">Save</a>
+                                                        <img src="stealth_case.jpg" class="stealth-part-image" alt="Fractal North" loading="lazy">
+                                                    </div>
                                                     <div class="medal-badge medal-dark">🦇 Stealth Choice</div>
-                                                    <h4 class="part-title" style="color: white; font-size: 13px;">Obsidian Woodcraft Chassis</h4>
+                                                    <div class="title-wrapper">
+                                                        <h4 class="part-title" style="color: white; font-size: 13px;">Obsidian Woodcraft Chassis</h4>
+                                                        <a href="#stealth-pc-case" class="copy-link-icon" title="Sağ tıkla ve bağlantıyı kopyala">🔗</a>
+                                                    </div>
                                                     <a href="https://amzn.to/4tk2Ikq" target="_blank" class="part-btn" style="background: #1E293B; color: white; border-color: #475569; padding: 8px; font-size: 12px;">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M11 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1z"/><path d="M2 2.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V3h-12v-.5z"/><path d="M14 5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5zM1 4v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4H1z"/></svg>
                                                         View on Amazon
                                                     </a>
                                                 </div>
                                                 <div class="part-card" style="background: #0F172A; border-color: #334155;" id="stealth-pc-gpu">
-                                                    <img src="stealth_gpu.jpg" class="stealth-part-image" alt="RTX 4070 Ti SUPER" loading="lazy">
+                                                    <div class="img-wrapper">
+                                                        <a href="https://pinterest.com/pin/create/button/?url=https://setupvaulthq.com/#stealth-pc-gpu&media=https://setupvaulthq.com/stealth_gpu.jpg&description=ProArt%20RTX%204070%20Ti%20SUPER%20-%20Setup%20Vault" target="_blank" class="pinterest-save-btn">Save</a>
+                                                        <img src="stealth_gpu.jpg" class="stealth-part-image" alt="RTX 4070 Ti SUPER" loading="lazy">
+                                                    </div>
                                                     <div class="medal-badge medal-dark">🖤 Obsidian Tier</div>
-                                                    <h4 class="part-title" style="color: white; font-size: 13px;">ProArt RTX 4070 Ti SUPER</h4>
+                                                    <div class="title-wrapper">
+                                                        <h4 class="part-title" style="color: white; font-size: 13px;">ProArt RTX 4070 Ti SUPER</h4>
+                                                        <a href="#stealth-pc-gpu" class="copy-link-icon" title="Sağ tıkla ve bağlantıyı kopyala">🔗</a>
+                                                    </div>
                                                     <a href="https://amzn.to/4whqIr6" target="_blank" class="part-btn" style="background: #1E293B; color: white; border-color: #475569; padding: 8px; font-size: 12px;">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M11 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1z"/><path d="M2 2.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V3h-12v-.5z"/><path d="M14 5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5zM1 4v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4H1z"/></svg>
                                                         View on Amazon
                                                     </a>
                                                 </div>
                                                 <div class="part-card" style="background: #0F172A; border-color: #334155;" id="stealth-pc-cpu">
-                                                    <img src="stealth_cpu.jpg" class="stealth-part-image" alt="Ryzen 7 7800X3D" loading="lazy">
+                                                    <div class="img-wrapper">
+                                                        <a href="https://pinterest.com/pin/create/button/?url=https://setupvaulthq.com/#stealth-pc-cpu&media=https://setupvaulthq.com/stealth_cpu.jpg&description=Ryzen%207%207800X3D%208-Core%20-%20Setup%20Vault" target="_blank" class="pinterest-save-btn">Save</a>
+                                                        <img src="stealth_cpu.jpg" class="stealth-part-image" alt="Ryzen 7 7800X3D" loading="lazy">
+                                                    </div>
                                                     <div class="medal-badge medal-dark">👑 Blackout Masterpiece</div>
-                                                    <h4 class="part-title" style="color: white; font-size: 13px;">Ryzen 7 7800X3D 8-Core</h4>
+                                                    <div class="title-wrapper">
+                                                        <h4 class="part-title" style="color: white; font-size: 13px;">Ryzen 7 7800X3D 8-Core</h4>
+                                                        <a href="#stealth-pc-cpu" class="copy-link-icon" title="Sağ tıkla ve bağlantıyı kopyala">🔗</a>
+                                                    </div>
                                                     <a href="https://amzn.to/4tjzbY4" target="_blank" class="part-btn" style="background: #1E293B; color: white; border-color: #475569; padding: 8px; font-size: 12px;">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M11 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1z"/><path d="M2 2.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V3h-12v-.5z"/><path d="M14 5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5zM1 4v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4H1z"/></svg>
                                                         View on Amazon
                                                     </a>
                                                 </div>
                                                 <div class="part-card" style="background: #0F172A; border-color: #334155;" id="stealth-pc-mobo">
-                                                    <img src="stealth_anakart.jpg" class="stealth-part-image" alt="MSI MAG B650" loading="lazy">
+                                                    <div class="img-wrapper">
+                                                        <a href="https://pinterest.com/pin/create/button/?url=https://setupvaulthq.com/#stealth-pc-mobo&media=https://setupvaulthq.com/stealth_anakart.jpg&description=MAG%20B650%20Tomahawk%20WiFi%20-%20Setup%20Vault" target="_blank" class="pinterest-save-btn">Save</a>
+                                                        <img src="stealth_anakart.jpg" class="stealth-part-image" alt="MSI MAG B650" loading="lazy">
+                                                    </div>
                                                     <div class="medal-badge medal-dark">🦇 Stealth Choice</div>
-                                                    <h4 class="part-title" style="color: white; font-size: 13px;">MAG B650 Tomahawk WiFi</h4>
+                                                    <div class="title-wrapper">
+                                                        <h4 class="part-title" style="color: white; font-size: 13px;">MAG B650 Tomahawk WiFi</h4>
+                                                        <a href="#stealth-pc-mobo" class="copy-link-icon" title="Sağ tıkla ve bağlantıyı kopyala">🔗</a>
+                                                    </div>
                                                     <a href="https://amzn.to/4dbXdye" target="_blank" class="part-btn" style="background: #1E293B; color: white; border-color: #475569; padding: 8px; font-size: 12px;">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M11 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1z"/><path d="M2 2.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V3h-12v-.5z"/><path d="M14 5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5zM1 4v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4H1z"/></svg>
                                                         View on Amazon
                                                     </a>
                                                 </div>
                                                 <div class="part-card" style="background: #0F172A; border-color: #334155;" id="stealth-pc-ram">
-                                                    <img src="stealth_ram.jpg" class="stealth-part-image" alt="Flare X5 32GB" loading="lazy">
+                                                    <div class="img-wrapper">
+                                                        <a href="https://pinterest.com/pin/create/button/?url=https://setupvaulthq.com/#stealth-pc-ram&media=https://setupvaulthq.com/stealth_ram.jpg&description=Flare%20X5%2032GB%20DDR5%20-%20Setup%20Vault" target="_blank" class="pinterest-save-btn">Save</a>
+                                                        <img src="stealth_ram.jpg" class="stealth-part-image" alt="Flare X5 32GB" loading="lazy">
+                                                    </div>
                                                     <div class="medal-badge medal-dark">🖤 Obsidian Tier</div>
-                                                    <h4 class="part-title" style="color: white; font-size: 13px;">Flare X5 32GB DDR5</h4>
+                                                    <div class="title-wrapper">
+                                                        <h4 class="part-title" style="color: white; font-size: 13px;">Flare X5 32GB DDR5</h4>
+                                                        <a href="#stealth-pc-ram" class="copy-link-icon" title="Sağ tıkla ve bağlantıyı kopyala">🔗</a>
+                                                    </div>
                                                     <a href="https://amzn.to/48HgCWE" target="_blank" class="part-btn" style="background: #1E293B; color: white; border-color: #475569; padding: 8px; font-size: 12px;">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M11 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1z"/><path d="M2 2.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V3h-12v-.5z"/><path d="M14 5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5zM1 4v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4H1z"/></svg>
                                                         View on Amazon
                                                     </a>
                                                 </div>
                                                 <div class="part-card" style="background: #0F172A; border-color: #334155;" id="stealth-pc-ssd">
-                                                    <img src="stealth_ssd.jpg" class="stealth-part-image" alt="SN850X 2TB" loading="lazy">
+                                                    <div class="img-wrapper">
+                                                        <a href="https://pinterest.com/pin/create/button/?url=https://setupvaulthq.com/#stealth-pc-ssd&media=https://setupvaulthq.com/stealth_ssd.jpg&description=SN850X%202TB%20NVMe%20SSD%20-%20Setup%20Vault" target="_blank" class="pinterest-save-btn">Save</a>
+                                                        <img src="stealth_ssd.jpg" class="stealth-part-image" alt="SN850X 2TB" loading="lazy">
+                                                    </div>
                                                     <div class="medal-badge medal-dark">🦇 Stealth Choice</div>
-                                                    <h4 class="part-title" style="color: white; font-size: 13px;">SN850X 2TB NVMe SSD</h4>
+                                                    <div class="title-wrapper">
+                                                        <h4 class="part-title" style="color: white; font-size: 13px;">SN850X 2TB NVMe SSD</h4>
+                                                        <a href="#stealth-pc-ssd" class="copy-link-icon" title="Sağ tıkla ve bağlantıyı kopyala">🔗</a>
+                                                    </div>
                                                     <a href="https://amzn.to/3Pnldqp" target="_blank" class="part-btn" style="background: #1E293B; color: white; border-color: #475569; padding: 8px; font-size: 12px;">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M11 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1z"/><path d="M2 2.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V3h-12v-.5z"/><path d="M14 5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5zM1 4v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4H1z"/></svg>
                                                         View on Amazon
                                                     </a>
                                                 </div>
                                                 <div class="part-card" style="background: #0F172A; border-color: #334155;" id="stealth-pc-cooler">
-                                                    <img src="stealth_cooler.jpg" class="stealth-part-image" alt="Zero Dark Cooler" loading="lazy">
+                                                    <div class="img-wrapper">
+                                                        <a href="https://pinterest.com/pin/create/button/?url=https://setupvaulthq.com/#stealth-pc-cooler&media=https://setupvaulthq.com/stealth_cooler.jpg&description=Zero%20Dark%20Dual%20Tower%20-%20Setup%20Vault" target="_blank" class="pinterest-save-btn">Save</a>
+                                                        <img src="stealth_cooler.jpg" class="stealth-part-image" alt="Zero Dark Cooler" loading="lazy">
+                                                    </div>
                                                     <div class="medal-badge medal-dark">🖤 Obsidian Tier</div>
-                                                    <h4 class="part-title" style="color: white; font-size: 13px;">Zero Dark Dual Tower</h4>
+                                                    <div class="title-wrapper">
+                                                        <h4 class="part-title" style="color: white; font-size: 13px;">Zero Dark Dual Tower</h4>
+                                                        <a href="#stealth-pc-cooler" class="copy-link-icon" title="Sağ tıkla ve bağlantıyı kopyala">🔗</a>
+                                                    </div>
                                                     <a href="https://amzn.to/4tWKSVQ" target="_blank" class="part-btn" style="background: #1E293B; color: white; border-color: #475569; padding: 8px; font-size: 12px;">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M11 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1z"/><path d="M2 2.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V3h-12v-.5z"/><path d="M14 5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5zM1 4v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4H1z"/></svg>
                                                         View on Amazon
                                                     </a>
                                                 </div>
                                                 <div class="part-card" style="background: #0F172A; border-color: #334155;" id="stealth-pc-psu">
-                                                    <img src="stealth_power.jpg" class="stealth-part-image" alt="850W PSU" loading="lazy">
+                                                    <div class="img-wrapper">
+                                                        <a href="https://pinterest.com/pin/create/button/?url=https://setupvaulthq.com/#stealth-pc-psu&media=https://setupvaulthq.com/stealth_power.jpg&description=850W%20Gold%20Modular%20PSU%20-%20Setup%20Vault" target="_blank" class="pinterest-save-btn">Save</a>
+                                                        <img src="stealth_power.jpg" class="stealth-part-image" alt="850W PSU" loading="lazy">
+                                                    </div>
                                                     <div class="medal-badge medal-dark">🦇 Stealth Choice</div>
-                                                    <h4 class="part-title" style="color: white; font-size: 13px;">850W Gold Modular PSU</h4>
+                                                    <div class="title-wrapper">
+                                                        <h4 class="part-title" style="color: white; font-size: 13px;">850W Gold Modular PSU</h4>
+                                                        <a href="#stealth-pc-psu" class="copy-link-icon" title="Sağ tıkla ve bağlantıyı kopyala">🔗</a>
+                                                    </div>
                                                     <a href="https://amzn.to/3OS35ot" target="_blank" class="part-btn" style="background: #1E293B; color: white; border-color: #475569; padding: 8px; font-size: 12px;">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M11 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1z"/><path d="M2 2.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V3h-12v-.5z"/><path d="M14 5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5zM1 4v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4H1z"/></svg>
                                                         View on Amazon
@@ -764,25 +860,16 @@
             document.body.style.overflow = 'auto';
         }
 
-        /* --- AMAZON BUTONU TIKLAMA TAKİBİ (EVENT TRACKING) --- */
         document.addEventListener('DOMContentLoaded', function() {
             var amazonBtns = document.querySelectorAll('.part-btn');
             amazonBtns.forEach(function(btn) {
                 btn.addEventListener('click', function() {
-                    
-                    /* Pinterest'e Sinyal Gönderir (Lead - Yönlendirme) */
                     if (window.pintrk) {
-                        pintrk('track', 'lead', { lead_type: 'Amazon_Affiliate_Click' });
+                        pintrk('track', 'lead', { event_name: 'Amazon_Click' });
                     }
-                    
-                    /* Google Analytics'e Sinyal Gönderir */
                     if (window.gtag) {
-                        gtag('event', 'click_amazon', {
-                            'event_category': 'outbound',
-                            'event_label': 'Amazon Affiliate Link'
-                        });
+                        gtag('event', 'Amazon_Click', { event_category: 'lead' });
                     }
-                    
                 });
             });
         });
