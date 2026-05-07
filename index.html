@@ -284,7 +284,7 @@
         .case-assembled-image { width: 100%; height: auto; border-radius: 12px; object-fit: cover; cursor: pointer; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
         .case-assembled-image:hover { transform: scale(1.03); }
 
-        .case-internals-accordion summary { background-color: transparent; color: var(--accent-black); border: 1px solid var(--accent-black); padding: 12px; font-size: 14px; font-weight: 600; border-radius: 8px; transition: all 0.2s ease; }
+        .case-internals-accordion summary { background-color: transparent; color: var(--accent-black); border: 1px solid var(--accent-black); padding: 12px; font-size: 14px; font-weight: 600; border-radius: 8px; transition: all 0.2s ease; cursor: pointer; }
         .case-internals-accordion summary:hover { background-color: var(--primary-accent); border-color: var(--primary-accent); color: white; transform: scale(1.02); }
         .case-internals-accordion[open] .case-parts-grid { animation: slideDownFluid 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         
@@ -501,7 +501,7 @@
                 <div class="build-master-card" style="background-color: #0F172A; color: white; border: none; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
                     
                     <div style="width: 100%; height: auto; display: block; border-bottom: 1px solid rgba(255,255,255,0.05);">
-                        <img src="stealth_op.jfif" alt="The Stealth Setup Full View" style="width: 100%; height: auto; display: block;">
+                        <img src="stealth_setup.jfif" alt="The Stealth Setup Full View" style="width: 100%; height: auto; display: block;">
                     </div>
                     
                     <div class="build-content">
@@ -557,15 +557,17 @@
                                     <a href="https://amzn.to/49vY5uQ" target="_blank" class="part-btn" style="background: #0F172A; color: white; border-color: #475569;">Check Current Price</a>
                                 </div>
 
-                                <div class="part-card case-unit-card" style="background-color: #1E293B; border-color: #334155; grid-template-columns: 1fr;"> 
+                                <div class="part-card case-unit-card" style="background-color: #1E293B; border-color: #334155;"> 
                                     
-                                    <div class="case-unit-details" style="text-align: center;"> 
+                                    <img src="stealth_case.jpg" class="case-assembled-image" alt="Assembled Stealth PC Build" onclick="document.getElementById('stealthInternals').open = !document.getElementById('stealthInternals').open">
+                                    
+                                    <div class="case-unit-details"> 
                                         <div class="medal-badge medal-dark">👑 Blackout Masterpiece</div>
                                         <h4 class="part-title" style="color: white; font-size: 20px;">The Stealth Core (PC Unit)</h4>
                                         <p class="build-desc" style="font-size: 14px; margin-bottom: 20px; color: #94A3B8;">A nearly $3,000 completely blacked-out powerhouse. Zero RGB, maximum stealth, elite 4K performance.</p>
                                         
                                         <details class="case-internals-accordion" id="stealthInternals">
-                                            <summary style="background-color: #0F172A; color: white; border: 1px solid #475569; padding: 15px; font-size: 16px;">🔍 View All 8 Internal PC Parts</summary>
+                                            <summary style="background-color: #0F172A; color: white; border: 1px solid #475569; padding: 15px; font-size: 16px; cursor: pointer;">🔍 View All 8 Internal PC Parts</summary>
                                             
                                             <div class="case-parts-grid" style="border-top-color: #334155; margin-top: 25px;">
                                                 
