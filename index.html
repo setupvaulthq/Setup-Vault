@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup Vault | Premium Workspace Gear</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #FAFAFA;       
+            --surface-color: #FFFFFF;  
+            --text-main: #111827;      
+            --text-muted: #6B7280;     
+            --accent-black: #000000;   
+            --gold-accent: #D4AF37; 
+            --medal-bg: #FCF9F0;       
+            --medal-border: #EADDCA;   
+            --medal-text: #8B6508;     
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-main);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        header {
+            text-align: center;
+            padding: 80px 20px 40px;
+            animation: fadeUp 0.8s ease-out;
+        }
+
+        .logo-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 24px; 
+            margin: 0 auto 20px;
+            display: block;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            object-fit: cover;
+        }
+
+        h1 {
+            font-size: 38px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            margin-bottom: 12px;
+        }
+
+        .bio {
+            font-size: 16px;
+            font-weight: 300;
+            color: var(--text-muted);
+            max-width: 500px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+
+        .nav-container {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            background-color: var(--bg-color);
+            padding: 15px 0;
+            animation: fadeUp 1s ease-out 0.2s backwards;
+        }
+
+        .category-nav {
+            display: inline-flex;
+            gap: 10px;
+            background: var(--surface-color);
+            padding: 8px;
+            border-radius: 100px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .category-nav a {
+            text-decoration: none;
+            color: var(--text-main);
+            padding: 10px 20px;
+            border-radius: 100px;
+            font-weight: 600; 
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .category-nav a:hover {
+            background-color: var(--accent-black);
+            color: white;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px 100px;
+        }
+
+        section {
+            margin-bottom: 80px;
+            scroll-margin-top: 100px; 
+            animation: fadeUp 1s ease-out 0.4s backwards;
+        }
+
+        section h2 {
+            font-size: 26px;
+            font-weight: 900;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        section h2::before {
+            content: '';
+            width: 6px;
+            height: 28px;
+            background-color: var(--gold-accent);
+            border-radius: 4px;
+        }
+
+        .build-master-card {
+            background-color: var(--surface-color);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            border: 1px solid rgba(0,0,0,0.03);
+            margin-bottom: 40px;
+        }
+
+        /* --- FOTOĞRAF YAKINLAŞTIRMA (CROP) ÇÖZÜMÜ --- */
+        .build-hero-image {
+            width: 100%;
+            max-height: 600px; /* Çok uzamasını engeller */
+            object-fit: contain; /* Fotoğrafı kesmeden tam sığdırır */
+            background-color: #E2E8E4; /* Boşluk kalırsa stüdyo fonu gibi yeşilimsi gri yapar */
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: block;
+        }
+
+        .build-content {
+            padding: 40px;
+        }
+
+        .build-title {
+            font-size: 28px;
+            font-weight: 900;
+            margin: 0 0 15px;
+        }
+
+        .build-desc {
+            font-size: 16px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        /* --- YUMUŞAK AÇILAN (SMOOTH) MENÜ ANİMASYONU --- */
+        .parts-accordion summary {
+            background-color: var(--accent-black);
+            color: white;
+            padding: 18px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 16px;
+            text-align: center;
+            cursor: pointer;
+            list-style: none; 
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        .parts-accordion summary::-webkit-details-marker {
+            display: none; 
+        }
+
+        .parts-accordion summary:hover {
+            transform: scale(1.01);
+            background-color: #222;
+        }
+
+        .parts-accordion summary::after {
+            content: ' ▼';
+            font-size: 12px;
+            margin-left: 8px;
+        }
+
+        .parts-accordion[open] summary::after {
+            content: ' ▲';
+        }
+
+        /* Açılma Animasyonu Tanımı */
+        @keyframes slideDownSmooth {
+            0% { opacity: 0; transform: translateY(-15px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .parts-accordion[open] .parts-grid {
+            animation: slideDownSmooth 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .parts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .part-card {
+            background: var(--bg-color);
+            border: 1px solid rgba(0,0,0,0.04);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease;
+        }
+
+        .part-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.04);
+        }
+
+        .part-image {
+            width: 100%;
+            height: 160px;
+            object-fit: contain; 
+            margin-bottom: 15px;
+            mix-blend-mode: multiply; 
+        }
+
+        .medal-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--medal-bg);
+            border: 1px solid var(--medal-border);
+            color: var(--medal-text);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+            width: fit-content;
+        }
+
+        .part-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin: 0 0 15px; 
+            line-height: 1.4;
+        }
+
+        .part-btn {
+            margin-top: auto;
+            text-align: center;
+            background: var(--surface-color);
+            border: 1px solid var(--accent-black);
+            color: var(--accent-black);
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .part-btn:hover {
+            background: var(--accent-black);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="logo.jfif" alt="Setup Vault PP" class="logo-image">
+        <h1>Setup Vault</h1>
+        <p class="bio">Curating the ultimate clean & minimalist workspace inspiration. Elevate your battlestation.</p>
+    </header>
+
+    <div class="nav-container">
+        <nav class="category-nav">
+            <a href="#zen-workspace">Zen Workspace</a>
+            <a href="#stealth-operator">Stealth Operator</a>
+        </nav>
+    </div>
+
+    <div class="container">
+        
+        <section id="zen-workspace">
+            <h2>☁️ The Zen Workspace</h2>
+            
+            <div class="build-master-card">
+                <img src="Full_Angell.jfif" alt="The Angel Build" class="build-hero-image">
+                
+                <div class="build-content">
+                    <h3 class="build-title">The Angel Build</h3>
+                    <p class="build-desc">Pristine white aesthetics meeting uncompromising 1440p gaming performance. The ultimate minimalist showcase featuring NZXT flow architecture and stealthy air cooling.</p>
+                    
+                    <details class="parts-accordion">
+                        <summary>View Build Parts (8 Items)</summary>
+                        
+                        <div class="parts-grid">
+                            
+                            <div class="part-card">
+                                <img src="angel_Case.jpg" class="part-image" alt="NZXT H5 Flow">
+                                <div class="medal-badge">🏆 4.5+ Elite Choice</div>
+                                <h4 class="part-title">NZXT H5 Flow Compact ATX</h4>
+                                <a href="https://amzn.to/4tnQsjc" target="_blank" class="part-btn">Check on Amazon</a>
+                            </div>
+
+                            <div class="part-card">
+                                <img src="angel_ekrankarti.jpg" class="part-image" alt="ASUS RTX 4060 Ti">
+                                <div class="medal-badge">🥇 Premium Tier</div>
+                                <h4 class="part-title">ASUS Dual RTX™ 4060 Ti 8GB</h4>
+                                <a href="https://amzn.to/48Opqdj" target="_blank" class="part-btn">Check on Amazon</a>
+                            </div>
+
+                            <div class="part-card">
+                                <img src="angel_cpu.jpg" class="part-image" alt="AMD Ryzen 5 7600X">
+                                <div class="medal-badge">🎖️ Verified Quality</div>
+                                <h4 class="part-title">AMD Ryzen 5 7600X 6-Core</h4>
+                                <a href="https://amzn.to/3QLMzHc" target="_blank" class="part-btn">Check on Amazon</a>
+                            </div>
+
+                            <div class="part-card">
+                                <img src="angel_anakart.jpg" class="part-image" alt="MSI B650">
+                                <div class="medal-badge">🏆 4.5+ Elite Choice</div>
+                                <h4 class="part-title">MSI B650 Gaming Plus WiFi</h4>
+                                <a href="https://amzn.to/4tlfb7E" target="_blank" class="part-btn">Check on Amazon</a>
+                            </div>
+
+                            <div class="part-card">
+                                <img src="angel_ram.jpg" class="part-image" alt="Corsair Vengeance">
+                                <div class="medal-badge">🥇 Top Rated</div>
+                                <h4 class="part-title">Corsair Vengeance 32GB DDR5</h4>
+                                <a href="https://amzn.to/42h54pt" target="_blank" class="part-btn">Check on Amazon</a>
+                            </div>
+
+                            <div class="part-card">
+                                <img src="angel_Ssd.jpg" class="part-image" alt="Crucial P3 Plus">
+                                <div class="medal-badge">🎖️ Bestseller</div>
+                                <h4 class="part-title">Crucial P3 Plus 1TB NVMe M.2</h4>
+                                <a href="https://amzn.to/48LdmJK" target="_blank" class="part-btn">Check on Amazon</a>
+                            </div>
+
+                            <div class="part-card">
+                                <img src="angel_cooler.jpg" class="part-image" alt="Thermalright">
+                                <div class="medal-badge">🏆 4.5+ Elite Choice</div>
+                                <h4 class="part-title">Thermalright Peerless Assassin 120</h4>
+                                <a href="https://amzn.to/49Bq8uD" target="_blank" class="part-btn">Check on Amazon</a>
+                            </div>
+
+                            <div class="part-card">
+                                <img src="angel_power.jpg" class="part-image" alt="Corsair RM750x">
+                                <div class="medal-badge">🥇 Premium Tier</div>
+                                <h4 class="part-title">Corsair RM750x 80+ Gold</h4>
+                                <a href="https://amzn.to/4tS70AF" target="_blank" class="part-btn">Check on Amazon</a>
+                            </div>
+
+                        </div>
+                    </details>
+                </div>
+            </div>
+            
+        </section>
+
+        <section id="stealth-operator">
+            <h2>Stealth Operator</h2>
+            <p style="color: #6B7280; font-style: italic;">Coming Soon...</p>
+        </section>
+
+    </div>
+
+</body>
+</html>
