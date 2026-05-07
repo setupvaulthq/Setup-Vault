@@ -135,6 +135,10 @@
         .build-title { font-size: 28px; font-weight: 900; margin: 0 0 10px; color: var(--accent-black); }
         .build-desc { font-size: 16px; color: var(--text-muted); line-height: 1.6; margin-bottom: 15px; }
         .estimated-value { font-size: 14px; font-style: italic; color: var(--primary-accent); font-weight: 600; margin-bottom: 30px; opacity: 0.9;}
+        .segment-badge { display: inline-flex; align-items: center; gap: 8px; background: #E0E7FF; color: #1E3A8A; border: 1px solid #C7D2FE; padding: 8px 12px; border-radius: 999px; font-size: 11px; font-weight: 800; letter-spacing: 0.3px; margin-bottom: 14px; text-transform: uppercase; }
+        .segment-badge.dark { background: #1E293B; color: #CBD5E1; border-color: #334155; }
+        .value-note { font-size: 13px; color: var(--text-muted); margin: -5px 0 24px; }
+        .value-note.dark { color: #94A3B8; }
 
         .parts-accordion summary { background-color: var(--accent-black); color: white; padding: 18px; border-radius: 12px; font-weight: 700; font-size: 16px; text-align: center; cursor: pointer; list-style: none; transition: transform 0.2s, background-color 0.2s; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .parts-accordion summary::-webkit-details-marker { display: none; }
@@ -143,6 +147,18 @@
         .parts-accordion[open] summary::after { transform: rotate(180deg); } 
 
         .setup-content-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-top: 30px; padding-top: 30px; border-top: 1px solid rgba(0,0,0,0.05); }
+        .top-picks-wrap { background: var(--surface-color); border: 1px solid rgba(0,0,0,0.06); border-radius: 20px; padding: 24px; margin-bottom: 36px; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06); }
+        .top-picks-header { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+        .top-picks-title { margin: 0; font-size: 20px; font-weight: 900; letter-spacing: -0.3px; color: var(--accent-black); }
+        .top-picks-sub { margin: 0; font-size: 13px; color: var(--text-muted); }
+        .top-picks-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+        .pick-card { border: 1px solid rgba(0,0,0,0.08); border-radius: 14px; padding: 14px; background: #F8FAFC; display: flex; flex-direction: column; gap: 10px; }
+        .pick-label { font-size: 11px; font-weight: 800; color: #1E3A8A; text-transform: uppercase; letter-spacing: 0.3px; }
+        .pick-name { margin: 0; font-size: 14px; font-weight: 800; color: var(--accent-black); }
+        .pick-note { margin: 0; font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+        .pick-link { display: inline-flex; align-items: center; justify-content: center; padding: 10px; border-radius: 8px; background: var(--accent-black); color: white; text-decoration: none; font-size: 12px; font-weight: 700; transition: background 0.2s ease; }
+        .pick-link:hover { background: var(--primary-accent); }
+        .affiliate-inline-note { font-size: 11px; color: #64748B; margin-top: 12px; }
 
         /* KART CSS'İ */
         .part-card { position: relative; background: var(--surface-color); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; transition: transform 0.3s, box-shadow 0.3s; scroll-margin-top: 100px; }
@@ -258,15 +274,44 @@
             
             <section id="zen-workspace">
                 <h2>☁️ The Zen Workspace</h2>
+                <div class="top-picks-wrap">
+                    <div class="top-picks-header">
+                        <h3 class="top-picks-title">Top 3 Value Picks for US Gamers</h3>
+                        <p class="top-picks-sub">Premium look, realistic budget, zero fluff.</p>
+                    </div>
+                    <div class="top-picks-grid">
+                        <article class="pick-card">
+                            <span class="pick-label">Best Keyboard Value</span>
+                            <p class="pick-name">Cloud-Touch Mechanical Board</p>
+                            <p class="pick-note">Clean premium style with affordable performance for daily gaming.</p>
+                            <a class="pick-link" href="#angel-keyboard">View Pick</a>
+                        </article>
+                        <article class="pick-card">
+                            <span class="pick-label">Best Mouse Value</span>
+                            <p class="pick-name">Phantom Wireless Mouse</p>
+                            <p class="pick-note">Reliable wireless response and comfort without high-end pricing.</p>
+                            <a class="pick-link" href="#stealth-mouse">View Pick</a>
+                        </article>
+                        <article class="pick-card">
+                            <span class="pick-label">Best Headset Value</span>
+                            <p class="pick-name">Blackout Wireless Headset</p>
+                            <p class="pick-note">Strong audio immersion and all-black look at midrange cost.</p>
+                            <a class="pick-link" href="#stealth-headset">View Pick</a>
+                        </article>
+                    </div>
+                    <p class="affiliate-inline-note">Disclosure: We may earn from qualifying purchases as an Amazon Associate.</p>
+                </div>
                 
                 <div class="build-master-card">
                     <img src="ANGEL_SETUP.jfif" alt="The Angel Setup Full View" class="build-hero-image" loading="lazy">
                     
                     <div class="build-content">
+                        <div class="segment-badge">Value-Focused Pick - Midrange Friendly</div>
                         <h3 class="build-title">The Angel Build</h3>
+                        <p class="value-note">Built to feel premium while staying realistic for the mid and lower-mid budget range.</p>
                         <p class="build-desc">Born from a vision of absolute purity, The Angel Build delivers flawless 1080p performance wrapped in a pristine, minimalist design. It's an ethereal sanctuary for your workspace—where high-end responsiveness meets angelic tranquility.</p>
                         
-                        <p class="estimated-value">* Estimated Setup Value: Under $1,500</p>
+                        <p class="estimated-value">* Availability, features, and listing details may change on Amazon.</p>
                         
                         <details class="parts-accordion">
                             <summary>View Setup Content</summary>
@@ -531,10 +576,12 @@
                     </div>
                     
                     <div class="build-content">
+                        <div class="segment-badge dark">Premium Feel - Practical Performance Tier</div>
                         <h3 class="build-title" style="color: white;">The Stealth Build</h3>
+                        <p class="value-note dark">A premium blackout experience for gamers who want top-tier feel without luxury-overkill pricing.</p>
                         <p class="build-desc" style="color: #94A3B8;">Forged in the shadows. A blackout, no-RGB masterpiece engineered for deep focus and maximum stealth performance. When you want your work to speak louder than your lights.</p>
                         
-                        <p class="estimated-value" style="color: #94A3B8;">* Estimated Setup Value: Under $3,000</p>
+                        <p class="estimated-value" style="color: #94A3B8;">* Availability, features, and listing details may change on Amazon.</p>
                         
                         <details class="parts-accordion">
                             <summary style="background-color: #1E293B; border: 1px solid #334155; box-shadow: none;">View Setup Content</summary>
@@ -864,12 +911,52 @@
             var amazonBtns = document.querySelectorAll('.part-btn');
             amazonBtns.forEach(function(btn) {
                 btn.addEventListener('click', function() {
+                    var card = btn.closest('.part-card');
+                    var section = btn.closest('section');
+                    var productId = card && card.id ? card.id : 'unknown_product';
+                    var setupType = section && section.id ? section.id : 'unknown_setup';
+                    var priceTier = setupType === 'stealth-operator' ? 'upper_midrange' : 'midrange_value';
+
                     if (window.pintrk) {
-                        pintrk('track', 'lead', { event_name: 'Amazon_Click' });
+                        pintrk('track', 'lead', {
+                            event_name: 'Amazon_Click',
+                            product_id: productId,
+                            setup_type: setupType,
+                            price_tier: priceTier
+                        });
                     }
                     if (window.gtag) {
-                        gtag('event', 'Amazon_Click', { event_category: 'lead' });
+                        gtag('event', 'Amazon_Click', {
+                            event_category: 'lead',
+                            event_label: productId,
+                            product_id: productId,
+                            setup_type: setupType,
+                            price_tier: priceTier
+                        });
                     }
+                });
+            });
+
+            var copyIcons = document.querySelectorAll('.copy-link-icon');
+            copyIcons.forEach(function(icon) {
+                icon.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var anchor = icon.getAttribute('href');
+                    if (!anchor) return;
+
+                    var fullUrl = 'https://setupvaulthq.com/' + anchor;
+
+                    navigator.clipboard.writeText(fullUrl).then(function() {
+                        var original = icon.textContent;
+                        icon.textContent = 'Copied!';
+                        icon.style.fontSize = '11px';
+                        setTimeout(function() {
+                            icon.textContent = original;
+                            icon.style.fontSize = '';
+                        }, 1200);
+                    }).catch(function() {
+                        window.prompt('Copy this link:', fullUrl);
+                    });
                 });
             });
         });
