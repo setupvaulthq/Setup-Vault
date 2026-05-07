@@ -35,16 +35,32 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* --- ÜST KISIM (HEADER) DÜZENLEMESİ --- */
         header {
             text-align: center;
-            padding: 80px 20px 40px;
+            padding: 60px 20px 30px;
             animation: fadeUp 0.8s ease-out;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hero-badge {
+            background-color: var(--accent-black);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 25px;
         }
 
         .logo-image {
-            width: 100px;
-            height: 100px;
-            border-radius: 24px; 
+            width: 90px;
+            height: 90px;
+            border-radius: 20px; 
             margin: 0 auto 20px;
             display: block;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
@@ -52,18 +68,18 @@
         }
 
         h1 {
-            font-size: 38px;
+            font-size: 42px;
             font-weight: 900;
-            letter-spacing: -1px;
-            margin-bottom: 12px;
+            letter-spacing: -1.5px;
+            margin: 0 0 12px;
         }
 
         .bio {
             font-size: 16px;
-            font-weight: 300;
+            font-weight: 400;
             color: var(--text-muted);
-            max-width: 500px;
-            margin: 0 auto 40px;
+            max-width: 450px;
+            margin: 0 auto 30px;
             line-height: 1.6;
         }
 
@@ -73,13 +89,16 @@
             z-index: 100;
             display: flex;
             justify-content: center;
-            background-color: var(--bg-color);
+            background-color: rgba(250, 250, 250, 0.9);
+            backdrop-filter: blur(10px);
             padding: 15px 0;
             animation: fadeUp 1s ease-out 0.2s backwards;
         }
 
         .category-nav {
             display: inline-flex;
+            flex-wrap: wrap;
+            justify-content: center;
             gap: 10px;
             background: var(--surface-color);
             padding: 8px;
@@ -103,10 +122,11 @@
             color: white;
         }
 
+        /* --- SAĞ SOL BOŞLUKLAR (MARGINS) DÜZENLEMESİ --- */
         .container {
-            max-width: 1000px;
+            max-width: 900px; /* Sayfayı daha derli toplu yapar */
             margin: 0 auto;
-            padding: 0 20px 100px;
+            padding: 0 5% 100px; /* Yanlardan yüzde ile boşluk bırakır */
         }
 
         section {
@@ -202,7 +222,7 @@
 
         .setup-content-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 25px;
             margin-top: 30px;
             padding-top: 30px;
@@ -248,6 +268,12 @@
             width: fit-content;
         }
 
+        .medal-dark {
+            background: #1F2937;
+            border: 1px solid #374151;
+            color: #D1D5DB;
+        }
+
         .part-title {
             font-size: 16px;
             font-weight: 700;
@@ -283,6 +309,12 @@
             gap: 30px;
             align-items: center;
             padding: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .case-unit-card {
+                grid-template-columns: 1fr;
+            }
         }
 
         .case-assembled-image {
@@ -329,11 +361,57 @@
             grid-column: 1 / -1; 
         }
 
+        /* --- KİLİTLİ / YAKINDA GELECEK SETUPLAR İÇİN CSS --- */
+        .locked-vault-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .locked-card {
+            background: linear-gradient(145deg, #111827 0%, #1F2937 100%);
+            border-radius: 20px;
+            padding: 40px 20px;
+            text-align: center;
+            color: white;
+            border: 1px solid #374151;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .locked-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="1" fill="rgba(255,255,255,0.05)"/></svg>');
+            opacity: 0.5;
+        }
+
+        .lock-icon {
+            font-size: 32px;
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        .locked-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 0 0 10px;
+            color: #F9FAFB;
+        }
+
+        .locked-desc {
+            font-size: 13px;
+            color: #9CA3AF;
+            margin: 0;
+        }
+
     </style>
 </head>
 <body>
 
     <header>
+        <div class="hero-badge">Premium Curation</div>
         <img src="logo.jfif" alt="Setup Vault PP" class="logo-image">
         <h1>Setup Vault</h1>
         <p class="bio">Curating the ultimate clean & minimalist workspace inspiration. Elevate your battlestation.</p>
@@ -341,8 +419,9 @@
 
     <div class="nav-container">
         <nav class="category-nav">
-            <a href="#zen-workspace">Zen Workspace</a>
-            <a href="#stealth-operator">Stealth Operator</a>
+            <a href="#zen-workspace">☁️ Zen Workspace</a>
+            <a href="#stealth-operator">🦇 Stealth Operator</a>
+            <a href="#upcoming-vaults">🔒 The Vault</a>
         </nav>
     </div>
 
@@ -404,7 +483,6 @@
                                 <h4 class="part-title">Divine Glow Monitor Bar</h4>
                                 <a href="https://amzn.to/4da8RK9" target="_blank" class="part-btn">Check on Amazon</a>
                             </div>
-
 
                             <div class="part-card case-unit-card">
                                 <img src="Full_Angell.jfif" class="case-assembled-image" alt="Assembled Angel PC Build" onclick="document.getElementById('caseInternals').open = !document.getElementById('caseInternals').open">
@@ -488,8 +566,72 @@
         </section>
 
         <section id="stealth-operator">
-            <h2>Stealth Operator</h2>
-            <p style="color: #6B7280; font-style: italic;">Coming Soon...</p>
+            <h2>🦇 The Stealth Operator</h2>
+            
+            <div class="build-master-card" style="background-color: #111827; color: white; border: none;">
+                <div style="width: 100%; height: 300px; background: #1F2937; display: flex; align-items: center; justify-content: center; font-style: italic; color: #4B5563;">
+                    [Insert stealth_setup.jfif here]
+                </div>
+                
+                <div class="build-content">
+                    <h3 class="build-title" style="color: white;">The Stealth Build</h3>
+                    <p class="build-desc" style="color: #9CA3AF;">Forged in the shadows. A blackout, no-RGB masterpiece engineered for deep focus and maximum stealth performance. When you want your work to speak louder than your lights.</p>
+                    
+                    <details class="parts-accordion">
+                        <summary style="background-color: #374151; border: 1px solid #4B5563;">View Setup Content</summary>
+                        
+                        <div class="setup-content-grid">
+                            
+                            <div class="part-card" style="background: #1F2937; border-color: #374151;">
+                                <div style="width: 100%; height: 180px; background: #374151; border-radius: 8px; margin-bottom: 15px;"></div>
+                                <div class="medal-badge medal-dark">🦇 Stealth Choice</div>
+                                <h4 class="part-title" style="color: white;">Midnight Mechanical Board</h4>
+                                <a href="#" target="_blank" class="part-btn" style="background: #111827; color: white; border-color: #4B5563;">Check on Amazon</a>
+                            </div>
+
+                            <div class="part-card" style="background: #1F2937; border-color: #374151;">
+                                <div style="width: 100%; height: 180px; background: #374151; border-radius: 8px; margin-bottom: 15px;"></div>
+                                <div class="medal-badge medal-dark">🖤 Obsidian Tier</div>
+                                <h4 class="part-title" style="color: white;">Phantom Wireless Mouse</h4>
+                                <a href="#" target="_blank" class="part-btn" style="background: #111827; color: white; border-color: #4B5563;">Check on Amazon</a>
+                            </div>
+
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <section id="upcoming-vaults">
+            <h2>🔒 The Vault (Coming Soon)</h2>
+            
+            <div class="locked-vault-grid">
+                
+                <div class="locked-card">
+                    <div class="lock-icon">🔒</div>
+                    <h4 class="locked-title">The Woodcraft Artisan</h4>
+                    <p class="locked-desc">Warm walnut, oak tones, and organic productivity.</p>
+                </div>
+
+                <div class="locked-card">
+                    <div class="lock-icon">🔒</div>
+                    <h4 class="locked-title">The Neon Syndicate</h4>
+                    <p class="locked-desc">Cyberpunk aesthetics, heavy RGB, and futuristic vibes.</p>
+                </div>
+
+                <div class="locked-card">
+                    <div class="lock-icon">🔒</div>
+                    <h4 class="locked-title">The Code Weaver</h4>
+                    <p class="locked-desc">Vertical displays, Mac/PC hybrid for developers.</p>
+                </div>
+
+                <div class="locked-card">
+                    <div class="lock-icon">🔒</div>
+                    <h4 class="locked-title">The Streamer Hub</h4>
+                    <p class="locked-desc">Acoustic panels, boom arms, and broadcast quality.</p>
+                </div>
+
+            </div>
         </section>
 
     </div>
