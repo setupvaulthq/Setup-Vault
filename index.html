@@ -198,6 +198,7 @@
             box-shadow: 0 15px 50px rgba(0,0,0,0.08); 
             border: 1px solid rgba(255,255,255,0.5);
             margin-bottom: 40px;
+            transition: transform 0.3s ease;
         }
 
         .build-hero-image {
@@ -242,8 +243,24 @@
             display: flex; flex-direction: column; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
         }
         .part-card:hover { transform: translateY(-8px); box-shadow: 0 12px 24px rgba(30, 58, 138, 0.08); border-color: rgba(30, 58, 138, 0.3); }
+        
+        /* BEYAZ TEMA (ANGEL) İÇİN RESİM STİLİ */
         .part-image { width: 100%; height: 160px; object-fit: contain; margin-bottom: 15px; mix-blend-mode: multiply; transition: transform 0.3s ease; }
         .part-card:hover .part-image { transform: scale(1.05); }
+
+        /* KARANLIK TEMA (STEALTH) İÇİN YENİ RESİM STİLİ (Siyah Blur Sorununu Çözer) */
+        .stealth-part-image { 
+            width: 100%; 
+            height: 160px; 
+            object-fit: contain; 
+            margin-bottom: 15px; 
+            background-color: #FFFFFF; /* Beyaz stüdyo arka planı */
+            border-radius: 8px;
+            padding: 10px;
+            box-sizing: border-box;
+            transition: transform 0.3s ease; 
+        }
+        .part-card:hover .stealth-part-image { transform: scale(1.05); }
 
         .medal-badge {
             display: inline-flex; align-items: center; gap: 6px; background: var(--medal-bg); border: 1px solid var(--medal-border);
@@ -268,6 +285,32 @@
 
         .case-assembled-image { width: 100%; height: auto; border-radius: 12px; object-fit: cover; cursor: pointer; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
         .case-assembled-image:hover { transform: scale(1.03); }
+
+        /* STEALTH KASA YER TUTUCUSU */
+        .stealth-placeholder-box {
+            width: 100%;
+            height: 250px;
+            background: #0F172A;
+            border: 2px dashed #334155;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748B;
+            font-size: 14px;
+            font-style: italic;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .stealth-placeholder-box:hover {
+            border-color: #475569;
+            color: #94A3B8;
+            background: #1E293B;
+            transform: scale(1.02);
+        }
 
         .case-internals-accordion summary { background-color: transparent; color: var(--accent-black); border: 1px solid var(--accent-black); padding: 12px; font-size: 14px; font-weight: 600; border-radius: 8px; transition: all 0.2s ease; }
         .case-internals-accordion summary:hover { background-color: var(--primary-accent); border-color: var(--primary-accent); color: white; transform: scale(1.02); }
@@ -502,21 +545,52 @@
                             <div class="setup-content-grid" style="border-top-color: #334155;">
                                 
                                 <div class="part-card" style="background: #1E293B; border-color: #334155;">
-                                    <div style="width: 100%; height: 180px; background: #334155; border-radius: 8px; margin-bottom: 15px;"></div>
+                                    <img src="stealth_keyboard.jpg" class="stealth-part-image" alt="Midnight Mechanical Board">
                                     <div class="medal-badge medal-dark">🦇 Stealth Choice</div>
                                     <h4 class="part-title" style="color: white;">Midnight Mechanical Board</h4>
-                                    <a href="#" target="_blank" class="part-btn" style="background: #0F172A; color: white; border-color: #475569;">Check Current Price</a>
+                                    <a href="AMAZON_LINK_BURAYA" target="_blank" class="part-btn" style="background: #0F172A; color: white; border-color: #475569;">Check Current Price</a>
                                 </div>
 
                                 <div class="part-card" style="background: #1E293B; border-color: #334155;">
-                                    <div style="width: 100%; height: 180px; background: #334155; border-radius: 8px; margin-bottom: 15px;"></div>
+                                    <img src="stealth_mouse.jpg" class="stealth-part-image" alt="Phantom Wireless Mouse">
                                     <div class="medal-badge medal-dark">🖤 Obsidian Tier</div>
                                     <h4 class="part-title" style="color: white;">Phantom Wireless Mouse</h4>
-                                    <a href="#" target="_blank" class="part-btn" style="background: #0F172A; color: white; border-color: #475569;">Check Current Price</a>
+                                    <a href="AMAZON_LINK_BURAYA" target="_blank" class="part-btn" style="background: #0F172A; color: white; border-color: #475569;">Check Current Price</a>
+                                </div>
+
+                                <div class="part-card" style="background: #1E293B; border-color: #334155;">
+                                    <img src="stealth_headset.jpg" class="stealth-part-image" alt="Blackout Wireless Headset">
+                                    <div class="medal-badge medal-dark">🦇 Stealth Choice</div>
+                                    <h4 class="part-title" style="color: white;">Blackout Wireless Headset</h4>
+                                    <a href="AMAZON_LINK_BURAYA" target="_blank" class="part-btn" style="background: #0F172A; color: white; border-color: #475569;">Check Current Price</a>
+                                </div>
+
+                                <div class="part-card" style="background: #1E293B; border-color: #334155;">
+                                    <img src="stealth_monitor.jpg" class="stealth-part-image" alt="Ultra-Dark OLED Monitor">
+                                    <div class="medal-badge medal-dark">👑 Blackout Masterpiece</div>
+                                    <h4 class="part-title" style="color: white;">Ultra-Dark OLED Display</h4>
+                                    <a href="AMAZON_LINK_BURAYA" target="_blank" class="part-btn" style="background: #0F172A; color: white; border-color: #475569;">Check Current Price</a>
+                                </div>
+
+                                <div class="part-card" style="background: #1E293B; border-color: #334155;">
+                                    <img src="stealth_mousepad.jpg" class="stealth-part-image" alt="Charcoal Felt Desk Mat">
+                                    <div class="medal-badge medal-dark">🖤 Obsidian Tier</div>
+                                    <h4 class="part-title" style="color: white;">Charcoal Felt Desk Mat</h4>
+                                    <a href="AMAZON_LINK_BURAYA" target="_blank" class="part-btn" style="background: #0F172A; color: white; border-color: #475569;">Check Current Price</a>
+                                </div>
+
+                                <div class="part-card" style="background: #1E293B; border-color: #334155;">
+                                    <img src="stealth_light.jpg" class="stealth-part-image" alt="Matte Black Screenbar">
+                                    <div class="medal-badge medal-dark">🦇 Stealth Choice</div>
+                                    <h4 class="part-title" style="color: white;">Matte Black Screenbar</h4>
+                                    <a href="AMAZON_LINK_BURAYA" target="_blank" class="part-btn" style="background: #0F172A; color: white; border-color: #475569;">Check Current Price</a>
                                 </div>
 
                                 <div class="part-card case-unit-card" style="background-color: #1E293B; border-color: #334155;">
-                                    <img src="stealth_case.jpg" class="case-assembled-image" alt="Assembled Stealth PC Build" onclick="document.getElementById('stealthInternals').open = !document.getElementById('stealthInternals').open" style="background: #0F172A;">
+                                    
+                                    <div class="stealth-placeholder-box" onclick="document.getElementById('stealthInternals').open = !document.getElementById('stealthInternals').open">
+                                        [Assembled PC Image Coming Soon - Click Here to View Parts]
+                                    </div>
                                     
                                     <div class="case-unit-details">
                                         <div class="medal-badge medal-dark">👑 Blackout Masterpiece</div>
@@ -529,56 +603,56 @@
                                             <div class="case-parts-grid" style="border-top-color: #334155;">
                                                 
                                                 <div class="part-card" style="background: #0F172A; border-color: #334155;">
-                                                    <img src="stealth_case.jpg" class="part-image" alt="Fractal North">
+                                                    <img src="stealth_case.jpg" class="stealth-part-image" alt="Fractal North">
                                                     <div class="medal-badge medal-dark">🦇 Stealth Choice</div>
                                                     <h4 class="part-title" style="color: white; font-size: 13px;">Obsidian Woodcraft Chassis</h4>
                                                     <a href="https://amzn.to/4tk2Ikq" target="_blank" class="part-btn" style="background: #1E293B; color: white; border-color: #475569; padding: 8px; font-size: 12px;">Check Current Price</a>
                                                 </div>
                     
                                                 <div class="part-card" style="background: #0F172A; border-color: #334155;">
-                                                    <img src="stealth_gpu.jpg" class="part-image" alt="RTX 4070 Ti SUPER">
+                                                    <img src="stealth_gpu.jpg" class="stealth-part-image" alt="RTX 4070 Ti SUPER">
                                                     <div class="medal-badge medal-dark">🖤 Obsidian Tier</div>
                                                     <h4 class="part-title" style="color: white; font-size: 13px;">ProArt RTX 4070 Ti SUPER</h4>
                                                     <a href="https://amzn.to/4whqIr6" target="_blank" class="part-btn" style="background: #1E293B; color: white; border-color: #475569; padding: 8px; font-size: 12px;">Check Current Price</a>
                                                 </div>
                     
                                                 <div class="part-card" style="background: #0F172A; border-color: #334155;">
-                                                    <img src="stealth_cpu.jpg" class="part-image" alt="Ryzen 7 7800X3D">
+                                                    <img src="stealth_cpu.jpg" class="stealth-part-image" alt="Ryzen 7 7800X3D">
                                                     <div class="medal-badge medal-dark">👑 Blackout Masterpiece</div>
                                                     <h4 class="part-title" style="color: white; font-size: 13px;">Ryzen 7 7800X3D 8-Core</h4>
                                                     <a href="https://amzn.to/4tjzbY4" target="_blank" class="part-btn" style="background: #1E293B; color: white; border-color: #475569; padding: 8px; font-size: 12px;">Check Current Price</a>
                                                 </div>
                     
                                                 <div class="part-card" style="background: #0F172A; border-color: #334155;">
-                                                    <img src="stealth_anakart.jpg" class="part-image" alt="MSI MAG B650">
+                                                    <img src="stealth_anakart.jpg" class="stealth-part-image" alt="MSI MAG B650">
                                                     <div class="medal-badge medal-dark">🦇 Stealth Choice</div>
                                                     <h4 class="part-title" style="color: white; font-size: 13px;">MAG B650 Tomahawk WiFi</h4>
                                                     <a href="https://amzn.to/4dbXdye" target="_blank" class="part-btn" style="background: #1E293B; color: white; border-color: #475569; padding: 8px; font-size: 12px;">Check Current Price</a>
                                                 </div>
                     
                                                 <div class="part-card" style="background: #0F172A; border-color: #334155;">
-                                                    <img src="stealth_ram.jpg" class="part-image" alt="Flare X5 32GB">
+                                                    <img src="stealth_ram.jpg" class="stealth-part-image" alt="Flare X5 32GB">
                                                     <div class="medal-badge medal-dark">🖤 Obsidian Tier</div>
                                                     <h4 class="part-title" style="color: white; font-size: 13px;">Flare X5 32GB DDR5</h4>
                                                     <a href="https://amzn.to/48HgCWE" target="_blank" class="part-btn" style="background: #1E293B; color: white; border-color: #475569; padding: 8px; font-size: 12px;">Check Current Price</a>
                                                 </div>
                     
                                                 <div class="part-card" style="background: #0F172A; border-color: #334155;">
-                                                    <img src="stealth_ssd.jpg" class="part-image" alt="SN850X 2TB">
+                                                    <img src="stealth_ssd.jpg" class="stealth-part-image" alt="SN850X 2TB">
                                                     <div class="medal-badge medal-dark">🦇 Stealth Choice</div>
                                                     <h4 class="part-title" style="color: white; font-size: 13px;">SN850X 2TB NVMe SSD</h4>
                                                     <a href="https://amzn.to/3Pnldqp" target="_blank" class="part-btn" style="background: #1E293B; color: white; border-color: #475569; padding: 8px; font-size: 12px;">Check Current Price</a>
                                                 </div>
                     
                                                 <div class="part-card" style="background: #0F172A; border-color: #334155;">
-                                                    <img src="stealth_cooler.jpg" class="part-image" alt="Zero Dark Cooler">
+                                                    <img src="stealth_cooler.jpg" class="stealth-part-image" alt="Zero Dark Cooler">
                                                     <div class="medal-badge medal-dark">🖤 Obsidian Tier</div>
                                                     <h4 class="part-title" style="color: white; font-size: 13px;">Zero Dark Dual Tower</h4>
                                                     <a href="https://amzn.to/4tWKSVQ" target="_blank" class="part-btn" style="background: #1E293B; color: white; border-color: #475569; padding: 8px; font-size: 12px;">Check Current Price</a>
                                                 </div>
                     
                                                 <div class="part-card" style="background: #0F172A; border-color: #334155;">
-                                                    <img src="stealth_power.jpg" class="part-image" alt="850W PSU">
+                                                    <img src="stealth_power.jpg" class="stealth-part-image" alt="850W PSU">
                                                     <div class="medal-badge medal-dark">🦇 Stealth Choice</div>
                                                     <h4 class="part-title" style="color: white; font-size: 13px;">850W Gold Modular PSU</h4>
                                                     <a href="https://amzn.to/3OS35ot" target="_blank" class="part-btn" style="background: #1E293B; color: white; border-color: #475569; padding: 8px; font-size: 12px;">Check Current Price</a>
