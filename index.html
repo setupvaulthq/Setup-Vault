@@ -31,15 +31,17 @@
             padding: 0;
             color: var(--text-main);
             -webkit-font-smoothing: antialiased;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
-        /* --- 1. DAHA HIZLI VE TEPKİSEL AÇILIŞ ANİMASYONLARI --- */
+        /* --- DAHA HIZLI VE TEPKİSEL AÇILIŞ ANİMASYONLARI --- */
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Açılış süresi 0.8s'den 0.5s'ye düşürüldü */
         header {
             text-align: center;
             padding: 60px 20px 30px;
@@ -98,7 +100,6 @@
             background-color: rgba(226, 232, 240, 0.9);
             backdrop-filter: blur(10px);
             padding: 15px 0;
-            /* Gecikme 0.2s'den 0.05s'ye düşürüldü */
             animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.05s backwards;
         }
 
@@ -127,19 +128,19 @@
         .category-nav a:hover {
             background-color: var(--primary-accent);
             color: white;
-            transform: scale(1.05); /* Üzerine gelince hafif büyüme efekti */
+            transform: scale(1.05); 
         }
 
         .container {
             max-width: 900px; 
             margin: 0 auto;
             padding: 0 5% 100px; 
+            flex-grow: 1; /* Footer'ı aşağı itmesi için */
         }
 
         section {
             margin-bottom: 80px;
             scroll-margin-top: 100px; 
-            /* Gecikme 0.4s'den 0.1s'ye düşürüldü */
             animation: fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.1s backwards;
         }
 
@@ -188,7 +189,7 @@
         .build-title {
             font-size: 28px;
             font-weight: 900;
-            margin: 0 0 15px;
+            margin: 0 0 10px; /* Boşluk hafif azaltıldı */
             color: var(--accent-black);
         }
 
@@ -196,10 +197,20 @@
             font-size: 16px;
             color: var(--text-muted);
             line-height: 1.6;
+            margin-bottom: 15px; /* Tahmini bütçe için boşluk ayarlandı */
+        }
+        
+        /* Yeni: Maliyet İllüzyonu Metni */
+        .estimated-value {
+            font-size: 14px;
+            font-style: italic;
+            color: var(--primary-accent);
+            font-weight: 600;
             margin-bottom: 30px;
+            opacity: 0.9;
         }
 
-        /* --- 2. YAĞ GİBİ AKAN ÇEKMECE (ACCORDION) ANİMASYONU --- */
+        /* --- YAĞ GİBİ AKAN ÇEKMECE ANİMASYONU --- */
         @keyframes slideDownFluid {
             0% { opacity: 0; transform: translateY(-10px) scale(0.98); }
             100% { opacity: 1; transform: translateY(0) scale(1); }
@@ -222,19 +233,17 @@
         .parts-accordion summary::-webkit-details-marker { display: none; }
 
         .parts-accordion summary:hover {
-            transform: scale(1.02); /* Üzerine gelince hafif esneme */
+            transform: scale(1.02); 
             background-color: var(--primary-accent); 
         }
 
-        /* Aktifken basık kalma efekti */
         .parts-accordion summary:active {
             transform: scale(0.98);
         }
 
         .parts-accordion summary::after { content: ' ▼'; font-size: 12px; margin-left: 8px; transition: transform 0.3s ease; display: inline-block; }
-        .parts-accordion[open] summary::after { transform: rotate(180deg); } /* Ok işareti dönerek değişir */
+        .parts-accordion[open] summary::after { transform: rotate(180deg); } 
 
-        /* Yeni daha yumuşak cubic-bezier eğrisi */
         .parts-accordion[open] .setup-content-grid {
             animation: slideDownFluid 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             transform-origin: top center;
@@ -260,7 +269,7 @@
         }
 
         .part-card:hover {
-            transform: translateY(-8px); /* Daha belirgin havaya kalkma */
+            transform: translateY(-8px); 
             box-shadow: 0 12px 24px rgba(30, 58, 138, 0.08); 
             border-color: rgba(30, 58, 138, 0.3);
         }
@@ -275,7 +284,7 @@
         }
 
         .part-card:hover .part-image {
-            transform: scale(1.05); /* Resim de hafifçe büyür */
+            transform: scale(1.05); 
         }
 
         .medal-badge {
@@ -307,6 +316,7 @@
             line-height: 1.4;
         }
 
+        /* Başparmak Dostu Yeni Buton Tasarımı */
         .part-btn {
             margin-top: auto;
             text-align: center;
@@ -314,9 +324,9 @@
             border: 1px solid var(--accent-black);
             color: var(--accent-black);
             text-decoration: none;
-            padding: 12px;
+            padding: 14px; /* Mobilde daha rahat tıklanır */
             border-radius: 8px;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 14px;
             transition: all 0.2s ease;
         }
@@ -326,6 +336,7 @@
             border-color: var(--primary-accent);
             color: white;
             transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
         }
 
         .case-unit-card {
@@ -343,7 +354,7 @@
 
         .case-unit-card:hover {
             box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-            transform: none; /* Yan yatmasını engeller */
+            transform: none; 
         }
 
         @media (max-width: 768px) {
@@ -458,6 +469,49 @@
             margin: 0;
         }
 
+        /* --- YENİ EKLENEN: KURUMSAL ALT BİLGİ (FOOTER) --- */
+        .site-footer {
+            background-color: var(--accent-black); 
+            color: #94A3B8;
+            text-align: center;
+            padding: 50px 20px;
+            margin-top: auto; /* Sayfanın en altına iter */
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .site-footer p { 
+            margin: 0 0 10px 0; 
+            max-width: 600px; 
+            margin-left: auto; 
+            margin-right: auto; 
+        }
+
+        .footer-links {
+            margin-top: 20px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .site-footer a { 
+            color: #BFDBFE; 
+            text-decoration: none; 
+            transition: color 0.2s; 
+            font-weight: 500;
+        }
+
+        .site-footer a:hover { 
+            color: white; 
+        }
+
+        .disclosure { 
+            font-size: 11px; 
+            opacity: 0.6; 
+            margin-top: 20px;
+        }
+
     </style>
 </head>
 <body>
@@ -489,6 +543,8 @@
                     <h3 class="build-title">The Angel Build</h3>
                     <p class="build-desc">Born from a vision of absolute purity, The Angel Build delivers flawless 1080p performance wrapped in a pristine, minimalist design. It's an ethereal sanctuary for your workspace—where high-end responsiveness meets angelic tranquility.</p>
                     
+                    <p class="estimated-value">* Estimated Setup Value: Under $1,500</p>
+                    
                     <details class="parts-accordion">
                         <summary>View Setup Content</summary>
                         
@@ -498,42 +554,42 @@
                                 <img src="angel_keyboard.jpg" class="part-image" alt="Wireless Mechanical Keyboard">
                                 <div class="medal-badge">🥇 Top Rated</div>
                                 <h4 class="part-title">Cloud-Touch Mechanical Board</h4>
-                                <a href="https://amzn.to/4nl8dyg" target="_blank" class="part-btn">Check on Amazon</a>
+                                <a href="https://amzn.to/4nl8dyg" target="_blank" class="part-btn">Check Current Price</a>
                             </div>
 
                             <div class="part-card">
                                 <img src="angel_mouse.jpg" class="part-image" alt="Sleek Wireless Mouse">
                                 <div class="medal-badge">🏆 4.5+ Elite Choice</div>
                                 <h4 class="part-title">Zero-Gravity Wireless Glide</h4>
-                                <a href="https://amzn.to/4duNPHq" target="_blank" class="part-btn">Check on Amazon</a>
+                                <a href="https://amzn.to/4duNPHq" target="_blank" class="part-btn">Check Current Price</a>
                             </div>
 
                             <div class="part-card">
                                 <img src="angel_headset.jpg" class="part-image" alt="Premium White Headset">
                                 <div class="medal-badge">🥇 Premium Tier</div>
                                 <h4 class="part-title">Halo-Acoustic Gaming Headset</h4>
-                                <a href="https://amzn.to/3PrB9b5" target="_blank" class="part-btn">Check on Amazon</a>
+                                <a href="https://amzn.to/3PrB9b5" target="_blank" class="part-btn">Check Current Price</a>
                             </div>
 
                             <div class="part-card">
                                 <img src="angel_monitor.jpg" class="part-image" alt="1080p IPS Monitor">
                                 <div class="medal-badge">🎖️ Verified Quality</div>
                                 <h4 class="part-title">1080p Pure Vision Display</h4>
-                                <a href="https://amzn.to/4uyDNL0" target="_blank" class="part-btn">Check on Amazon</a>
+                                <a href="https://amzn.to/4uyDNL0" target="_blank" class="part-btn">Check Current Price</a>
                             </div>
 
                             <div class="part-card">
                                 <img src="angel_mousepad.jpg" class="part-image" alt="XXL White Desk Mat">
                                 <div class="medal-badge">🎖️ Bestseller</div>
                                 <h4 class="part-title">Archangel XXL Desk Mat</h4>
-                                <a href="https://amzn.to/49zmjWN" target="_blank" class="part-btn">Check on Amazon</a>
+                                <a href="https://amzn.to/49zmjWN" target="_blank" class="part-btn">Check Current Price</a>
                             </div>
 
                             <div class="part-card">
                                 <img src="angel_light.jpg" class="part-image" alt="Monitor Light Bar">
                                 <div class="medal-badge">🏆 4.5+ Elite Choice</div>
                                 <h4 class="part-title">Divine Glow Monitor Bar</h4>
-                                <a href="https://amzn.to/4da8RK9" target="_blank" class="part-btn">Check on Amazon</a>
+                                <a href="https://amzn.to/4da8RK9" target="_blank" class="part-btn">Check Current Price</a>
                             </div>
 
                             <div class="part-card case-unit-card">
@@ -553,56 +609,56 @@
                                                 <img src="angel_Case.jpg" class="part-image" alt="NZXT H5 Flow">
                                                 <div class="medal-badge">🏆 4.5+ Elite Choice</div>
                                                 <h4 class="part-title">NZXT H5 Flow Compact ATX</h4>
-                                                <a href="https://amzn.to/4tnQsjc" target="_blank" class="part-btn">Check on Amazon</a>
+                                                <a href="https://amzn.to/4tnQsjc" target="_blank" class="part-btn">Check Current Price</a>
                                             </div>
                 
                                             <div class="part-card">
                                                 <img src="angel_ekrankarti.jpg" class="part-image" alt="ASUS RTX 4060 Ti">
                                                 <div class="medal-badge">🥇 Premium Tier</div>
                                                 <h4 class="part-title">ASUS Dual RTX™ 4060 Ti 8GB</h4>
-                                                <a href="https://amzn.to/48Opqdj" target="_blank" class="part-btn">Check on Amazon</a>
+                                                <a href="https://amzn.to/48Opqdj" target="_blank" class="part-btn">Check Current Price</a>
                                             </div>
                 
                                             <div class="part-card">
                                                 <img src="angel_cpu.jpg" class="part-image" alt="AMD Ryzen 5 7600X">
                                                 <div class="medal-badge">🎖️ Verified Quality</div>
                                                 <h4 class="part-title">AMD Ryzen 5 7600X 6-Core</h4>
-                                                <a href="https://amzn.to/3QLMzHc" target="_blank" class="part-btn">Check on Amazon</a>
+                                                <a href="https://amzn.to/3QLMzHc" target="_blank" class="part-btn">Check Current Price</a>
                                             </div>
                 
                                             <div class="part-card">
                                                 <img src="angel_anakart.jpg" class="part-image" alt="MSI B650">
                                                 <div class="medal-badge">🏆 4.5+ Elite Choice</div>
                                                 <h4 class="part-title">MSI B650 Gaming Plus WiFi</h4>
-                                                <a href="https://amzn.to/4tlfb7E" target="_blank" class="part-btn">Check on Amazon</a>
+                                                <a href="https://amzn.to/4tlfb7E" target="_blank" class="part-btn">Check Current Price</a>
                                             </div>
                 
                                             <div class="part-card">
                                                 <img src="angel_ram.jpg" class="part-image" alt="Corsair Vengeance">
                                                 <div class="medal-badge">🥇 Top Rated</div>
                                                 <h4 class="part-title">Corsair Vengeance 32GB DDR5</h4>
-                                                <a href="https://amzn.to/42h54pt" target="_blank" class="part-btn">Check on Amazon</a>
+                                                <a href="https://amzn.to/42h54pt" target="_blank" class="part-btn">Check Current Price</a>
                                             </div>
                 
                                             <div class="part-card">
                                                 <img src="angel_Ssd.jpg" class="part-image" alt="Crucial P3 Plus">
                                                 <div class="medal-badge">🎖️ Bestseller</div>
                                                 <h4 class="part-title">Crucial P3 Plus 1TB NVMe M.2</h4>
-                                                <a href="https://amzn.to/48LdmJK" target="_blank" class="part-btn">Check on Amazon</a>
+                                                <a href="https://amzn.to/48LdmJK" target="_blank" class="part-btn">Check Current Price</a>
                                             </div>
                 
                                             <div class="part-card">
                                                 <img src="angel_cooler.jpg" class="part-image" alt="Thermalright">
                                                 <div class="medal-badge">🏆 4.5+ Elite Choice</div>
                                                 <h4 class="part-title">Thermalright Peerless Assassin 120</h4>
-                                                <a href="https://amzn.to/49Bq8uD" target="_blank" class="part-btn">Check on Amazon</a>
+                                                <a href="https://amzn.to/49Bq8uD" target="_blank" class="part-btn">Check Current Price</a>
                                             </div>
                 
                                             <div class="part-card">
                                                 <img src="angel_power.jpg" class="part-image" alt="Corsair RM750x">
                                                 <div class="medal-badge">🥇 Premium Tier</div>
                                                 <h4 class="part-title">Corsair RM750x 80+ Gold</h4>
-                                                <a href="https://amzn.to/4tS70AF" target="_blank" class="part-btn">Check on Amazon</a>
+                                                <a href="https://amzn.to/4tS70AF" target="_blank" class="part-btn">Check Current Price</a>
                                             </div>
 
                                         </div>
@@ -638,14 +694,14 @@
                                 <div style="width: 100%; height: 180px; background: #334155; border-radius: 8px; margin-bottom: 15px;"></div>
                                 <div class="medal-badge medal-dark">🦇 Stealth Choice</div>
                                 <h4 class="part-title" style="color: white;">Midnight Mechanical Board</h4>
-                                <a href="#" target="_blank" class="part-btn" style="background: #0F172A; color: white; border-color: #475569;">Check on Amazon</a>
+                                <a href="#" target="_blank" class="part-btn" style="background: #0F172A; color: white; border-color: #475569;">Check Current Price</a>
                             </div>
 
                             <div class="part-card" style="background: #1E293B; border-color: #334155;">
                                 <div style="width: 100%; height: 180px; background: #334155; border-radius: 8px; margin-bottom: 15px;"></div>
                                 <div class="medal-badge medal-dark">🖤 Obsidian Tier</div>
                                 <h4 class="part-title" style="color: white;">Phantom Wireless Mouse</h4>
-                                <a href="#" target="_blank" class="part-btn" style="background: #0F172A; color: white; border-color: #475569;">Check on Amazon</a>
+                                <a href="#" target="_blank" class="part-btn" style="background: #0F172A; color: white; border-color: #475569;">Check Current Price</a>
                             </div>
 
                         </div>
@@ -687,6 +743,21 @@
         </section>
 
     </div>
+
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="#">About Us</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Contact</a>
+        </div>
+        <p>Curating the absolute best workspace aesthetics and gaming setups for those who demand excellence.</p>
+        <p class="disclosure">
+            * As an Amazon Associate, Setup Vault earns from qualifying purchases. This helps keep our curation independent and premium.
+            <br><br>
+            © 2026 Setup Vault. All rights reserved.
+        </p>
+    </footer>
 
 </body>
 </html>
