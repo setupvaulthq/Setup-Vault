@@ -163,11 +163,15 @@
         /* KART CSS'İ */
         .part-card { position: relative; background: var(--surface-color); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; transition: transform 0.45s ease, box-shadow 0.45s ease, opacity 0.3s ease, filter 0.3s ease; scroll-margin-top: 100px; }
         .part-card:hover { transform: translateY(-8px); box-shadow: 0 12px 24px rgba(30, 58, 138, 0.08); border-color: rgba(30, 58, 138, 0.3); }
-        .part-card.target-focus { transform: translateY(-10px) scale(1.4); box-shadow: 0 24px 52px rgba(30, 58, 138, 0.28), 0 0 0 3px rgba(29, 78, 216, 0.25); z-index: 30; }
+        .part-card.target-focus { transform: translateY(-10px) scale(1.4); box-shadow: 0 24px 52px rgba(30, 58, 138, 0.28), 0 0 0 3px rgba(29, 78, 216, 0.25); z-index: 30; transform-origin: center center; }
+        .part-card.target-focus.focus-shift-right { transform: translate(48px, -10px) scale(1.4); }
+        .part-card.target-focus.focus-shift-left { transform: translate(-48px, -10px) scale(1.4); }
 
         /* PINTEREST TARGET EFEKTİ */
         .part-card:target { border-color: var(--primary-accent) !important; box-shadow: 0 0 0 4px rgba(30, 58, 138, 0.2), 0 15px 30px rgba(0,0,0,0.15) !important; transform: translateY(-8px); animation: highlightPulse 1.5s ease-out; }
         .focus-mode .part-card.target-focus:target { transform: translateY(-10px) scale(1.4); }
+        .focus-mode .part-card.target-focus.focus-shift-right:target { transform: translate(48px, -10px) scale(1.4); }
+        .focus-mode .part-card.target-focus.focus-shift-left:target { transform: translate(-48px, -10px) scale(1.4); }
         @keyframes highlightPulse { 0% { box-shadow: 0 0 0 0 rgba(30, 58, 138, 0.6); } 100% { box-shadow: 0 0 0 15px rgba(30, 58, 138, 0); } }
         .focus-mode .focus-eligible:not(.target-focus) { filter: blur(0.9px) saturate(0.9); opacity: 0.62; transform: scale(0.99); transition: all 0.25s ease; }
         .focus-mode .focus-eligible.target-focus .part-image,
@@ -979,6 +983,8 @@
                 if (focusedCard) {
                     focusedCard.classList.remove('target-focus');
                     focusedCard.classList.remove('focus-enter');
+                    focusedCard.classList.remove('focus-shift-right');
+                    focusedCard.classList.remove('focus-shift-left');
                 }
 
                 if (window.location.hash) {
@@ -993,6 +999,8 @@
                 cards.forEach(function(card) {
                     card.classList.remove('target-focus');
                     card.classList.remove('focus-eligible');
+                    card.classList.remove('focus-shift-right');
+                    card.classList.remove('focus-shift-left');
                 });
 
                 eligibleCards.forEach(function(card) {
@@ -1007,12 +1015,28 @@
 
                 var targetCard = document.getElementById(targetId);
                 if (targetCard && targetCard.classList.contains('focus-eligible')) {
+                    var ancestorDetails = targetCard.closest('details');
+                    while (ancestorDetails) {
+                        ancestorDetails.open = true;
+                        ancestorDetails = ancestorDetails.parentElement ? ancestorDetails.parentElement.closest('details') : null;
+                    }
+
                     document.body.classList.add('focus-mode');
                     targetCard.classList.add('target-focus');
+                    var cardRect = targetCard.getBoundingClientRect();
+                    var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+                    if (cardRect.left < 300) {
+                        targetCard.classList.add('focus-shift-right');
+                    } else if (cardRect.right > viewportWidth - 80) {
+                        targetCard.classList.add('focus-shift-left');
+                    }
+
                     targetCard.classList.remove('focus-enter');
                     void targetCard.offsetWidth;
                     targetCard.classList.add('focus-enter');
-                    targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    setTimeout(function() {
+                        targetCard.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+                    }, 80);
                 } else {
                     document.body.classList.remove('focus-mode');
                 }
