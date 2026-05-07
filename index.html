@@ -36,7 +36,6 @@
             min-height: 100vh;
         }
 
-        /* --- DAHA HIZLI VE TEPKİSEL AÇILIŞ ANİMASYONLARI --- */
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
@@ -135,7 +134,7 @@
             max-width: 900px; 
             margin: 0 auto;
             padding: 0 5% 100px; 
-            flex-grow: 1; /* Footer'ı aşağı itmesi için */
+            flex-grow: 1;
         }
 
         section {
@@ -189,7 +188,7 @@
         .build-title {
             font-size: 28px;
             font-weight: 900;
-            margin: 0 0 10px; /* Boşluk hafif azaltıldı */
+            margin: 0 0 10px;
             color: var(--accent-black);
         }
 
@@ -197,10 +196,9 @@
             font-size: 16px;
             color: var(--text-muted);
             line-height: 1.6;
-            margin-bottom: 15px; /* Tahmini bütçe için boşluk ayarlandı */
+            margin-bottom: 15px; 
         }
         
-        /* Yeni: Maliyet İllüzyonu Metni */
         .estimated-value {
             font-size: 14px;
             font-style: italic;
@@ -210,7 +208,6 @@
             opacity: 0.9;
         }
 
-        /* --- YAĞ GİBİ AKAN ÇEKMECE ANİMASYONU --- */
         @keyframes slideDownFluid {
             0% { opacity: 0; transform: translateY(-10px) scale(0.98); }
             100% { opacity: 1; transform: translateY(0) scale(1); }
@@ -316,7 +313,6 @@
             line-height: 1.4;
         }
 
-        /* Başparmak Dostu Yeni Buton Tasarımı */
         .part-btn {
             margin-top: auto;
             text-align: center;
@@ -324,7 +320,7 @@
             border: 1px solid var(--accent-black);
             color: var(--accent-black);
             text-decoration: none;
-            padding: 14px; /* Mobilde daha rahat tıklanır */
+            padding: 14px; 
             border-radius: 8px;
             font-weight: 700;
             font-size: 14px;
@@ -469,40 +465,32 @@
             margin: 0;
         }
 
-        /* --- YENİ EKLENEN: KURUMSAL ALT BİLGİ (FOOTER) --- */
+        /* --- FOOTER & MODAL CSS --- */
         .site-footer {
             background-color: var(--accent-black); 
             color: #94A3B8;
             text-align: center;
             padding: 50px 20px;
-            margin-top: auto; /* Sayfanın en altına iter */
+            margin-top: auto; 
             font-size: 13px;
             line-height: 1.6;
         }
 
-        .site-footer p { 
-            margin: 0 0 10px 0; 
-            max-width: 600px; 
-            margin-left: auto; 
-            margin-right: auto; 
-        }
-
         .footer-links {
-            margin-top: 20px;
             margin-bottom: 25px;
             display: flex;
             justify-content: center;
             gap: 20px;
         }
 
-        .site-footer a { 
+        .footer-links span { 
             color: #BFDBFE; 
-            text-decoration: none; 
+            cursor: pointer; 
+            font-weight: 500; 
             transition: color 0.2s; 
-            font-weight: 500;
         }
 
-        .site-footer a:hover { 
+        .footer-links span:hover { 
             color: white; 
         }
 
@@ -510,7 +498,25 @@
             font-size: 11px; 
             opacity: 0.6; 
             margin-top: 20px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); display: none; align-items: center; justify-content: center; z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+        /* Modal Content */
+        .modal-content {
+            background: white; width: 90%; max-width: 600px; max-height: 80vh; border-radius: 20px;
+            padding: 40px; position: relative; overflow-y: auto; animation: slideDownFluid 0.4s ease-out;
+        }
+        .modal-close { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; color: var(--text-muted); }
+        .modal-body h3 { margin-top: 0; font-size: 22px; margin-bottom: 20px; color: var(--accent-black); }
+        .modal-body p { font-size: 13px; line-height: 1.6; color: var(--text-muted); margin-bottom: 15px; }
 
     </style>
 </head>
@@ -746,12 +752,11 @@
 
     <footer class="site-footer">
         <div class="footer-links">
-            <a href="#">About Us</a>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-            <a href="#">Contact</a>
+            <span onclick="openModal('about')">About Us</span>
+            <span onclick="openModal('privacy')">Privacy Policy</span>
+            <span onclick="openModal('terms')">Terms of Service</span>
+            <span onclick="window.location.href='mailto:info@setupvaulthq.com'">Contact</span>
         </div>
-        <p>Curating the absolute best workspace aesthetics and gaming setups for those who demand excellence.</p>
         <p class="disclosure">
             * As an Amazon Associate, Setup Vault earns from qualifying purchases. This helps keep our curation independent and premium.
             <br><br>
@@ -759,5 +764,44 @@
         </p>
     </footer>
 
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="modal-close" onclick="closeModal()">×</span>
+            <div id="modalBody" class="modal-body">
+                </div>
+        </div>
+    </div>
+
+    <script>
+        // BELGELERİN TAM METİNLERİ BURADA GİZLİ!
+        const content = {
+            about: {
+                title: "About Setup Vault",
+                text: "<p>Setup Vault is a premium curation platform dedicated to the art of the workspace. We believe that your environment dictates your output, and we are here to help you craft a sanctuary that inspires greatness.</p><p>Based in the US, our team of curators hand-picks each component to ensure a perfect balance of aesthetics, performance, and accessibility. We don't just find parts; we create atmospheres.</p>"
+            },
+            privacy: {
+                title: "Privacy Policy",
+                text: "<p>At Setup Vault, we value your privacy. We do not collect personal data from our visitors. We use third-party tools like Amazon Associates to provide our curation services.</p><p><b>Cookies:</b> We use cookies to ensure that we give you the best experience on our website. These cookies may track your usage to provide a seamless transition to partner sites.</p><p><b>Amazon Disclosure:</b> We are a participant in the Amazon Services LLC Associates Program, an affiliate advertising program designed to provide a means for us to earn fees by linking to Amazon.com and affiliated sites.</p>"
+            },
+            terms: {
+                title: "Terms of Service",
+                text: "<p>By using Setup Vault, you agree to the following terms: All content provided is for informational and inspirational purposes only. While we strive for accuracy, product prices, availability, and specifications are subject to change by the manufacturer or retailer.</p><p>We are not responsible for any issues arising from purchases made on third-party websites. Please review the terms and conditions of Amazon.com before completing any transaction.</p>"
+            }
+        };
+
+        function openModal(type) {
+            const modal = document.getElementById('modalOverlay');
+            const body = document.getElementById('modalBody');
+            body.innerHTML = `<h3>${content[type].title}</h3>${content[type].text}`;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modalOverlay');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    </script>
 </body>
 </html>
