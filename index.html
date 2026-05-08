@@ -168,11 +168,6 @@
         .trust-points { margin: 0; padding-left: 18px; color: #334155; font-size: 12px; line-height: 1.5; }
         .trust-points li { margin-bottom: 3px; }
         .campaign-day-badge { margin-top: 6px; width: fit-content; background: #0F172A; color: #E2E8F0; border-radius: 999px; font-size: 11px; font-weight: 700; padding: 5px 10px; }
-        .catalog-card { background: var(--surface-color); border: 1px solid rgba(0,0,0,0.06); border-radius: 20px; padding: 20px; margin-bottom: 40px; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06); }
-        .catalog-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
-        .catalog-tab { border: 1px solid #CBD5E1; background: #F8FAFC; color: #334155; border-radius: 999px; padding: 8px 12px; font-size: 12px; font-weight: 700; cursor: pointer; }
-        .catalog-tab.active { background: #1D4ED8; border-color: #1D4ED8; color: #FFFFFF; }
-        .catalog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
 
         /* KART CSS'İ */
         .part-card { position: relative; background: var(--surface-color); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; transition: transform 0.45s ease, box-shadow 0.45s ease, opacity 0.3s ease, filter 0.3s ease; scroll-margin-top: 100px; }
@@ -257,7 +252,6 @@
             .pinterest-save-btn { opacity: 1; transform: scale(1); }
             .trust-strip { padding: 12px 14px; }
             .trust-title { font-size: 13px; }
-            .catalog-card { padding: 14px; }
             .part-card.target-focus,
             .focus-mode .part-card.target-focus:target,
             .part-card.target-focus.focus-shift-right,
@@ -369,7 +363,7 @@
                         <details class="parts-accordion">
                             <summary>View Setup Content</summary>
                             
-                            <div class="setup-content-grid" data-dynamic-section="zen-workspace">
+                            <div class="setup-content-grid">
                                 
                                 <div class="part-card" id="angel-keyboard">
                                     <div class="img-wrapper">
@@ -639,7 +633,7 @@
                         <details class="parts-accordion">
                             <summary style="background-color: #1E293B; border: 1px solid #334155; box-shadow: none;">View Setup Content</summary>
                             
-                            <div class="setup-content-grid" data-dynamic-section="stealth-operator" style="border-top-color: #334155;">
+                            <div class="setup-content-grid" style="border-top-color: #334155;">
                                 
                                 <div class="part-card" style="background: #1E293B; border-color: #334155;" id="stealth-keyboard">
                                     <div class="img-wrapper">
@@ -876,14 +870,6 @@
                             </div>
                         </details>
                     </div>
-                </div>
-            </section>
-
-            <section id="gear-library">
-                <h2>📚 Gear Library (All Categories)</h2>
-                <div class="catalog-card">
-                    <div class="catalog-tabs" id="categoryTabs"></div>
-                    <div class="catalog-grid" id="categoryProductsGrid"></div>
                 </div>
             </section>
 

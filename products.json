@@ -1,0 +1,153 @@
+{
+  "meta": {
+    "version": 1,
+    "updatedAt": "2026-05-08",
+    "currency": "USD",
+    "defaultDisclosure": "As an Amazon Associate, Setup Vault earns from qualifying purchases."
+  },
+  "topPicks": [
+    {
+      "id": "angel-keyboard",
+      "label": "Best Keyboard Value",
+      "name": "Cloud-Touch Mechanical Board",
+      "note": "Clean premium style with affordable performance for daily gaming.",
+      "anchor": "#angel-keyboard"
+    },
+    {
+      "id": "stealth-mouse",
+      "label": "Best Mouse Value",
+      "name": "Phantom Wireless Mouse",
+      "note": "Reliable wireless response and comfort without high-end pricing.",
+      "anchor": "#stealth-mouse"
+    },
+    {
+      "id": "stealth-headset",
+      "label": "Best Headset Value",
+      "name": "Blackout Wireless Headset",
+      "note": "Strong audio immersion and all-black look at midrange cost.",
+      "anchor": "#stealth-headset"
+    }
+  ],
+  "products": [
+    {
+      "id": "angel-keyboard",
+      "section": "zen-workspace",
+      "campaignGroup": "angel",
+      "category": "keyboard",
+      "name": "Cloud-Touch Mechanical Board",
+      "badge": "Top Rated",
+      "priority": 10,
+      "active": true
+    },
+    {
+      "id": "angel-mouse",
+      "section": "zen-workspace",
+      "campaignGroup": "angel",
+      "category": "mouse",
+      "name": "Zero-Gravity Wireless Glide",
+      "badge": "4.5+ Elite Choice",
+      "priority": 9,
+      "active": true
+    },
+    {
+      "id": "angel-headset",
+      "section": "zen-workspace",
+      "campaignGroup": "angel",
+      "category": "headset",
+      "name": "Halo-Acoustic Gaming Headset",
+      "badge": "Premium Tier",
+      "priority": 8,
+      "active": true
+    },
+    {
+      "id": "angel-monitor",
+      "section": "zen-workspace",
+      "campaignGroup": "angel",
+      "category": "monitor",
+      "name": "1080p Pure Vision Display",
+      "badge": "Verified Quality",
+      "priority": 7,
+      "active": true
+    },
+    {
+      "id": "angel-mousepad",
+      "section": "zen-workspace",
+      "campaignGroup": "angel",
+      "category": "desk-mat",
+      "name": "Archangel XXL Desk Mat",
+      "badge": "Bestseller",
+      "priority": 6,
+      "active": true
+    },
+    {
+      "id": "angel-light",
+      "section": "zen-workspace",
+      "campaignGroup": "angel",
+      "category": "light",
+      "name": "Divine Glow Monitor Bar",
+      "badge": "4.5+ Elite Choice",
+      "priority": 5,
+      "active": true
+    },
+    {
+      "id": "stealth-keyboard",
+      "section": "stealth-operator",
+      "campaignGroup": "stealth",
+      "category": "keyboard",
+      "name": "Midnight Mechanical Board",
+      "badge": "Stealth Choice",
+      "priority": 10,
+      "active": true
+    },
+    {
+      "id": "stealth-mouse",
+      "section": "stealth-operator",
+      "campaignGroup": "stealth",
+      "category": "mouse",
+      "name": "Phantom Wireless Mouse",
+      "badge": "Obsidian Tier",
+      "priority": 9,
+      "active": true
+    },
+    {
+      "id": "stealth-headset",
+      "section": "stealth-operator",
+      "campaignGroup": "stealth",
+      "category": "headset",
+      "name": "Blackout Wireless Headset",
+      "badge": "Stealth Choice",
+      "priority": 8,
+      "active": true
+    },
+    {
+      "id": "stealth-monitor",
+      "section": "stealth-operator",
+      "campaignGroup": "stealth",
+      "category": "monitor",
+      "name": "Ultra-Dark OLED Display",
+      "badge": "Blackout Masterpiece",
+      "priority": 7,
+      "active": true
+    },
+    {
+      "id": "stealth-mousepad",
+      "section": "stealth-operator",
+      "campaignGroup": "stealth",
+      "category": "desk-mat",
+      "name": "Charcoal Felt Desk Mat",
+      "badge": "Obsidian Tier",
+      "priority": 6,
+      "active": true
+    },
+    {
+      "id": "stealth-light",
+      "section": "stealth-operator",
+      "campaignGroup": "stealth",
+      "category": "light",
+      "name": "Matte Black Screenbar",
+      "badge": "Stealth Choice",
+      "priority": 5,
+      "active": true
+    }
+  ]
+}
