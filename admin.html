@@ -138,6 +138,9 @@
       <div class="card">
         <h1>Product Admin Panel</h1>
         <p>New product form: fill fields, choose category, then click add. You do not need to edit code manually.</p>
+        <span class="badge" id="adminVersionBadge">Admin v2.2</span>
+        <span class="badge" id="adminDataVersionBadge">Data v-</span>
+        <span class="badge" id="adminUpdatedAtBadge">Updated -</span>
         <span class="badge" id="countAll">Products: 0</span>
         <span class="badge" id="countActive">Active: 0</span>
         <span class="badge" id="countPicks">Top Picks: 0</span>
@@ -244,6 +247,7 @@
       var ADMIN_PASSWORD = "__REMOVED_SECRET__";
       var STORAGE_KEY = "sv_admin_ok";
       var DATA_PATH = "data/products.json";
+      var ADMIN_VERSION = "2.2";
 
       var loginCard = document.getElementById("loginCard");
       var adminApp = document.getElementById("adminApp");
@@ -260,6 +264,9 @@
       var countAll = document.getElementById("countAll");
       var countActive = document.getElementById("countActive");
       var countPicks = document.getElementById("countPicks");
+      var adminVersionBadge = document.getElementById("adminVersionBadge");
+      var adminDataVersionBadge = document.getElementById("adminDataVersionBadge");
+      var adminUpdatedAtBadge = document.getElementById("adminUpdatedAtBadge");
       var productsList = document.getElementById("productsList");
       var refreshListBtn = document.getElementById("refreshListBtn");
       var listSectionFilter = document.getElementById("listSectionFilter");
@@ -324,6 +331,18 @@
         countAll.textContent = "Products: " + all;
         countActive.textContent = "Active: " + active;
         countPicks.textContent = "Top Picks: " + picks;
+        adminVersionBadge.textContent = "Admin v" + ADMIN_VERSION;
+        var dataVersion = data && data.meta && data.meta.version ? data.meta.version : "-";
+        adminDataVersionBadge.textContent = "Data v" + dataVersion;
+        var updatedAt = data && data.meta && data.meta.updatedAt ? data.meta.updatedAt : "-";
+        adminUpdatedAtBadge.textContent = "Updated " + updatedAt;
+      }
+
+      function bumpDataMeta(data) {
+        if (!data.meta || typeof data.meta !== "object") data.meta = {};
+        var current = Number(data.meta.version || 0);
+        data.meta.version = current + 1;
+        data.meta.updatedAt = new Date().toISOString().slice(0, 10);
       }
 
       function renderProductsList(data) {
@@ -491,6 +510,7 @@
         } else {
           parsed.products.push(newProduct);
         }
+        bumpDataMeta(parsed);
         jsonEditor.value = JSON.stringify(parsed, null, 2);
         refreshCounts(parsed);
         renderProductsList(parsed);
@@ -541,6 +561,7 @@
             anchor: "#" + pick.id
           };
         });
+        bumpDataMeta(parsed);
         jsonEditor.value = JSON.stringify(parsed, null, 2);
         refreshCounts(parsed);
         renderProductsList(parsed);
@@ -579,6 +600,7 @@
         if (!parsed) return;
         parsed.products = parsed.products.filter(function(p) { return p.id !== productId; });
         parsed.topPicks = (parsed.topPicks || []).filter(function(p) { return p.id !== productId; });
+        bumpDataMeta(parsed);
         jsonEditor.value = JSON.stringify(parsed, null, 2);
         refreshCounts(parsed);
         renderProductsList(parsed);

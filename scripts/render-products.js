@@ -1,4 +1,5 @@
 (function() {
+  var SITE_VERSION = "2.2";
   function escapeHtml(value) {
     return String(value)
       .replace(/&/g, "&amp;")
@@ -210,6 +211,12 @@
         renderTopPicks((data && data.topPicks) || []);
         renderSectionProducts((data && data.products) || []);
         renderCategoryLibrary(data || {});
+        var badge = document.getElementById("siteVersionBadge");
+        if (badge) {
+          var dataVersion = data && data.meta && data.meta.version ? data.meta.version : "-";
+          var updatedAt = data && data.meta && data.meta.updatedAt ? data.meta.updatedAt : "-";
+          badge.textContent = "Site v" + SITE_VERSION + " | Data v" + dataVersion + " | Updated " + updatedAt;
+        }
       })
       .catch(function(error) {
         window.SiteProductData = {
