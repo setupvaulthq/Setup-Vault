@@ -39,7 +39,7 @@
     h1 { margin: 0 0 6px; font-size: 22px; }
     p { margin: 0 0 10px; color: var(--muted); line-height: 1.5; }
     .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-    input, textarea, button {
+    input, textarea, button, select {
       border: 1px solid var(--border);
       background: #0b1228;
       color: var(--text);
@@ -47,7 +47,7 @@
       padding: 10px 12px;
       font-size: 14px;
     }
-    input { min-width: 260px; }
+    input, select { min-width: 180px; }
     textarea {
       width: 100%;
       min-height: 380px;
@@ -71,6 +71,54 @@
       margin-bottom: 8px;
     }
     .danger { color: #fca5a5; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .products-panel {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      max-height: 320px;
+      overflow: auto;
+      background: #0a1226;
+    }
+    .product-item {
+      border: 1px solid #243052;
+      border-radius: 10px;
+      padding: 10px;
+      margin-bottom: 8px;
+    }
+    .product-item h3 {
+      margin: 0 0 6px;
+      font-size: 14px;
+    }
+    .mini {
+      font-size: 12px;
+      color: var(--muted);
+      margin: 0 0 4px;
+    }
+    .muted {
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .advanced-toggle {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #93c5fd;
+      cursor: pointer;
+      text-decoration: underline;
+      background: transparent;
+      border: none;
+      padding: 0;
+    }
+    .danger-btn {
+      background: #dc2626;
+      border-color: #dc2626;
+      color: #fff;
+    }
   </style>
 </head>
 <body>
@@ -88,11 +136,92 @@
 
     <div id="adminApp" class="hidden">
       <div class="card">
-        <h1>Products JSON Admin</h1>
-        <p>Edit product data safely, then download the updated file and replace <code>data/products.json</code>.</p>
+        <h1>Product Admin Panel</h1>
+        <p>New product form: fill fields, choose category, then click add. You do not need to edit code manually.</p>
         <span class="badge" id="countAll">Products: 0</span>
         <span class="badge" id="countActive">Active: 0</span>
         <span class="badge" id="countPicks">Top Picks: 0</span>
+      </div>
+
+      <div class="card">
+        <h1>Add New Product</h1>
+        <div class="grid">
+          <input id="fId" placeholder="Product id (optional)">
+          <input id="fName" placeholder="Product name">
+          <input id="fImage" placeholder="Image file name (example: mouse.jpg)">
+          <input id="fAmazonUrl" placeholder="Amazon link (https://...)">
+          <select id="fSection">
+            <option value="zen-workspace">Zen Workspace</option>
+            <option value="stealth-operator">Stealth Operator</option>
+          </select>
+          <select id="fCategory">
+            <option value="keyboard">Keyboard</option>
+            <option value="mouse">Mouse</option>
+            <option value="headset">Headset</option>
+            <option value="monitor">Monitor</option>
+            <option value="desk-mat">Desk Mat</option>
+            <option value="light">Lighting</option>
+          </select>
+          <select id="fMedalPreset">
+            <option value="Top Rated">Top Rated</option>
+            <option value="4.5+ Elite Choice">4.5+ Elite Choice</option>
+            <option value="Premium Tier">Premium Tier</option>
+            <option value="Verified Quality">Verified Quality</option>
+            <option value="Bestseller">Bestseller</option>
+            <option value="Stealth Choice">Stealth Choice</option>
+            <option value="Obsidian Tier">Obsidian Tier</option>
+            <option value="Blackout Masterpiece">Blackout Masterpiece</option>
+            <option value="custom">Custom medal...</option>
+          </select>
+          <input id="fBadgeCustom" placeholder="Custom medal text (optional)">
+          <input id="fPriority" type="number" value="5" min="1" max="100" placeholder="Priority">
+          <select id="fActive">
+            <option value="true">Active</option>
+            <option value="false">Inactive</option>
+          </select>
+        </div>
+        <input id="fBenefit" style="width:100%;" placeholder="Short benefit text (what this product is good at)">
+        <div class="row" style="margin-top: 10px;">
+          <button id="addProductBtn" class="ok">Add Product</button>
+          <button id="clearFormBtn">Clear Form</button>
+        </div>
+        <p class="muted">After adding, click download and upload that file to repo as <code>data/products.json</code>.</p>
+      </div>
+
+      <div class="card">
+        <h1>Top Picks Manager</h1>
+        <p>Top picks are selected manually from your product list (no auto add).</p>
+        <div class="grid">
+          <select id="topPickProduct1"></select>
+          <input id="topPickLabel1" placeholder="Label for Top Pick 1">
+          <select id="topPickProduct2"></select>
+          <input id="topPickLabel2" placeholder="Label for Top Pick 2">
+          <select id="topPickProduct3"></select>
+          <input id="topPickLabel3" placeholder="Label for Top Pick 3">
+        </div>
+        <button id="saveTopPicksBtn" class="primary">Save Top Picks</button>
+      </div>
+
+      <div class="card">
+        <h1>Current Products (Menu View)</h1>
+        <div class="row" style="margin-bottom: 10px;">
+          <select id="listSectionFilter">
+            <option value="all">All Sections</option>
+            <option value="zen-workspace">Zen Workspace</option>
+            <option value="stealth-operator">Stealth Operator</option>
+          </select>
+          <select id="listCategoryFilter">
+            <option value="all">All Categories</option>
+            <option value="keyboard">Keyboard</option>
+            <option value="mouse">Mouse</option>
+            <option value="headset">Headset</option>
+            <option value="monitor">Monitor</option>
+            <option value="desk-mat">Desk Mat</option>
+            <option value="light">Lighting</option>
+          </select>
+          <button id="refreshListBtn">Refresh List</button>
+        </div>
+        <div class="products-panel" id="productsList"></div>
       </div>
 
       <div class="card">
@@ -103,7 +232,8 @@
           <button id="logoutBtn" class="warn">Logout</button>
         </div>
         <p id="statusLine">Ready.</p>
-        <textarea id="jsonEditor" spellcheck="false"></textarea>
+        <button id="toggleAdvancedBtn" class="advanced-toggle" type="button">Show advanced JSON editor</button>
+        <textarea id="jsonEditor" spellcheck="false" class="hidden"></textarea>
       </div>
     </div>
   </div>
@@ -126,9 +256,35 @@
       var logoutBtn = document.getElementById("logoutBtn");
       var statusLine = document.getElementById("statusLine");
       var jsonEditor = document.getElementById("jsonEditor");
+      var toggleAdvancedBtn = document.getElementById("toggleAdvancedBtn");
       var countAll = document.getElementById("countAll");
       var countActive = document.getElementById("countActive");
       var countPicks = document.getElementById("countPicks");
+      var productsList = document.getElementById("productsList");
+      var refreshListBtn = document.getElementById("refreshListBtn");
+      var listSectionFilter = document.getElementById("listSectionFilter");
+      var listCategoryFilter = document.getElementById("listCategoryFilter");
+      var addProductBtn = document.getElementById("addProductBtn");
+      var clearFormBtn = document.getElementById("clearFormBtn");
+      var saveTopPicksBtn = document.getElementById("saveTopPicksBtn");
+      var fName = document.getElementById("fName");
+      var fId = document.getElementById("fId");
+      var fImage = document.getElementById("fImage");
+      var fAmazonUrl = document.getElementById("fAmazonUrl");
+      var fSection = document.getElementById("fSection");
+      var fCategory = document.getElementById("fCategory");
+      var fMedalPreset = document.getElementById("fMedalPreset");
+      var fBadgeCustom = document.getElementById("fBadgeCustom");
+      var fPriority = document.getElementById("fPriority");
+      var fActive = document.getElementById("fActive");
+      var fBenefit = document.getElementById("fBenefit");
+      var topPickProduct1 = document.getElementById("topPickProduct1");
+      var topPickProduct2 = document.getElementById("topPickProduct2");
+      var topPickProduct3 = document.getElementById("topPickProduct3");
+      var topPickLabel1 = document.getElementById("topPickLabel1");
+      var topPickLabel2 = document.getElementById("topPickLabel2");
+      var topPickLabel3 = document.getElementById("topPickLabel3");
+      var editingProductId = "";
 
       function setStatus(text, isError) {
         statusLine.textContent = text;
@@ -139,7 +295,24 @@
         if (!data || typeof data !== "object") return false;
         if (!Array.isArray(data.products)) return false;
         if (!Array.isArray(data.topPicks)) return false;
+        if (!Array.isArray(data.categories)) data.categories = [];
         return true;
+      }
+
+      function slugify(value) {
+        return String(value || "")
+          .toLowerCase()
+          .trim()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-+|-+$/g, "");
+      }
+
+      function getEditorData() {
+        try {
+          return JSON.parse(jsonEditor.value || "{}");
+        } catch (err) {
+          return null;
+        }
       }
 
       function refreshCounts(data) {
@@ -151,6 +324,43 @@
         countAll.textContent = "Products: " + all;
         countActive.textContent = "Active: " + active;
         countPicks.textContent = "Top Picks: " + picks;
+      }
+
+      function renderProductsList(data) {
+        if (!data || !Array.isArray(data.products)) {
+          productsList.innerHTML = '<p class="mini">No products loaded.</p>';
+          return;
+        }
+        var sectionFilter = listSectionFilter.value;
+        var categoryFilter = listCategoryFilter.value;
+
+        var rows = data.products
+          .filter(function(p) {
+            var passSection = sectionFilter === "all" || p.section === sectionFilter;
+            var passCategory = categoryFilter === "all" || p.category === categoryFilter;
+            return passSection && passCategory;
+          })
+          .sort(function(a, b) {
+            return (b.priority || 0) - (a.priority || 0);
+          })
+          .map(function(p) {
+            return (
+              '<div class="product-item">' +
+              "<h3>" + p.name + "</h3>" +
+              '<p class="mini">ID: ' + p.id + "</p>" +
+              '<p class="mini">Section: ' + p.section + " | Category: " + p.category + "</p>" +
+              '<p class="mini">Medal: ' + (p.badge || "-") + "</p>" +
+              '<p class="mini">Priority: ' + (p.priority || 0) + " | Active: " + String(Boolean(p.active)) + "</p>" +
+              '<p class="mini">Amazon: ' + (p.amazonUrl || "-") + "</p>" +
+              '<div class="row">' +
+              '<button type="button" data-action="edit" data-id="' + p.id + '">Edit</button>' +
+              '<button type="button" class="danger-btn" data-action="delete" data-id="' + p.id + '">Delete</button>' +
+              "</div>" +
+              "</div>"
+            );
+          });
+
+        productsList.innerHTML = rows.join("") || '<p class="mini">No products match selected filter.</p>';
       }
 
       function openAdmin() {
@@ -175,6 +385,8 @@
           .then(function(data) {
             jsonEditor.value = JSON.stringify(data, null, 2);
             refreshCounts(data);
+            renderProductsList(data);
+            populateTopPickSelectors(data);
             setStatus("Live JSON loaded.");
           })
           .catch(function(err) {
@@ -190,6 +402,8 @@
             return null;
           }
           refreshCounts(parsed);
+          renderProductsList(parsed);
+          populateTopPickSelectors(parsed);
           setStatus("JSON valid.");
           return parsed;
         } catch (err) {
@@ -210,6 +424,168 @@
         URL.revokeObjectURL(url);
       }
 
+      function resolveBadge() {
+        if (fMedalPreset.value === "custom") {
+          return fBadgeCustom.value.trim() || "Top Rated";
+        }
+        if (fBadgeCustom.value.trim()) return fBadgeCustom.value.trim();
+        return fMedalPreset.value;
+      }
+
+      function resetProductForm() {
+        editingProductId = "";
+        fId.value = "";
+        fName.value = "";
+        fImage.value = "";
+        fAmazonUrl.value = "";
+        fSection.value = "zen-workspace";
+        fCategory.value = "keyboard";
+        fMedalPreset.value = "Top Rated";
+        fBadgeCustom.value = "";
+        fPriority.value = 5;
+        fActive.value = "true";
+        fBenefit.value = "";
+        addProductBtn.textContent = "Add Product";
+      }
+
+      function addProductFromForm() {
+        var parsed = validateEditorJson();
+        if (!parsed) return;
+        if (!fName.value.trim() || !fAmazonUrl.value.trim() || !fImage.value.trim()) {
+          setStatus("Name, image file, and Amazon URL are required.", true);
+          return;
+        }
+
+        var baseId = slugify(fId.value || fName.value);
+        var productId = editingProductId || baseId;
+        if (!editingProductId) {
+          var newId = baseId;
+          var counter = 2;
+          while (parsed.products.some(function(p) { return p.id === newId; })) {
+            newId = baseId + "-" + counter;
+            counter += 1;
+          }
+          productId = newId;
+        }
+
+        var newProduct = {
+          id: productId,
+          section: fSection.value,
+          campaignGroup: fSection.value === "stealth-operator" ? "stealth" : "angel",
+          category: fCategory.value,
+          name: fName.value.trim(),
+          badge: resolveBadge(),
+          benefit: fBenefit.value.trim() || "Balanced pick for daily use.",
+          image: fImage.value.trim(),
+          alt: fName.value.trim(),
+          amazonUrl: fAmazonUrl.value.trim(),
+          pinterestMedia: fImage.value.trim(),
+          priority: Number(fPriority.value || 5),
+          active: fActive.value === "true"
+        };
+
+        if (editingProductId) {
+          parsed.products = parsed.products.map(function(p) {
+            return p.id === editingProductId ? newProduct : p;
+          });
+        } else {
+          parsed.products.push(newProduct);
+        }
+        jsonEditor.value = JSON.stringify(parsed, null, 2);
+        refreshCounts(parsed);
+        renderProductsList(parsed);
+        populateTopPickSelectors(parsed);
+        setStatus(editingProductId ? "Product updated." : "Product added. Now click Download products.json.", false);
+        resetProductForm();
+      }
+
+      function populateTopPickSelectors(data) {
+        if (!data || !Array.isArray(data.products)) return;
+        var activeProducts = data.products.filter(function(p) { return Boolean(p.active); });
+        var options = '<option value="">Select product...</option>' + activeProducts.map(function(p) {
+          return '<option value="' + p.id + '">' + p.name + " (" + p.id + ")</option>";
+        }).join("");
+        [topPickProduct1, topPickProduct2, topPickProduct3].forEach(function(sel) {
+          sel.innerHTML = options;
+        });
+        if (Array.isArray(data.topPicks)) {
+          var p1 = data.topPicks[0] || {};
+          var p2 = data.topPicks[1] || {};
+          var p3 = data.topPicks[2] || {};
+          topPickProduct1.value = p1.id || "";
+          topPickProduct2.value = p2.id || "";
+          topPickProduct3.value = p3.id || "";
+          topPickLabel1.value = p1.label || "Best Value Pick";
+          topPickLabel2.value = p2.label || "Best Utility Pick";
+          topPickLabel3.value = p3.label || "Best Premium Pick";
+        }
+      }
+
+      function saveTopPicksFromSelectors() {
+        var parsed = validateEditorJson();
+        if (!parsed) return;
+        var picks = [
+          { id: topPickProduct1.value, label: topPickLabel1.value || "Best Value Pick" },
+          { id: topPickProduct2.value, label: topPickLabel2.value || "Best Utility Pick" },
+          { id: topPickProduct3.value, label: topPickLabel3.value || "Best Premium Pick" }
+        ].filter(function(p) { return p.id; });
+
+        parsed.topPicks = picks.map(function(pick) {
+          var product = parsed.products.find(function(item) { return item.id === pick.id; });
+          return {
+            id: pick.id,
+            section: product ? product.section : "zen-workspace",
+            label: pick.label,
+            name: product ? product.name : pick.id,
+            note: product ? (product.benefit || "Top pick") : "Top pick",
+            anchor: "#" + pick.id
+          };
+        });
+        jsonEditor.value = JSON.stringify(parsed, null, 2);
+        refreshCounts(parsed);
+        renderProductsList(parsed);
+        setStatus("Top picks saved from selected products.", false);
+      }
+
+      function editProductById(productId) {
+        var parsed = getEditorData();
+        if (!parsed || !Array.isArray(parsed.products)) return;
+        var p = parsed.products.find(function(item) { return item.id === productId; });
+        if (!p) return;
+        editingProductId = p.id;
+        fId.value = p.id || "";
+        fName.value = p.name || "";
+        fImage.value = p.image || "";
+        fAmazonUrl.value = p.amazonUrl || "";
+        fSection.value = p.section || "zen-workspace";
+        fCategory.value = p.category || "keyboard";
+        fPriority.value = p.priority || 5;
+        fActive.value = String(Boolean(p.active));
+        fBenefit.value = p.benefit || "";
+        fBadgeCustom.value = "";
+        var presetOptions = Array.prototype.map.call(fMedalPreset.options, function(opt) { return opt.value; });
+        if (presetOptions.indexOf(p.badge) >= 0) {
+          fMedalPreset.value = p.badge;
+        } else {
+          fMedalPreset.value = "custom";
+          fBadgeCustom.value = p.badge || "";
+        }
+        addProductBtn.textContent = "Update Product";
+        setStatus("Editing product: " + p.name, false);
+      }
+
+      function deleteProductById(productId) {
+        var parsed = validateEditorJson();
+        if (!parsed) return;
+        parsed.products = parsed.products.filter(function(p) { return p.id !== productId; });
+        parsed.topPicks = (parsed.topPicks || []).filter(function(p) { return p.id !== productId; });
+        jsonEditor.value = JSON.stringify(parsed, null, 2);
+        refreshCounts(parsed);
+        renderProductsList(parsed);
+        populateTopPickSelectors(parsed);
+        setStatus("Product deleted.", false);
+      }
+
       loginBtn.addEventListener("click", function() {
         if (passwordInput.value === ADMIN_PASSWORD) {
           localStorage.setItem(STORAGE_KEY, "1");
@@ -225,7 +601,48 @@
       });
 
       reloadBtn.addEventListener("click", loadLiveJson);
+      refreshListBtn.addEventListener("click", function() {
+        var parsed = getEditorData();
+        if (!parsed) {
+          setStatus("JSON is not valid.", true);
+          return;
+        }
+        renderProductsList(parsed);
+      });
+      listSectionFilter.addEventListener("change", function() {
+        var parsed = getEditorData();
+        if (parsed) renderProductsList(parsed);
+      });
+      listCategoryFilter.addEventListener("change", function() {
+        var parsed = getEditorData();
+        if (parsed) renderProductsList(parsed);
+      });
+      productsList.addEventListener("click", function(e) {
+        var btn = e.target.closest("button[data-action]");
+        if (!btn) return;
+        var id = btn.getAttribute("data-id");
+        var action = btn.getAttribute("data-action");
+        if (action === "edit") {
+          editProductById(id);
+        } else if (action === "delete") {
+          var ok = window.confirm("Delete this product?");
+          if (ok) deleteProductById(id);
+        }
+      });
       validateBtn.addEventListener("click", validateEditorJson);
+      addProductBtn.addEventListener("click", addProductFromForm);
+      clearFormBtn.addEventListener("click", resetProductForm);
+      saveTopPicksBtn.addEventListener("click", saveTopPicksFromSelectors);
+      toggleAdvancedBtn.addEventListener("click", function() {
+        var isHidden = jsonEditor.classList.contains("hidden");
+        if (isHidden) {
+          jsonEditor.classList.remove("hidden");
+          toggleAdvancedBtn.textContent = "Hide advanced JSON editor";
+        } else {
+          jsonEditor.classList.add("hidden");
+          toggleAdvancedBtn.textContent = "Show advanced JSON editor";
+        }
+      });
       downloadBtn.addEventListener("click", function() {
         var parsed = validateEditorJson();
         if (!parsed) return;
