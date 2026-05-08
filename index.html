@@ -163,6 +163,11 @@
         .pick-link { display: inline-flex; align-items: center; justify-content: center; padding: 10px; border-radius: 8px; background: var(--accent-black); color: white; text-decoration: none; font-size: 12px; font-weight: 700; transition: background 0.2s ease; }
         .pick-link:hover { background: var(--primary-accent); }
         .affiliate-inline-note { font-size: 11px; color: #64748B; margin-top: 12px; }
+        .trust-strip { background: linear-gradient(135deg, #ECFEFF 0%, #EEF2FF 100%); border: 1px solid #C7D2FE; border-radius: 16px; padding: 14px 16px; margin-bottom: 18px; display: grid; gap: 8px; }
+        .trust-title { margin: 0; font-size: 14px; font-weight: 800; color: #1E3A8A; }
+        .trust-points { margin: 0; padding-left: 18px; color: #334155; font-size: 12px; line-height: 1.5; }
+        .trust-points li { margin-bottom: 3px; }
+        .campaign-day-badge { margin-top: 6px; width: fit-content; background: #0F172A; color: #E2E8F0; border-radius: 999px; font-size: 11px; font-weight: 700; padding: 5px 10px; }
 
         /* KART CSS'İ */
         .part-card { position: relative; background: var(--surface-color); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; transition: transform 0.45s ease, box-shadow 0.45s ease, opacity 0.3s ease, filter 0.3s ease; scroll-margin-top: 100px; }
@@ -204,6 +209,7 @@
         /* BAŞLIK VE KOPYALA İKONU */
         .title-wrapper { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 15px; }
         .part-title { font-size: 15px; font-weight: 700; margin: 0; line-height: 1.4; flex: 1; }
+        .part-benefit-note { font-size: 12px; color: var(--text-muted); margin: -8px 0 12px; line-height: 1.45; }
         .copy-link-icon { opacity: 0; color: #94A3B8; text-decoration: none; font-size: 16px; transition: opacity 0.2s, color 0.2s, transform 0.2s, text-shadow 0.2s; cursor: pointer; }
         .part-card:hover .copy-link-icon { opacity: 1; }
         .copy-link-icon:hover { color: var(--primary-accent); transform: translateY(-1px) scale(1.08); text-shadow: 0 0 10px rgba(30, 58, 138, 0.35); }
@@ -211,6 +217,7 @@
         /* AMAZON BUTONU CSS (FLEX İLE ORTALANDI) */
         .part-btn { margin-top: auto; display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--surface-color); border: 1px solid var(--accent-black); color: var(--accent-black); text-decoration: none; padding: 12px; border-radius: 8px; font-weight: 700; font-size: 13px; transition: all 0.2s ease; cursor: pointer;}
         .part-btn:hover { background: var(--primary-accent); border-color: var(--primary-accent); color: white; transform: scale(1.02); }
+        .trust-inline-note { margin: 8px 0 0; font-size: 11px; color: #64748B; }
 
         /* PC UNIT KISMI */
         .case-unit-card { grid-column: 1 / -1; background-color: var(--bg-color); border: 1px solid rgba(0,0,0,0.05); display: grid; grid-template-columns: 1fr 1.5fr; gap: 30px; align-items: center; padding: 30px; border-radius: 16px; }
@@ -243,6 +250,8 @@
             .mobile-bottom-bar { display: flex; }
             .copy-link-icon { opacity: 1; }
             .pinterest-save-btn { opacity: 1; transform: scale(1); }
+            .trust-strip { padding: 12px 14px; }
+            .trust-title { font-size: 13px; }
             .part-card.target-focus,
             .focus-mode .part-card.target-focus:target,
             .part-card.target-focus.focus-shift-right,
@@ -299,12 +308,22 @@
         </aside>
 
         <main class="main-content">
+            <div class="trust-strip" id="trustStrip">
+                <p class="trust-title">Hand-picked and conversion-tested setup picks</p>
+                <ul class="trust-points">
+                    <li>Every product link is checked for availability before campaigns.</li>
+                    <li>Picks focus on real value tiers, not inflated luxury bundles.</li>
+                    <li>As an Amazon Associate, we may earn from qualifying purchases.</li>
+                </ul>
+                <span class="campaign-day-badge" id="campaignDayBadge">Campaign Day 1 / 5</span>
+            </div>
+
             <div class="top-picks-wrap">
                 <div class="top-picks-header">
                     <h3 class="top-picks-title">Top 3 Value Picks for US Gamers</h3>
                     <p class="top-picks-sub">Premium look, realistic budget, zero fluff.</p>
                 </div>
-                <div class="top-picks-grid">
+                <div class="top-picks-grid" id="topPicksGrid">
                     <article class="pick-card">
                         <span class="pick-label">Best Keyboard Value</span>
                         <p class="pick-name">Cloud-Touch Mechanical Board</p>
@@ -905,6 +924,7 @@
         </div>
     </div>
 
+    <script src="scripts/render-products.js" defer></script>
     <script>
         const content = {
             about: {
@@ -938,6 +958,62 @@
         document.addEventListener('DOMContentLoaded', function() {
             var focusCloseBtn = document.getElementById('focusCloseBtn');
             var focusActivateTimer = null;
+            var pageUrl = new URL(window.location.href);
+            var query = pageUrl.searchParams;
+            var trafficSource = query.get('utm_source') || query.get('source') || 'direct';
+            var pinCampaign = query.get('utm_campaign') || 'always_on';
+            var pinCreative = query.get('utm_content') || query.get('pin') || 'unknown_pin';
+            var campaignDay = query.get('day') || '1';
+
+            var campaignBadge = document.getElementById('campaignDayBadge');
+            if (campaignBadge) {
+                campaignBadge.textContent = 'Campaign Day ' + campaignDay + ' / 5';
+            }
+
+            function getDeviceType() {
+                var width = window.innerWidth || document.documentElement.clientWidth;
+                if (width <= 900) return 'mobile';
+                if (width <= 1200) return 'tablet';
+                return 'desktop';
+            }
+
+            function getWeekdayUTC() {
+                return new Date().toISOString().slice(0, 10);
+            }
+
+            function attachConversionNotes() {
+                var partCards = document.querySelectorAll('.setup-content-grid .part-card:not(.case-unit-card)');
+                partCards.forEach(function(card) {
+                    var titleNode = card.querySelector('.part-title');
+                    var buttonNode = card.querySelector('.part-btn');
+                    if (!titleNode || !buttonNode) return;
+                    if (card.querySelector('.part-benefit-note')) return;
+
+                    var benefit = document.createElement('p');
+                    benefit.className = 'part-benefit-note';
+                    benefit.textContent = 'Quick pick: balanced value, trusted user ratings, and easy setup match.';
+                    buttonNode.insertAdjacentElement('beforebegin', benefit);
+
+                    if (!card.querySelector('.trust-inline-note')) {
+                        var trust = document.createElement('p');
+                        trust.className = 'trust-inline-note';
+                        trust.textContent = 'Affiliate note: we may earn from qualifying purchases.';
+                        buttonNode.insertAdjacentElement('afterend', trust);
+                    }
+                });
+            }
+
+            function saveClickLog(payload) {
+                var key = 'sv_click_log';
+                var current = [];
+                try {
+                    current = JSON.parse(localStorage.getItem(key) || '[]');
+                } catch (err) {
+                    current = [];
+                }
+                current.push(payload);
+                localStorage.setItem(key, JSON.stringify(current.slice(-400)));
+            }
 
             var amazonBtns = document.querySelectorAll('.part-btn');
             amazonBtns.forEach(function(btn) {
@@ -947,13 +1023,35 @@
                     var productId = card && card.id ? card.id : 'unknown_product';
                     var setupType = section && section.id ? section.id : 'unknown_setup';
                     var priceTier = setupType === 'stealth-operator' ? 'upper_midrange' : 'midrange_value';
+                    var deviceType = getDeviceType();
+                    var dayStamp = getWeekdayUTC();
+                    var targetUrl = btn.getAttribute('href') || 'unknown_url';
+                    var clickPayload = {
+                        ts: new Date().toISOString(),
+                        day: dayStamp,
+                        source: trafficSource,
+                        campaign: pinCampaign,
+                        creative: pinCreative,
+                        product_id: productId,
+                        section: setupType,
+                        price_tier: priceTier,
+                        device: deviceType,
+                        target_url: targetUrl
+                    };
+
+                    saveClickLog(clickPayload);
 
                     if (window.pintrk) {
                         pintrk('track', 'lead', {
                             event_name: 'Amazon_Click',
                             product_id: productId,
                             setup_type: setupType,
-                            price_tier: priceTier
+                            price_tier: priceTier,
+                            traffic_source: trafficSource,
+                            campaign_id: pinCampaign,
+                            creative_id: pinCreative,
+                            device_type: deviceType,
+                            day_stamp: dayStamp
                         });
                     }
                     if (window.gtag) {
@@ -962,7 +1060,12 @@
                             event_label: productId,
                             product_id: productId,
                             setup_type: setupType,
-                            price_tier: priceTier
+                            price_tier: priceTier,
+                            traffic_source: trafficSource,
+                            campaign_id: pinCampaign,
+                            creative_id: pinCreative,
+                            device_type: deviceType,
+                            day_stamp: dayStamp
                         });
                     }
                 });
@@ -1071,6 +1174,30 @@
                 }
             }
 
+            function attachTopPickAnalytics() {
+                var topPicksGrid = document.getElementById('topPicksGrid');
+                if (!topPicksGrid) return;
+                topPicksGrid.addEventListener('click', function(e) {
+                    var link = e.target.closest('.pick-link');
+                    if (!link) return;
+                    var href = link.getAttribute('href') || '#';
+                    var payload = {
+                        ts: new Date().toISOString(),
+                        day: getWeekdayUTC(),
+                        source: trafficSource,
+                        campaign: pinCampaign,
+                        creative: pinCreative,
+                        action: 'top_pick_click',
+                        target_anchor: href,
+                        device: getDeviceType()
+                    };
+                    saveClickLog(payload);
+                    if (window.gtag) {
+                        gtag('event', 'Top_Pick_Click', payload);
+                    }
+                });
+            }
+
             if (focusCloseBtn) {
                 focusCloseBtn.addEventListener('click', exitFocusMode);
             }
@@ -1081,6 +1208,8 @@
             });
 
             applyHashFocusMode();
+            attachConversionNotes();
+            attachTopPickAnalytics();
             window.addEventListener('hashchange', applyHashFocusMode);
         });
     </script>
