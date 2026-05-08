@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>Setup Vault Admin</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --card: #111a31;
+      --border: #243052;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #3b82f6;
+      --good: #16a34a;
+      --warn: #f59e0b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, Arial, sans-serif;
+      background: linear-gradient(180deg, #070b17 0%, #0b1020 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 28px 16px 40px;
+    }
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--card);
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+    h1 { margin: 0 0 6px; font-size: 22px; }
+    p { margin: 0 0 10px; color: var(--muted); line-height: 1.5; }
+    .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    input, textarea, button {
+      border: 1px solid var(--border);
+      background: #0b1228;
+      color: var(--text);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 14px;
+    }
+    input { min-width: 260px; }
+    textarea {
+      width: 100%;
+      min-height: 380px;
+      font-family: Consolas, monospace;
+      line-height: 1.4;
+      resize: vertical;
+    }
+    button { cursor: pointer; }
+    .primary { background: var(--accent); border-color: var(--accent); }
+    .ok { background: var(--good); border-color: var(--good); }
+    .warn { background: var(--warn); border-color: var(--warn); color: #111827; }
+    .hidden { display: none; }
+    .badge {
+      display: inline-block;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 4px 9px;
+      color: var(--muted);
+      font-size: 12px;
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+    .danger { color: #fca5a5; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="loginCard" class="card">
+      <h1>Setup Vault Admin</h1>
+      <p>This page is intentionally not linked in the public UI.</p>
+      <div class="row">
+        <input id="adminPassword" type="password" placeholder="Admin password">
+        <button id="loginBtn" class="primary">Enter Admin</button>
+      </div>
+      <p class="danger" id="loginError"></p>
+      <p>Tip: Keep this URL private and do not share it publicly.</p>
+    </div>
+
+    <div id="adminApp" class="hidden">
+      <div class="card">
+        <h1>Products JSON Admin</h1>
+        <p>Edit product data safely, then download the updated file and replace <code>data/products.json</code>.</p>
+        <span class="badge" id="countAll">Products: 0</span>
+        <span class="badge" id="countActive">Active: 0</span>
+        <span class="badge" id="countPicks">Top Picks: 0</span>
+      </div>
+
+      <div class="card">
+        <div class="row">
+          <button id="reloadBtn">Reload Live JSON</button>
+          <button id="validateBtn" class="ok">Validate</button>
+          <button id="downloadBtn" class="primary">Download products.json</button>
+          <button id="logoutBtn" class="warn">Logout</button>
+        </div>
+        <p id="statusLine">Ready.</p>
+        <textarea id="jsonEditor" spellcheck="false"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // Change this before production publish.
+      var ADMIN_PASSWORD = "vault-admin-2026";
+      var STORAGE_KEY = "sv_admin_ok";
+      var DATA_PATH = "data/products.json";
+
+      var loginCard = document.getElementById("loginCard");
+      var adminApp = document.getElementById("adminApp");
+      var passwordInput = document.getElementById("adminPassword");
+      var loginBtn = document.getElementById("loginBtn");
+      var loginError = document.getElementById("loginError");
+      var reloadBtn = document.getElementById("reloadBtn");
+      var validateBtn = document.getElementById("validateBtn");
+      var downloadBtn = document.getElementById("downloadBtn");
+      var logoutBtn = document.getElementById("logoutBtn");
+      var statusLine = document.getElementById("statusLine");
+      var jsonEditor = document.getElementById("jsonEditor");
+      var countAll = document.getElementById("countAll");
+      var countActive = document.getElementById("countActive");
+      var countPicks = document.getElementById("countPicks");
+
+      function setStatus(text, isError) {
+        statusLine.textContent = text;
+        statusLine.style.color = isError ? "#fca5a5" : "#94a3b8";
+      }
+
+      function isValidShape(data) {
+        if (!data || typeof data !== "object") return false;
+        if (!Array.isArray(data.products)) return false;
+        if (!Array.isArray(data.topPicks)) return false;
+        return true;
+      }
+
+      function refreshCounts(data) {
+        var all = Array.isArray(data.products) ? data.products.length : 0;
+        var active = Array.isArray(data.products)
+          ? data.products.filter(function(p) { return Boolean(p.active); }).length
+          : 0;
+        var picks = Array.isArray(data.topPicks) ? data.topPicks.length : 0;
+        countAll.textContent = "Products: " + all;
+        countActive.textContent = "Active: " + active;
+        countPicks.textContent = "Top Picks: " + picks;
+      }
+
+      function openAdmin() {
+        loginCard.classList.add("hidden");
+        adminApp.classList.remove("hidden");
+        loadLiveJson();
+      }
+
+      function closeAdmin() {
+        localStorage.removeItem(STORAGE_KEY);
+        loginCard.classList.remove("hidden");
+        adminApp.classList.add("hidden");
+        passwordInput.value = "";
+      }
+
+      function loadLiveJson() {
+        fetch(DATA_PATH, { cache: "no-store" })
+          .then(function(res) {
+            if (!res.ok) throw new Error("Cannot load " + DATA_PATH);
+            return res.json();
+          })
+          .then(function(data) {
+            jsonEditor.value = JSON.stringify(data, null, 2);
+            refreshCounts(data);
+            setStatus("Live JSON loaded.");
+          })
+          .catch(function(err) {
+            setStatus(err.message, true);
+          });
+      }
+
+      function validateEditorJson() {
+        try {
+          var parsed = JSON.parse(jsonEditor.value);
+          if (!isValidShape(parsed)) {
+            setStatus("Invalid shape: must include topPicks[] and products[].", true);
+            return null;
+          }
+          refreshCounts(parsed);
+          setStatus("JSON valid.");
+          return parsed;
+        } catch (err) {
+          setStatus("Invalid JSON syntax: " + err.message, true);
+          return null;
+        }
+      }
+
+      function downloadJson(data) {
+        var blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+        var url = URL.createObjectURL(blob);
+        var link = document.createElement("a");
+        link.href = url;
+        link.download = "products.json";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      }
+
+      loginBtn.addEventListener("click", function() {
+        if (passwordInput.value === ADMIN_PASSWORD) {
+          localStorage.setItem(STORAGE_KEY, "1");
+          loginError.textContent = "";
+          openAdmin();
+          return;
+        }
+        loginError.textContent = "Wrong password.";
+      });
+
+      passwordInput.addEventListener("keydown", function(e) {
+        if (e.key === "Enter") loginBtn.click();
+      });
+
+      reloadBtn.addEventListener("click", loadLiveJson);
+      validateBtn.addEventListener("click", validateEditorJson);
+      downloadBtn.addEventListener("click", function() {
+        var parsed = validateEditorJson();
+        if (!parsed) return;
+        downloadJson(parsed);
+        setStatus("Downloaded products.json. Replace data/products.json with this file.");
+      });
+      logoutBtn.addEventListener("click", closeAdmin);
+
+      if (localStorage.getItem(STORAGE_KEY) === "1") {
+        openAdmin();
+      }
+    })();
+  </script>
+</body>
+</html>
