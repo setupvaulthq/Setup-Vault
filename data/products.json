@@ -52,6 +52,7 @@
       "alt": "Wireless Mechanical Keyboard",
       "amazonUrl": "https://amzn.to/4nl8dyg",
       "pinterestMedia": "angel_keyboard.jpg",
+      "valueTier": "premium",
       "priority": 10,
       "active": true
     },
@@ -67,6 +68,7 @@
       "alt": "Sleek Wireless Mouse",
       "amazonUrl": "https://amzn.to/4duNPHq",
       "pinterestMedia": "angel_mouse.jpg",
+      "valueTier": "premium",
       "priority": 9,
       "active": true
     },
@@ -82,6 +84,7 @@
       "alt": "Premium White Headset",
       "amazonUrl": "https://amzn.to/3PrB9b5",
       "pinterestMedia": "angel_headset.jpg",
+      "valueTier": "mid",
       "priority": 8,
       "active": true
     },
@@ -97,6 +100,7 @@
       "alt": "1080p IPS Monitor",
       "amazonUrl": "https://amzn.to/4uyDNL0",
       "pinterestMedia": "angel_monitor.jpg",
+      "valueTier": "mid",
       "priority": 7,
       "active": true
     },
@@ -112,6 +116,7 @@
       "alt": "XXL White Desk Mat",
       "amazonUrl": "https://amzn.to/49zmjWN",
       "pinterestMedia": "angel_mousepad.jpg",
+      "valueTier": "entry",
       "priority": 6,
       "active": true
     },
@@ -127,6 +132,7 @@
       "alt": "Monitor Light Bar",
       "amazonUrl": "https://amzn.to/4da8RK9",
       "pinterestMedia": "angel_light.jpg",
+      "valueTier": "entry",
       "priority": 5,
       "active": true
     },
@@ -142,6 +148,7 @@
       "alt": "Midnight Mechanical Board",
       "amazonUrl": "https://amzn.to/3RsfDn9",
       "pinterestMedia": "stealth_keyboard.jpg",
+      "valueTier": "premium",
       "priority": 10,
       "active": true
     },
@@ -157,6 +164,7 @@
       "alt": "Phantom Wireless Mouse",
       "amazonUrl": "https://amzn.to/4nhzlhw",
       "pinterestMedia": "stealth_mouse.jpg",
+      "valueTier": "premium",
       "priority": 9,
       "active": true
     },
@@ -172,6 +180,7 @@
       "alt": "Blackout Wireless Headset",
       "amazonUrl": "https://amzn.to/4tZ2Reg",
       "pinterestMedia": "stealth_headset.jpg",
+      "valueTier": "mid",
       "priority": 8,
       "active": true
     },
@@ -187,6 +196,7 @@
       "alt": "Ultra-Dark OLED Monitor",
       "amazonUrl": "https://amzn.to/4tFQ7bP",
       "pinterestMedia": "stealth_monitor.jpg",
+      "valueTier": "mid",
       "priority": 7,
       "active": true
     },
@@ -202,6 +212,7 @@
       "alt": "Charcoal Felt Desk Mat",
       "amazonUrl": "https://amzn.to/4dagRKZ",
       "pinterestMedia": "stealth_mousepad.jpg",
+      "valueTier": "entry",
       "priority": 6,
       "active": true
     },
@@ -217,6 +228,7 @@
       "alt": "Matte Black Screenbar",
       "amazonUrl": "https://amzn.to/3QMknUF",
       "pinterestMedia": "stealth_light.jpg",
+      "valueTier": "entry",
       "priority": 5,
       "active": true
     }

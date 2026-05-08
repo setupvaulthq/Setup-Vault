@@ -1,5 +1,18 @@
 (function() {
   var SITE_VERSION = "2.2";
+  function getTier(product) {
+    if (product && product.valueTier) return product.valueTier;
+    var priority = Number((product && product.priority) || 0);
+    if (priority >= 9) return "premium";
+    if (priority >= 7) return "mid";
+    return "entry";
+  }
+
+  function getTierLabel(tier) {
+    if (tier === "premium") return "Premium Tier";
+    if (tier === "mid") return "Mid Tier";
+    return "Entry Tier";
+  }
   function escapeHtml(value) {
     return String(value)
       .replace(/&/g, "&amp;")
@@ -44,6 +57,7 @@
     var benefit = product.benefit || "Balanced value and practical daily performance.";
     var pinterestMedia = product.pinterestMedia || image;
     var category = product.category || "gear";
+    var tier = getTier(product);
     var cardClass = getCardClassForSection(sectionId);
     var imageClass = getImageClassForSection(sectionId);
     var buttonStyle = getButtonStyleForSection(sectionId);
@@ -58,12 +72,13 @@
       encodeURIComponent((name || "") + " - Setup Vault");
 
     return (
-      '<div class="' + cardClass + '" id="' + escapeHtml(product.id || "") + '" data-category="' + escapeHtml(category) + '">' +
+      '<div class="' + cardClass + '" id="' + escapeHtml(product.id || "") + '" data-category="' + escapeHtml(category) + '" data-tier="' + escapeHtml(tier) + '">' +
       '<div class="img-wrapper">' +
       '<a href="' + pinUrl + '" target="_blank" class="pinterest-save-btn">Save</a>' +
       '<img src="' + escapeHtml(image) + '" class="' + imageClass + '" alt="' + escapeHtml(alt) + '" loading="lazy">' +
       "</div>" +
       '<div class="' + medalClass + '">' + escapeHtml(badge) + "</div>" +
+      '<span class="tier-badge ' + escapeHtml(tier) + '">' + escapeHtml(getTierLabel(tier)) + "</span>" +
       '<div class="title-wrapper">' +
       '<h4 class="part-title"' + titleStyle + ">" + escapeHtml(name) + "</h4>" +
       '<a href="#' + escapeHtml(product.id || "") + '" class="copy-link-icon" title="Right click to copy link">🔗</a>' +
@@ -131,9 +146,11 @@
           return (b.priority || 0) - (a.priority || 0);
         })
         .map(function(product) {
+          var tier = getTier(product);
           return (
-            '<article class="pick-card">' +
+            '<article class="pick-card" data-tier="' + escapeHtml(tier) + '">' +
             '<span class="pick-label">' + escapeHtml(product.section === "stealth-operator" ? "Stealth" : "Zen") + "</span>" +
+            '<span class="tier-badge ' + escapeHtml(tier) + '">' + escapeHtml(getTierLabel(tier)) + "</span>" +
             '<p class="pick-name">' + escapeHtml(product.name || "") + "</p>" +
             '<p class="pick-note">' + escapeHtml(product.benefit || "Smart value pick.") + "</p>" +
             '<a class="pick-link" href="#' + escapeHtml(product.id) + '">View Product</a>' +
@@ -155,6 +172,79 @@
       tab.classList.add("active");
       draw(tab.getAttribute("data-category-id"));
     });
+  }
+
+  function renderTierFilters(products) {
+    var chips = document.getElementById("tierFilterChips");
+    if (!chips) return;
+    var options = [
+      { id: "all", label: "All Tiers" },
+      { id: "entry", label: "Entry Tier" },
+      { id: "mid", label: "Mid Tier" },
+      { id: "premium", label: "Premium Tier" }
+    ];
+    chips.innerHTML = options
+      .map(function(opt, idx) {
+        return '<button type="button" class="tier-chip' + (idx === 0 ? " active" : "") + '" data-tier-filter="' + opt.id + '">' + opt.label + "</button>";
+      })
+      .join("");
+
+    function applyTierFilter(tier) {
+      var cards = document.querySelectorAll(".setup-content-grid .part-card[data-tier], #categoryProductsGrid .pick-card[data-tier]");
+      cards.forEach(function(card) {
+        var cardTier = card.getAttribute("data-tier") || "entry";
+        var visible = tier === "all" || cardTier === tier;
+        card.style.display = visible ? "" : "none";
+      });
+    }
+
+    applyTierFilter("all");
+    chips.addEventListener("click", function(e) {
+      var btn = e.target.closest(".tier-chip");
+      if (!btn) return;
+      var tier = btn.getAttribute("data-tier-filter") || "all";
+      chips.querySelectorAll(".tier-chip").forEach(function(item) {
+        item.classList.remove("active");
+      });
+      btn.classList.add("active");
+      applyTierFilter(tier);
+    });
+  }
+
+  function renderCategorySpotlights(data) {
+    var wrap = document.getElementById("categorySpotlightGrid");
+    if (!wrap) return;
+    var categories = data.categories || [];
+    var products = (data.products || []).filter(function(product) {
+      return Boolean(product.active);
+    });
+    if (!categories.length || !products.length) {
+      wrap.innerHTML = "";
+      return;
+    }
+    var html = categories
+      .map(function(category) {
+        var best = products
+          .filter(function(product) {
+            return product.category === category.id;
+          })
+          .sort(function(a, b) {
+            return (b.priority || 0) - (a.priority || 0);
+          })[0];
+        if (!best) return "";
+        var tier = getTier(best);
+        return (
+          '<article class="spotlight-card">' +
+          '<span class="spotlight-kicker">' + escapeHtml(category.label) + " • " + escapeHtml(tier) + " tier</span>" +
+          '<span class="tier-badge ' + escapeHtml(tier) + '">' + escapeHtml(getTierLabel(tier)) + "</span>" +
+          '<p class="pick-name">' + escapeHtml(best.name) + "</p>" +
+          '<p class="pick-note">' + escapeHtml(best.benefit || "Top value pick in this category.") + "</p>" +
+          '<a class="pick-link" href="#' + escapeHtml(best.id) + '">View Product</a>' +
+          "</article>"
+        );
+      })
+      .join("");
+    wrap.innerHTML = html || '<p class="pick-note">Category highlights will appear as products grow.</p>';
   }
 
   function renderTopPicks(topPicks) {
@@ -211,6 +301,8 @@
         renderTopPicks((data && data.topPicks) || []);
         renderSectionProducts((data && data.products) || []);
         renderCategoryLibrary(data || {});
+        renderTierFilters((data && data.products) || []);
+        renderCategorySpotlights(data || {});
         var badge = document.getElementById("siteVersionBadge");
         if (badge) {
           var dataVersion = data && data.meta && data.meta.version ? data.meta.version : "-";

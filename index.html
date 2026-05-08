@@ -169,6 +169,19 @@
         .trust-points li { margin-bottom: 3px; }
         .campaign-day-badge { margin-top: 6px; width: fit-content; background: #0F172A; color: #E2E8F0; border-radius: 999px; font-size: 11px; font-weight: 700; padding: 5px 10px; }
         .version-badge { margin-top: 6px; width: fit-content; background: #0B1228; color: #93C5FD; border: 1px solid #1E3A8A; border-radius: 999px; font-size: 11px; font-weight: 700; padding: 5px 10px; }
+        .tier-wrap { background: var(--surface-color); border: 1px solid rgba(0,0,0,0.06); border-radius: 20px; padding: 18px; margin: 0 0 30px; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06); }
+        .tier-title { margin: 0 0 8px; font-size: 16px; font-weight: 900; color: var(--accent-black); }
+        .tier-sub { margin: 0 0 12px; font-size: 12px; color: var(--text-muted); }
+        .tier-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+        .tier-chip { border: 1px solid #CBD5E1; background: #F8FAFC; color: #334155; border-radius: 999px; padding: 8px 12px; font-size: 12px; font-weight: 700; cursor: pointer; }
+        .tier-chip.active { background: #1D4ED8; border-color: #1D4ED8; color: #fff; }
+        .spotlight-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 36px; }
+        .spotlight-card { border: 1px solid rgba(0,0,0,0.08); border-radius: 14px; padding: 14px; background: #F8FAFC; display: flex; flex-direction: column; gap: 8px; }
+        .spotlight-kicker { font-size: 11px; font-weight: 800; color: #1E3A8A; text-transform: uppercase; letter-spacing: 0.3px; }
+        .tier-badge { display: inline-flex; width: fit-content; border-radius: 999px; padding: 4px 9px; font-size: 10px; font-weight: 800; letter-spacing: 0.3px; text-transform: uppercase; margin-bottom: 8px; }
+        .tier-badge.entry { background: #F1F5F9; color: #334155; border: 1px solid #CBD5E1; }
+        .tier-badge.mid { background: #DBEAFE; color: #1E40AF; border: 1px solid #93C5FD; }
+        .tier-badge.premium { background: #EDE9FE; color: #5B21B6; border: 1px solid #C4B5FD; }
 
         /* KART CSS'İ */
         .part-card { position: relative; background: var(--surface-color); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; transition: transform 0.45s ease, box-shadow 0.45s ease, opacity 0.3s ease, filter 0.3s ease; scroll-margin-top: 100px; }
@@ -347,6 +360,17 @@
                 </div>
                 <p class="affiliate-inline-note">Disclosure: We may earn from qualifying purchases as an Amazon Associate.</p>
             </div>
+
+            <div class="tier-wrap">
+                <p class="tier-title">Filter by Budget Tier</p>
+                <p class="tier-sub">No exact prices shown. Tiers reflect value positioning only.</p>
+                <div class="tier-chips" id="tierFilterChips"></div>
+            </div>
+
+            <section id="best-by-category">
+                <h2>🏷️ Best by Category</h2>
+                <div class="spotlight-grid" id="categorySpotlightGrid"></div>
+            </section>
             
             <section id="zen-workspace">
                 <h2>☁️ The Zen Workspace</h2>
