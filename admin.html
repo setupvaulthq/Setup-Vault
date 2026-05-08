@@ -7,12 +7,12 @@
   <title>Setup Vault Admin</title>
   <style>
     :root {
-      --bg: #0b1020;
-      --card: #111a31;
-      --border: #243052;
-      --text: #e2e8f0;
-      --muted: #94a3b8;
-      --accent: #3b82f6;
+      --bg: #0f1115;
+      --card: #171a21;
+      --border: #2a2f3a;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --accent: #6366f1;
       --good: #16a34a;
       --warn: #f59e0b;
     }
@@ -20,7 +20,7 @@
     body {
       margin: 0;
       font-family: Inter, Arial, sans-serif;
-      background: linear-gradient(180deg, #070b17 0%, #0b1020 100%);
+      background: linear-gradient(180deg, #0b0d12 0%, #10131a 100%);
       color: var(--text);
       min-height: 100vh;
     }
@@ -41,7 +41,7 @@
     .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
     input, textarea, button, select {
       border: 1px solid var(--border);
-      background: #0b1228;
+      background: #11151d;
       color: var(--text);
       border-radius: 10px;
       padding: 10px 12px;
@@ -107,7 +107,7 @@
     .advanced-toggle {
       margin-top: 10px;
       font-size: 12px;
-      color: #93c5fd;
+      color: #a5b4fc;
       cursor: pointer;
       text-decoration: underline;
       background: transparent;
@@ -119,6 +119,22 @@
       border-color: #dc2626;
       color: #fff;
     }
+    .field-hint {
+      font-size: 12px;
+      color: #fca5a5;
+      margin-top: 8px;
+      display: none;
+    }
+    .preview-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      background: #11151d;
+      margin-top: 10px;
+    }
+    .preview-title { margin: 0 0 4px; font-size: 14px; }
+    .preview-meta { margin: 0; color: var(--muted); font-size: 12px; }
+    .soft { background: #1f2937; border-color: #374151; }
   </style>
 </head>
 <body>
@@ -184,6 +200,12 @@
           </select>
         </div>
         <input id="fBenefit" style="width:100%;" placeholder="Short benefit text (what this product is good at)">
+        <p class="field-hint" id="formHint">Name, image file, and Amazon URL are required.</p>
+        <div class="preview-card" id="livePreviewCard">
+          <h3 class="preview-title" id="previewName">Preview: Product name</h3>
+          <p class="preview-meta" id="previewMeta">Category: keyboard | Section: zen-workspace | Medal: Top Rated</p>
+          <p class="preview-meta" id="previewLink">Amazon: https://...</p>
+        </div>
         <div class="row" style="margin-top: 10px;">
           <button id="addProductBtn" class="ok">Add Product</button>
           <button id="clearFormBtn">Clear Form</button>
@@ -208,6 +230,7 @@
       <div class="card">
         <h1>Current Products (Menu View)</h1>
         <div class="row" style="margin-bottom: 10px;">
+          <input id="listSearch" placeholder="Search by product name...">
           <select id="listSectionFilter">
             <option value="all">All Sections</option>
             <option value="zen-workspace">Zen Workspace</option>
@@ -222,6 +245,11 @@
             <option value="desk-mat">Desk Mat</option>
             <option value="light">Lighting</option>
           </select>
+          <select id="listActiveFilter">
+            <option value="all">All Status</option>
+            <option value="active">Active only</option>
+            <option value="inactive">Inactive only</option>
+          </select>
           <button id="refreshListBtn">Refresh List</button>
         </div>
         <div class="products-panel" id="productsList"></div>
@@ -232,6 +260,7 @@
           <button id="reloadBtn">Reload Live JSON</button>
           <button id="validateBtn" class="ok">Validate</button>
           <button id="downloadBtn" class="primary">Download products.json</button>
+          <button id="saveAllBtn" class="primary soft">Save All & Download</button>
           <button id="logoutBtn" class="warn">Logout</button>
         </div>
         <p id="statusLine">Ready.</p>
@@ -285,6 +314,10 @@
       var fPriority = document.getElementById("fPriority");
       var fActive = document.getElementById("fActive");
       var fBenefit = document.getElementById("fBenefit");
+      var formHint = document.getElementById("formHint");
+      var previewName = document.getElementById("previewName");
+      var previewMeta = document.getElementById("previewMeta");
+      var previewLink = document.getElementById("previewLink");
       var topPickProduct1 = document.getElementById("topPickProduct1");
       var topPickProduct2 = document.getElementById("topPickProduct2");
       var topPickProduct3 = document.getElementById("topPickProduct3");
@@ -292,6 +325,9 @@
       var topPickLabel2 = document.getElementById("topPickLabel2");
       var topPickLabel3 = document.getElementById("topPickLabel3");
       var editingProductId = "";
+      var listSearch = document.getElementById("listSearch");
+      var listActiveFilter = document.getElementById("listActiveFilter");
+      var saveAllBtn = document.getElementById("saveAllBtn");
 
       function setStatus(text, isError) {
         statusLine.textContent = text;
@@ -352,12 +388,19 @@
         }
         var sectionFilter = listSectionFilter.value;
         var categoryFilter = listCategoryFilter.value;
+        var activeFilter = listActiveFilter.value;
+        var search = (listSearch.value || "").trim().toLowerCase();
 
         var rows = data.products
           .filter(function(p) {
             var passSection = sectionFilter === "all" || p.section === sectionFilter;
             var passCategory = categoryFilter === "all" || p.category === categoryFilter;
-            return passSection && passCategory;
+            var passActive =
+              activeFilter === "all" ||
+              (activeFilter === "active" && Boolean(p.active)) ||
+              (activeFilter === "inactive" && !Boolean(p.active));
+            var passSearch = !search || (p.name || "").toLowerCase().indexOf(search) >= 0;
+            return passSection && passCategory && passActive && passSearch;
           })
           .sort(function(a, b) {
             return (b.priority || 0) - (a.priority || 0);
@@ -465,6 +508,28 @@
         fActive.value = "true";
         fBenefit.value = "";
         addProductBtn.textContent = "Add Product";
+        updateFormState();
+      }
+
+      function isFormValid() {
+        return Boolean(fName.value.trim() && fAmazonUrl.value.trim() && fImage.value.trim());
+      }
+
+      function updatePreview() {
+        previewName.textContent = "Preview: " + (fName.value.trim() || "Product name");
+        previewMeta.textContent =
+          "Category: " + fCategory.value +
+          " | Section: " + fSection.value +
+          " | Medal: " + resolveBadge();
+        previewLink.textContent = "Amazon: " + (fAmazonUrl.value.trim() || "https://...");
+      }
+
+      function updateFormState() {
+        var valid = isFormValid();
+        addProductBtn.disabled = !valid;
+        addProductBtn.style.opacity = valid ? "1" : "0.6";
+        formHint.style.display = valid ? "none" : "block";
+        updatePreview();
       }
 
       function addProductFromForm() {
@@ -671,11 +736,31 @@
         downloadJson(parsed);
         setStatus("Downloaded products.json. Replace data/products.json with this file.");
       });
+      saveAllBtn.addEventListener("click", function() {
+        var parsed = validateEditorJson();
+        if (!parsed) return;
+        downloadJson(parsed);
+        setStatus("Saved all changes and downloaded products.json.");
+      });
+      [fId, fName, fImage, fAmazonUrl, fSection, fCategory, fMedalPreset, fBadgeCustom, fPriority, fActive, fBenefit]
+        .forEach(function(el) {
+          el.addEventListener("input", updateFormState);
+          el.addEventListener("change", updateFormState);
+        });
+      listSearch.addEventListener("input", function() {
+        var parsed = getEditorData();
+        if (parsed) renderProductsList(parsed);
+      });
+      listActiveFilter.addEventListener("change", function() {
+        var parsed = getEditorData();
+        if (parsed) renderProductsList(parsed);
+      });
       logoutBtn.addEventListener("click", closeAdmin);
 
       if (localStorage.getItem(STORAGE_KEY) === "1") {
         openAdmin();
       }
+      updateFormState();
     })();
   </script>
 </body>
