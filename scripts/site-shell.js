@@ -138,29 +138,6 @@
             return new Date().toISOString().slice(0, 10);
         }
 
-        function attachConversionNotes() {
-            var partCards = document.querySelectorAll(".setup-content-grid .part-card:not(.case-unit-card)");
-            partCards.forEach(function(card) {
-                var titleNode = card.querySelector(".part-title");
-                var buttonNode = card.querySelector(".part-btn");
-                if (!titleNode || !buttonNode) return;
-                if (card.querySelector(".part-benefit-note")) return;
-
-                var benefit = document.createElement("p");
-                benefit.className = "part-benefit-note";
-                benefit.textContent =
-                    "Quick pick: balanced value, trusted user ratings, and easy setup match.";
-                buttonNode.insertAdjacentElement("beforebegin", benefit);
-
-                if (!card.querySelector(".trust-inline-note")) {
-                    var trust = document.createElement("p");
-                    trust.className = "trust-inline-note";
-                    trust.textContent = "Affiliate note: we may earn from qualifying purchases.";
-                    buttonNode.insertAdjacentElement("afterend", trust);
-                }
-            });
-        }
-
         function saveClickLog(payload) {
             if (!trackingEnabled) return;
             var key = "sv_click_log";
@@ -386,7 +363,6 @@
 
             applyHashFocusMode();
             initConsentUi();
-            attachConversionNotes();
             attachTopPickAnalytics();
             window.addEventListener("hashchange", applyHashFocusMode);
         });

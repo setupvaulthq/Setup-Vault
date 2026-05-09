@@ -143,6 +143,35 @@
     });
   }
 
+  function syncStaticPartCardCopy(products) {
+    if (!products || !products.length) return;
+    products.forEach(function(product) {
+      if (!product || !product.id || !product.active) return;
+      var card = document.getElementById(product.id);
+      if (!card || !card.classList.contains("part-card")) return;
+      var btn = card.querySelector(".part-btn");
+      if (!btn) return;
+      var benefitText = (product.benefit || "").trim();
+      if (benefitText) {
+        var note = card.querySelector(".part-benefit-note");
+        if (note) {
+          note.textContent = benefitText;
+        } else {
+          var p = document.createElement("p");
+          p.className = "part-benefit-note";
+          p.textContent = benefitText;
+          btn.insertAdjacentElement("beforebegin", p);
+        }
+      }
+      if (!card.querySelector(".trust-inline-note")) {
+        var trust = document.createElement("p");
+        trust.className = "trust-inline-note";
+        trust.textContent = "Affiliate note: we may earn from qualifying purchases.";
+        btn.insertAdjacentElement("afterend", trust);
+      }
+    });
+  }
+
   function renderCategoryLibrary(data) {
     var tabsWrap = document.getElementById("categoryTabs");
     var grid = document.getElementById("categoryProductsGrid");
@@ -420,6 +449,7 @@
         renderTopPicks((data && data.topPicks) || [], (data && data.products) || []);
         renderSectionProducts((data && data.products) || []);
         syncStaticCardTiers(data || {});
+        syncStaticPartCardCopy((data && data.products) || []);
         renderCategorySpotlights(data || {});
         renderCategoryLibrary(data || {});
         renderTierFilters((data && data.products) || []);
