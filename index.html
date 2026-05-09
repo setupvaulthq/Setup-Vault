@@ -1,28 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LLV9DT0GBS"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-LLV9DT0GBS');
+      window.SV_TRACKING = {
+        gaId: "G-LLV9DT0GBS",
+        pinterestTagId: "2613814755639"
+      };
     </script>
-
-    <script>
-    !function(e){if(!window.pintrk){window.pintrk = function () {
-    window.pintrk.queue.push(Array.prototype.slice.call(arguments))};var
-      n=window.pintrk;n.queue=[],n.version="3.0";var
-      t=document.createElement("script");t.async=!0,t.src=e;var
-      r=document.getElementsByTagName("script")[0];
-      r.parentNode.insertBefore(t,r)}}("https://s.pinimg.com/ct/core.js");
-    pintrk('load', '2613814755639'); /* Senin Orijinal Tag ID'n */
-    pintrk('page'); /* Bu standart PageVisit eventidir, sayfa açıldığında çalışır */
-    </script>
-    <noscript>
-    <img height="1" width="1" style="display:none;" alt=""
-      src="https://ct.pinterest.com/v3/?event=init&tid=2613814755639&noscript=1" />
-    </noscript>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Setup Vault | Premium Workspace Gear</title>
@@ -282,6 +266,12 @@
         .modal-close { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; color: var(--text-muted); }
         .modal-body h3 { margin-top: 0; font-size: 22px; margin-bottom: 20px; color: var(--accent-black); }
         .modal-body p { font-size: 13px; line-height: 1.6; color: var(--text-muted); margin-bottom: 15px; }
+        .cookie-banner { position: fixed; bottom: 14px; left: 14px; right: 14px; z-index: 2600; background: #0F172A; color: #E2E8F0; border: 1px solid #334155; border-radius: 14px; padding: 14px; box-shadow: 0 10px 24px rgba(0,0,0,0.28); display: none; }
+        .cookie-banner p { margin: 0; font-size: 12px; line-height: 1.5; }
+        .cookie-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+        .cookie-actions button { border: 1px solid #475569; background: #1E293B; color: #E2E8F0; border-radius: 8px; padding: 7px 12px; font-size: 12px; font-weight: 600; cursor: pointer; }
+        .cookie-actions button.primary { background: #1D4ED8; border-color: #1D4ED8; color: #fff; }
+        .cookie-actions button:hover { filter: brightness(1.07); }
 
     </style>
 </head>
@@ -317,7 +307,7 @@
                 <span onclick="openModal('privacy')">Privacy Policy</span>
                 <span onclick="openModal('terms')">Terms of Service</span>
                 <span onclick="window.location.href='mailto:setupvaulthq@gmail.com'">Contact</span>
-                <p style="font-size: 10px; color: #94A3B8; margin-top: 10px; line-height: 1.5;">* As an Amazon Associate, Setup Vault earns from qualifying purchases.</p>
+                <p style="font-size: 10px; color: #94A3B8; margin-top: 10px; line-height: 1.5;">* As an Amazon Associate I earn from qualifying purchases.</p>
             </div>
         </aside>
 
@@ -327,7 +317,7 @@
                 <ul class="trust-points">
                     <li>Every product link is checked for availability before campaigns.</li>
                     <li>Picks focus on real value tiers, not inflated luxury bundles.</li>
-                    <li>As an Amazon Associate, we may earn from qualifying purchases.</li>
+                    <li>As an Amazon Associate I earn from qualifying purchases.</li>
                 </ul>
                 <span class="campaign-day-badge" id="campaignDayBadge">Campaign Day 1 / 5</span>
                 <span class="version-badge" id="siteVersionBadge">Site v2.2 | Data v- | Updated -</span>
@@ -358,7 +348,7 @@
                         <a class="pick-link" href="#stealth-headset">View Pick</a>
                     </article>
                 </div>
-                <p class="affiliate-inline-note">Disclosure: We may earn from qualifying purchases as an Amazon Associate.</p>
+                <p class="affiliate-inline-note">Disclosure: As an Amazon Associate I earn from qualifying purchases.</p>
             </div>
 
             <div class="tier-wrap">
@@ -949,13 +939,21 @@
             <div id="modalBody" class="modal-body"></div>
         </div>
     </div>
+    <div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite" aria-label="Cookie consent">
+        <p>We use analytics and affiliate tracking technologies only with your consent. Essential functionality always stays on.</p>
+        <div class="cookie-actions">
+            <button class="primary" id="cookieAcceptBtn" type="button">Accept analytics cookies</button>
+            <button id="cookieRejectBtn" type="button">Reject non-essential cookies</button>
+            <button id="cookiePolicyBtn" type="button">Privacy policy</button>
+        </div>
+    </div>
 
     <script src="scripts/render-products.js" defer></script>
     <script>
         const content = {
             about: {
                 title: "About Setup Vault",
-                text: "<p>Setup Vault is a premium curation platform dedicated to the art of the workspace. We believe that your environment dictates your output, and we are here to help you craft a sanctuary that inspires greatness.</p><p>Based in the US, our team of curators hand-picks each component to ensure a perfect balance of aesthetics, performance, and accessibility. We don't just find parts; we create atmospheres.</p>"
+                text: "<p>Setup Vault is a premium curation platform dedicated to the art of the workspace. We believe that your environment dictates your output, and we are here to help you craft a sanctuary that inspires greatness.</p><p>Our curation process focuses on balancing aesthetics, performance, and accessibility. We do not claim manufacturer sponsorship and we update selections based on relevance.</p>"
             },
             privacy: {
                 title: "Privacy Policy",
@@ -970,7 +968,15 @@
         function openModal(type) {
             const modal = document.getElementById('modalOverlay');
             const body = document.getElementById('modalBody');
-            body.innerHTML = `<h3>${content[type].title}</h3>${content[type].text}`;
+            var modalText = content[type].text;
+            if (type === 'privacy') {
+                modalText =
+                    "<p>At Setup Vault, we value transparency and privacy.</p>" +
+                    "<p><b>What we process:</b> basic technical data such as IP address, browser/device information, and page interaction events may be processed by analytics and affiliate partners when consent is granted.</p>" +
+                    "<p><b>Cookies and similar technologies:</b> essential cookies are used for core site functionality. Analytics and tracking technologies are optional and loaded only after consent. You can change your preference anytime by clearing site storage and reloading.</p>" +
+                    "<p><b>Affiliate disclosure:</b> As an Amazon Associate I earn from qualifying purchases. Product availability and details may change on partner platforms.</p>";
+            }
+            body.innerHTML = `<h3>${content[type].title}</h3>${modalText}`;
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden'; 
         }
@@ -984,6 +990,8 @@
         document.addEventListener('DOMContentLoaded', function() {
             var focusCloseBtn = document.getElementById('focusCloseBtn');
             var focusActivateTimer = null;
+            var consentKey = 'sv_cookie_consent_v1';
+            var trackingEnabled = false;
             var pageUrl = new URL(window.location.href);
             var query = pageUrl.searchParams;
             var trafficSource = query.get('utm_source') || query.get('source') || 'direct';
@@ -994,6 +1002,72 @@
             var campaignBadge = document.getElementById('campaignDayBadge');
             if (campaignBadge) {
                 campaignBadge.textContent = 'Campaign Day ' + campaignDay + ' / 5';
+            }
+
+            function loadGa() {
+                if (window.gtag) return;
+                var gaScript = document.createElement('script');
+                gaScript.async = true;
+                gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + window.SV_TRACKING.gaId;
+                document.head.appendChild(gaScript);
+                window.dataLayer = window.dataLayer || [];
+                window.gtag = function() { window.dataLayer.push(arguments); };
+                window.gtag('js', new Date());
+                window.gtag('config', window.SV_TRACKING.gaId);
+            }
+
+            function loadPinterestTag() {
+                if (window.pintrk) return;
+                window.pintrk = function() {
+                    window.pintrk.queue.push(Array.prototype.slice.call(arguments));
+                };
+                window.pintrk.queue = [];
+                window.pintrk.version = '3.0';
+                var pinScript = document.createElement('script');
+                pinScript.async = true;
+                pinScript.src = 'https://s.pinimg.com/ct/core.js';
+                document.head.appendChild(pinScript);
+                window.pintrk('load', window.SV_TRACKING.pinterestTagId);
+                window.pintrk('page');
+            }
+
+            function applyConsent(consentValue) {
+                trackingEnabled = consentValue === 'accepted';
+                if (trackingEnabled) {
+                    loadGa();
+                    loadPinterestTag();
+                }
+            }
+
+            function initConsentUi() {
+                var banner = document.getElementById('cookieBanner');
+                var acceptBtn = document.getElementById('cookieAcceptBtn');
+                var rejectBtn = document.getElementById('cookieRejectBtn');
+                var policyBtn = document.getElementById('cookiePolicyBtn');
+                if (!banner || !acceptBtn || !rejectBtn || !policyBtn) return;
+
+                policyBtn.addEventListener('click', function() {
+                    openModal('privacy');
+                });
+                acceptBtn.addEventListener('click', function() {
+                    localStorage.setItem(consentKey, 'accepted');
+                    banner.style.display = 'none';
+                    applyConsent('accepted');
+                });
+                rejectBtn.addEventListener('click', function() {
+                    localStorage.setItem(consentKey, 'rejected');
+                    banner.style.display = 'none';
+                    applyConsent('rejected');
+                });
+
+                var current = localStorage.getItem(consentKey);
+                if (!current) {
+                    banner.style.display = 'block';
+                    applyConsent('rejected');
+                    return;
+                }
+                banner.style.display = 'none';
+                applyConsent(current);
             }
 
             function getDeviceType() {
@@ -1030,6 +1104,7 @@
             }
 
             function saveClickLog(payload) {
+                if (!trackingEnabled) return;
                 var key = 'sv_click_log';
                 var current = [];
                 try {
@@ -1067,7 +1142,7 @@
 
                     saveClickLog(clickPayload);
 
-                    if (window.pintrk) {
+                    if (trackingEnabled && window.pintrk) {
                         pintrk('track', 'lead', {
                             event_name: 'Amazon_Click',
                             product_id: productId,
@@ -1080,7 +1155,7 @@
                             day_stamp: dayStamp
                         });
                     }
-                    if (window.gtag) {
+                    if (trackingEnabled && window.gtag) {
                         gtag('event', 'Amazon_Click', {
                             event_category: 'lead',
                             event_label: productId,
@@ -1218,7 +1293,7 @@
                         device: getDeviceType()
                     };
                     saveClickLog(payload);
-                    if (window.gtag) {
+                    if (trackingEnabled && window.gtag) {
                         gtag('event', 'Top_Pick_Click', payload);
                     }
                 });
@@ -1234,6 +1309,7 @@
             });
 
             applyHashFocusMode();
+            initConsentUi();
             attachConversionNotes();
             attachTopPickAnalytics();
             window.addEventListener('hashchange', applyHashFocusMode);
