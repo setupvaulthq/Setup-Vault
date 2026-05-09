@@ -162,8 +162,11 @@ section h2::before { content: ''; width: 6px; height: 28px; background-color: va
     border-radius: 10px;
     overflow: hidden;
     background: var(--hero-image-bg);
-    margin-bottom: 10px;
-    height: 140px;
+    margin-bottom: 12px;
+    height: 160px;
+    min-height: 160px;
+    padding: 12px;
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -175,7 +178,9 @@ section h2::before { content: ''; width: 6px; height: 28px; background-color: va
     width: auto;
     height: auto;
     object-fit: contain;
-    mix-blend-mode: multiply;
+    object-position: center;
+    mix-blend-mode: normal;
+    display: block;
 }
 
 .pick-thumb--stealth {
@@ -190,8 +195,11 @@ section h2::before { content: ''; width: 6px; height: 28px; background-color: va
     border-radius: 10px;
     overflow: hidden;
     background: var(--hero-image-bg);
-    margin-bottom: 10px;
-    height: 130px;
+    margin-bottom: 14px;
+    height: 160px;
+    min-height: 160px;
+    padding: 12px;
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -200,8 +208,12 @@ section h2::before { content: ''; width: 6px; height: 28px; background-color: va
 .spotlight-thumb {
     max-width: 100%;
     max-height: 100%;
+    width: auto;
+    height: auto;
     object-fit: contain;
-    mix-blend-mode: multiply;
+    object-position: center;
+    mix-blend-mode: normal;
+    display: block;
 }
 
 .spotlight-thumb--stealth {
@@ -226,7 +238,9 @@ section h2::before { content: ''; width: 6px; height: 28px; background-color: va
 .tier-chip { border: 1px solid var(--chip-border); background: var(--chip-bg); color: var(--chip-text); border-radius: 999px; padding: 8px 12px; font-size: 12px; font-weight: 700; cursor: pointer; }
 .tier-chip.active { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-contrast); }
 .spotlight-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 36px; }
-.spotlight-card { border: 1px solid rgba(0,0,0,0.08); border-radius: 14px; padding: 14px; background: var(--chip-bg); display: flex; flex-direction: column; gap: 8px; }
+.spotlight-card { border: 1px solid rgba(0,0,0,0.08); border-radius: 14px; padding: 14px; background: var(--chip-bg); display: flex; flex-direction: column; gap: 10px; }
+.spotlight-card .pick-name { margin-top: 2px; }
+.spotlight-card .pick-note { margin-top: 0; }
 .spotlight-kicker { font-size: 11px; font-weight: 800; color: var(--trust-title); text-transform: uppercase; letter-spacing: 0.3px; }
 .tier-badge { display: inline-flex; width: fit-content; border-radius: 999px; padding: 4px 9px; font-size: 10px; font-weight: 800; letter-spacing: 0.3px; text-transform: uppercase; margin-bottom: 8px; }
 .tier-badge.entry { background: #F1F5F9; color: #334155; border: 1px solid #CBD5E1; }
