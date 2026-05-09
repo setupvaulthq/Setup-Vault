@@ -184,12 +184,23 @@
       <div class="card">
         <h1>Product Admin Panel</h1>
         <p>New product form: fill fields, choose category, then click add. You do not need to edit code manually.</p>
-        <span class="badge" id="adminVersionBadge">Admin v2.3</span>
+        <span class="badge" id="adminVersionBadge">Admin v2.4</span>
         <span class="badge" id="adminDataVersionBadge">Data v-</span>
         <span class="badge" id="adminUpdatedAtBadge">Updated -</span>
         <span class="badge" id="countAll">Products: 0</span>
         <span class="badge" id="countActive">Active: 0</span>
         <span class="badge" id="countPicks">Top Picks: 0</span>
+      </div>
+
+      <div class="card" style="border-color:#4338ca;">
+        <h1>Ürün siteye neden düşmüyor?</h1>
+        <p style="margin-bottom:10px;">Bu panel bir veritabanına yazmıyor; sadece <strong>products.json</strong> üretir. Canlı site her zaman repodaki <code>data/products.json</code> dosyasını okur.</p>
+        <ol style="margin:0;padding-left:18px;line-height:1.55;color:#cbd5e1;font-size:14px;">
+          <li><strong>Ürün Ekle</strong> → tarayıcı otomatik olarak güncel JSON dosyasını indirir.</li>
+          <li>Aşağıdan <strong>GitHub’a kaydet</strong> (hesap ayarlıysa) → repoya yazar, Vercel yeniden deploy eder (~1–2 dk).</li>
+          <li>Ya da indirdiğin dosyayı projede <code>data/products.json</code> üzerine yapıştırıp <code>git push</code> yap.</li>
+          <li>Görsel dosyayı (<code>.jpg</code>) repo köküne ekleyip push etmeyi unutma.</li>
+        </ol>
       </div>
 
       <div class="card">
@@ -314,8 +325,10 @@
           <button id="validateBtn" class="ok">Validate</button>
           <button id="downloadBtn" class="primary">Download products.json</button>
           <button id="saveAllBtn" class="primary soft">Save All & Download</button>
+          <button id="saveGithubBtn" class="ok" type="button" disabled title="Repoya data/products.json yazar — Vercel otomatik deploy">GitHub’a kaydet → canlı site</button>
           <button id="logoutBtn" class="warn">Logout</button>
         </div>
+        <p class="mini" id="githubSaveHint" style="margin:6px 0 8px;line-height:1.45;">GitHub durumu yükleniyor…</p>
         <p id="statusLine">Ready.</p>
         <button id="toggleAdvancedBtn" class="advanced-toggle" type="button">Show advanced JSON editor</button>
         <textarea id="jsonEditor" spellcheck="false" class="hidden"></textarea>
@@ -327,7 +340,7 @@
     (function() {
       var ADMIN_API_BASE = "/api/admin";
       var DATA_PATH = "data/products.json";
-      var ADMIN_VERSION = "2.3";
+      var ADMIN_VERSION = "2.4";
       var FALLBACK_CATEGORIES = [
         { id: "keyboard", label: "Keyboards" },
         { id: "mouse", label: "Mice" },
@@ -390,6 +403,8 @@
       var listSearch = document.getElementById("listSearch");
       var listActiveFilter = document.getElementById("listActiveFilter");
       var saveAllBtn = document.getElementById("saveAllBtn");
+      var saveGithubBtn = document.getElementById("saveGithubBtn");
+      var githubSaveHint = document.getElementById("githubSaveHint");
       var formImagePreviewImg = document.getElementById("formImagePreviewImg");
       var formImagePreviewPh = document.getElementById("formImagePreviewPh");
       var amazonUrlHint = document.getElementById("amazonUrlHint");
@@ -751,6 +766,32 @@
         }, options || {}));
       }
 
+      function refreshGithubSaveUi() {
+        if (!githubSaveHint || !saveGithubBtn) return;
+        fetch(ADMIN_API_BASE + "/github-status", { credentials: "same-origin" })
+          .then(function(res) {
+            return res.json().catch(function() {
+              return {};
+            });
+          })
+          .then(function(body) {
+            if (body && body.saveAvailable) {
+              saveGithubBtn.disabled = false;
+              saveGithubBtn.style.opacity = "1";
+              githubSaveHint.innerHTML =
+                "<strong>GitHub bağlı:</strong> «GitHub’a kaydet → canlı site» ile <code>data/products.json</code> repoya yazılır; Vercel deploy sonrası ürün görünür.";
+            } else {
+              saveGithubBtn.disabled = true;
+              saveGithubBtn.style.opacity = "0.65";
+              githubSaveHint.innerHTML =
+                "Otomatik kayıt için Vercel’e <code>GITHUB_TOKEN</code>, <code>GITHUB_OWNER</code>, <code>GITHUB_REPO</code> ekleyin (bkz. VERCEL_ADMIN_SETUP.md). Yoksa her eklemeden sonra inen <strong>products.json</strong> dosyasını projede <code>data/products.json</code> olarak kaydedip <code>git push</code> yapın.";
+            }
+          })
+          .catch(function() {
+            githubSaveHint.textContent = "GitHub durumu alınamadı (isteğe bağlı).";
+          });
+      }
+
       function loginWithBackend(password) {
         return callAdminApi("/login", {
           method: "POST",
@@ -792,6 +833,7 @@
             refreshCounts(data);
             renderProductsList(data);
             populateTopPickSelectors(data);
+            refreshGithubSaveUi();
             setStatus("Live JSON loaded.");
           })
           .catch(function(err) {
@@ -933,10 +975,11 @@
         refreshCounts(parsed);
         renderProductsList(parsed);
         populateTopPickSelectors(parsed);
+        downloadJson(parsed);
         setStatus(
           editingProductId
-            ? "Güncellendi. Form sıfırlandı — başka ürün için doldur veya JSON indir."
-            : "Ürün JSON'a eklendi; form temizlendi (normal). Öncelik varsayılan 5'e döner. Şimdi: Download products.json → data/products.json yapıştır; JPG'yi repo köküne commit + push (önizleme o zaman yeşil olur).",
+            ? "Güncellendi; güncel JSON indirildi. Form sıfırlandı. İstersen GitHub’a kaydet veya dosyayı repoya yapıştır."
+            : "Ürün eklendi; güncel products.json tarayıcıya indirildi (İndirilenler). Form temizlendi. Sonra GitHub’a kaydet veya dosyayı data/products.json yapıştırıp push et — yoksa sitede görünmez.",
           false
         );
         resetProductForm();
@@ -1216,6 +1259,37 @@
         if (!parsed) return;
         downloadJson(parsed);
         setStatus("Saved all changes and downloaded products.json.");
+      });
+      saveGithubBtn.addEventListener("click", function() {
+        var parsed = validateEditorJson();
+        if (!parsed) return;
+        saveGithubBtn.disabled = true;
+        callAdminApi("/save-products", {
+          method: "POST",
+          body: JSON.stringify(parsed)
+        })
+          .then(function(res) {
+            return res.json().catch(function() {
+              return {};
+            }).then(function(body) {
+              return { ok: res.ok, body: body };
+            });
+          })
+          .then(function(result) {
+            refreshGithubSaveUi();
+            if (result.ok && result.body && result.body.ok) {
+              setStatus(result.body.message || "GitHub’a yazıldı.", false);
+            } else {
+              var msg = (result.body && result.body.error) ? result.body.error : "Kayıt başarısız";
+              var hint = result.body && result.body.hint ? " — " + result.body.hint : "";
+              var detail = result.body && result.body.detail ? " " + String(result.body.detail).slice(0, 280) : "";
+              setStatus(msg + hint + detail, true);
+            }
+          })
+          .catch(function() {
+            refreshGithubSaveUi();
+            setStatus("GitHub isteği başarısız (oturum veya ağ).", true);
+          });
       });
       [fId, fName, fImage, fAmazonUrl, fSection, fCategory, fValueTier, fMedalPreset, fBadgeCustom, fPriority, fActive, fBenefit]
         .forEach(function(el) {
