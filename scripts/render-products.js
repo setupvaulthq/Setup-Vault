@@ -306,8 +306,17 @@
         var badge = document.getElementById("siteVersionBadge");
         if (badge) {
           var dataVersion = data && data.meta && data.meta.version ? data.meta.version : "-";
-          var updatedAt = data && data.meta && data.meta.updatedAt ? data.meta.updatedAt : "-";
-          badge.textContent = "Site v" + SITE_VERSION + " | Data v" + dataVersion + " | Updated " + updatedAt;
+          var freshness = "EN GUNCEL";
+          if (data && data.meta && data.meta.updatedAt) {
+            var updatedTs = Date.parse(String(data.meta.updatedAt));
+            if (!Number.isNaN(updatedTs)) {
+              var ageHours = (Date.now() - updatedTs) / (1000 * 60 * 60);
+              if (ageHours <= 48) {
+                freshness = "AZ ONCE GUNCELLENDI";
+              }
+            }
+          }
+          badge.textContent = "◈" + SITE_VERSION + " · ⬢" + dataVersion + " · " + freshness;
         }
       })
       .catch(function(error) {
