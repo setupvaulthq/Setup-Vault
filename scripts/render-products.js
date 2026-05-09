@@ -1,5 +1,5 @@
 (function() {
-  var SITE_VERSION = "2.5";
+  var SITE_VERSION = "2.6";
   var SITE_MEDIA_ORIGIN = "https://www.setupvaulthq.com";
 
   function resolveSiteAssetUrl(path) {
@@ -94,6 +94,38 @@
       "&description=" +
       encodeURIComponent(name + " - Setup Vault")
     );
+  }
+
+  function isGearLibraryHtmlPage() {
+    var p = window.location.pathname || "";
+    return /(^|\/)gear\.html$/i.test(p);
+  }
+
+  function getWindowHashProductId() {
+    var hashRaw =
+      typeof window.location.hash === "string" && window.location.hash.length > 1
+        ? window.location.hash.slice(1)
+        : "";
+    if (!hashRaw) return "";
+    try {
+      return decodeURIComponent(hashRaw);
+    } catch (e1) {
+      return hashRaw;
+    }
+  }
+
+  /** gear.html?cat=…#id → index.html#id for standalone catalog cards (home Gear Library). */
+  function maybeRedirectGearCatalogHashToHome(data) {
+    if (!isGearLibraryHtmlPage()) return false;
+    var hashId = getWindowHashProductId();
+    if (!hashId) return false;
+    var products = (data && data.products) || [];
+    var found = products.find(function(p) {
+      return p && p.id === hashId && p.active && p.section === "gear-library";
+    });
+    if (!found) return false;
+    window.location.replace("index.html#" + encodeURIComponent(hashId));
+    return true;
   }
 
   function standaloneGearAnchorHref(product, withCatQuery) {
@@ -663,6 +695,9 @@
         return response.json();
       })
       .then(function(data) {
+        if (maybeRedirectGearCatalogHashToHome(data || {})) {
+          return;
+        }
         exposeProductStore(data || {});
         renderTopPicks((data && data.topPicks) || [], (data && data.products) || []);
         renderSectionProducts((data && data.products) || []);
