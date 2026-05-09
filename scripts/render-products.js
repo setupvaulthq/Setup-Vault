@@ -22,25 +22,22 @@
       .replace(/'/g, "&#39;");
   }
 
+  function getProductPageFilename(sectionId) {
+    return sectionId === "stealth-operator" ? "stealth.html" : "zen.html";
+  }
+
+  function getProductDeepLink(product) {
+    var id = product && product.id ? String(product.id) : "";
+    var sectionId = (product && product.section) || "zen-workspace";
+    return getProductPageFilename(sectionId) + "#" + id;
+  }
+
   function getCardClassForSection(sectionId) {
-    return sectionId === "stealth-operator"
-      ? 'part-card" style="background: #1E293B; border-color: #334155;'
-      : "part-card";
+    return sectionId === "stealth-operator" ? "part-card stealth-card" : "part-card";
   }
 
   function getImageClassForSection(sectionId) {
     return sectionId === "stealth-operator" ? "stealth-part-image" : "part-image";
-  }
-
-  function getButtonStyleForSection(sectionId) {
-    if (sectionId === "stealth-operator") {
-      return ' style="background: #0F172A; color: white; border-color: #475569;"';
-    }
-    return "";
-  }
-
-  function getTitleStyleForSection(sectionId) {
-    return sectionId === "stealth-operator" ? ' style="color: white;"' : "";
   }
 
   function getMedalClassForSection(sectionId) {
@@ -60,13 +57,15 @@
     var tier = getTier(product);
     var cardClass = getCardClassForSection(sectionId);
     var imageClass = getImageClassForSection(sectionId);
-    var buttonStyle = getButtonStyleForSection(sectionId);
-    var titleStyle = getTitleStyleForSection(sectionId);
     var medalClass = getMedalClassForSection(sectionId);
+    var imgW = product.imageWidth != null ? Number(product.imageWidth) : 240;
+    var imgH = product.imageHeight != null ? Number(product.imageHeight) : 160;
+    var pinPage =
+      "https://www.setupvaulthq.com/" + getProductPageFilename(sectionId) + "#" + encodeURIComponent(product.id || "");
     var pinUrl =
-      "https://pinterest.com/pin/create/button/?url=https://setupvaulthq.com/#" +
-      encodeURIComponent(product.id || "") +
-      "&media=https://setupvaulthq.com/" +
+      "https://pinterest.com/pin/create/button/?url=" +
+      encodeURIComponent(pinPage) +
+      "&media=https://www.setupvaulthq.com/" +
       encodeURIComponent(pinterestMedia || "") +
       "&description=" +
       encodeURIComponent((name || "") + " - Setup Vault");
@@ -75,16 +74,16 @@
       '<div class="' + cardClass + '" id="' + escapeHtml(product.id || "") + '" data-category="' + escapeHtml(category) + '" data-tier="' + escapeHtml(tier) + '">' +
       '<div class="img-wrapper">' +
       '<a href="' + pinUrl + '" target="_blank" class="pinterest-save-btn">Save</a>' +
-      '<img src="' + escapeHtml(image) + '" class="' + imageClass + '" alt="' + escapeHtml(alt) + '" loading="lazy">' +
+      '<img src="' + escapeHtml(image) + '" class="' + imageClass + '" alt="' + escapeHtml(alt) + '" width="' + imgW + '" height="' + imgH + '" loading="lazy">' +
       "</div>" +
       '<div class="' + medalClass + '">' + escapeHtml(badge) + "</div>" +
       '<span class="tier-badge ' + escapeHtml(tier) + '">' + escapeHtml(getTierLabel(tier)) + "</span>" +
       '<div class="title-wrapper">' +
-      '<h4 class="part-title"' + titleStyle + ">" + escapeHtml(name) + "</h4>" +
+      '<h4 class="part-title">' + escapeHtml(name) + "</h4>" +
       '<a href="#' + escapeHtml(product.id || "") + '" class="copy-link-icon" title="Right click to copy link">🔗</a>' +
       "</div>" +
       '<p class="part-benefit-note">' + escapeHtml(benefit) + "</p>" +
-      '<a href="' + escapeHtml(amazonUrl) + '" target="_blank" class="part-btn"' + buttonStyle + ">" +
+      '<a href="' + escapeHtml(amazonUrl) + '" target="_blank" class="part-btn">' +
       '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M11 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1z"/><path d="M2 2.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V3h-12v-.5z"/><path d="M14 5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5zM1 4v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4H1z"/></svg>' +
       "View on Amazon</a>" +
       '<p class="trust-inline-note">Affiliate note: we may earn from qualifying purchases.</p>' +
@@ -173,7 +172,7 @@
             '<span class="tier-badge ' + escapeHtml(tier) + '">' + escapeHtml(getTierLabel(tier)) + "</span>" +
             '<p class="pick-name">' + escapeHtml(product.name || "") + "</p>" +
             '<p class="pick-note">' + escapeHtml(product.benefit || "Smart value pick.") + "</p>" +
-            '<a class="pick-link" href="#' + escapeHtml(product.id) + '">View Product</a>' +
+            '<a class="pick-link" href="' + escapeHtml(getProductDeepLink(product)) + '">View Product</a>' +
             "</article>"
           );
         })
@@ -195,6 +194,21 @@
       tab.classList.add("active");
       draw(tab.getAttribute("data-category-id"));
     });
+
+    var params =
+      typeof URLSearchParams !== "undefined" ? new URLSearchParams(window.location.search) : null;
+    var catParam = params && params.get("cat");
+    if (catParam) {
+      var matched = categories.some(function(c) {
+        return c.id === catParam;
+      });
+      if (matched) {
+        tabsWrap.querySelectorAll(".catalog-tab").forEach(function(btn) {
+          btn.classList.toggle("active", btn.getAttribute("data-category-id") === catParam);
+        });
+        draw(catParam);
+      }
+    }
   }
 
   function renderTierFilters(products) {
@@ -277,7 +291,7 @@
           '<span class="tier-badge ' + escapeHtml(tier) + '">' + escapeHtml(getTierLabel(tier)) + "</span>" +
           '<p class="pick-name">' + escapeHtml(best.name) + "</p>" +
           '<p class="pick-note">' + escapeHtml(best.benefit || "Top value pick in this category.") + "</p>" +
-          '<a class="pick-link" href="#' + escapeHtml(best.id) + '">View Product</a>' +
+          '<a class="pick-link" href="' + escapeHtml(getProductDeepLink(best)) + '">View Product</a>' +
           "</article>"
         );
       })
@@ -352,6 +366,13 @@
         if (typeof window.__svReapplyTierFilter === "function") {
           window.__svReapplyTierFilter();
         }
+        function reapplyHashFocus() {
+          if (typeof window.__svApplyHashFocus === "function") {
+            window.__svApplyHashFocus();
+          }
+        }
+        reapplyHashFocus();
+        setTimeout(reapplyHashFocus, 0);
         var badge = document.getElementById("siteVersionBadge");
         if (badge) {
           var dataVersion = data && data.meta && data.meta.version ? data.meta.version : "-";
