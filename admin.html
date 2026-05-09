@@ -291,7 +291,9 @@
   <script>
     (function() {
       // Change this before production publish.
-      var ADMIN_PASSWORD = "__REMOVED_SECRET__";
+      // Do not hardcode secrets in frontend source.
+      // Inject this at runtime from a trusted backend/template.
+      var ADMIN_PASSWORD = window.__ADMIN_PASSWORD__ || "";
       var STORAGE_KEY = "sv_admin_ok";
       var DATA_PATH = "data/products.json";
       var ADMIN_VERSION = "2.2";
@@ -698,6 +700,10 @@
       }
 
       loginBtn.addEventListener("click", function() {
+        if (!ADMIN_PASSWORD) {
+          loginError.textContent = "Admin login is disabled: password is not configured on server.";
+          return;
+        }
         if (passwordInput.value === ADMIN_PASSWORD) {
           localStorage.setItem(STORAGE_KEY, "1");
           loginError.textContent = "";
