@@ -276,18 +276,50 @@ section h2::before { content: ''; width: 6px; height: 28px; background-color: va
 .gear-library-category-block { margin-bottom: 28px; }
 .gear-library-category-block:last-child { margin-bottom: 0; }
 .gear-library-cat-title { margin: 0 0 12px; font-size: 1.05rem; font-weight: 800; color: var(--accent-black); }
-/* Align with other part-cards: cap column width so a single item does not stretch full row / focus zoom overflow */
+/* Gear Library (home): fixed column max width — single card must not span full content row */
+#gear-library-home #gearLibraryHomeMount .gear-library-product-grid,
 #gear-library-home .gear-library-product-grid {
     margin-top: 0;
     padding-top: 0;
     border-top: none;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 320px));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 320px));
     justify-content: start;
+    justify-items: start;
 }
+#gear-library-home #gearLibraryHomeMount .gear-library-product-grid > .part-card,
 #gear-library-home .gear-library-product-grid > .part-card {
     width: 100%;
-    max-width: 320px;
+    max-width: min(320px, 100%);
     box-sizing: border-box;
+}
+
+/* Same section: Pinterest Save + copy link always visible (not hover-only / focus-mode friendly) */
+#gear-library-home .part-card .pinterest-save-btn,
+#gear-library-home .part-card:hover .pinterest-save-btn {
+    opacity: 1;
+    transform: scale(1);
+}
+#gear-library-home .part-card .copy-link-icon,
+#gear-library-home .part-card:hover .copy-link-icon {
+    opacity: 1;
+}
+
+/* Focus mode: gentler zoom so narrow cards do not feel full-screen */
+#gear-library-home .part-card.target-focus,
+#gear-library-home .focus-mode .part-card.target-focus:target {
+    transform: translateY(-8px) scale(1.06);
+}
+#gear-library-home .part-card.target-focus.focus-shift-right,
+#gear-library-home .focus-mode .part-card.target-focus.focus-shift-right:target {
+    transform: translate(16px, -8px) scale(1.06);
+    transform-origin: left center;
+}
+#gear-library-home .part-card.target-focus.focus-shift-left,
+#gear-library-home .focus-mode .part-card.target-focus.focus-shift-left:target {
+    transform: translate(-20px, -8px) scale(1.06);
+}
+#gear-library-home .part-card.target-focus.focus-enter {
+    animation: none;
 }
 .spotlight-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 36px; }
 .spotlight-card { border: 1px solid rgba(0,0,0,0.08); border-radius: 14px; padding: 14px; background: var(--chip-bg); display: flex; flex-direction: column; gap: 10px; }
