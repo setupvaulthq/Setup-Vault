@@ -745,7 +745,8 @@
               openAdmin();
               return;
             }
-            loginError.textContent = "Wrong password.";
+            var errText = (result.body && result.body.error) ? result.body.error : "Wrong password.";
+            loginError.textContent = errText;
           })
           .catch(function() {
             loginError.textContent = "Login service is unavailable.";
