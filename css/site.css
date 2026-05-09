@@ -265,6 +265,11 @@ section h2::before { content: ''; width: 6px; height: 28px; background-color: va
 .tier-chips { display: flex; gap: 8px; flex-wrap: wrap; }
 .tier-chip { border: 1px solid var(--chip-border); background: var(--chip-bg); color: var(--chip-text); border-radius: 999px; padding: 8px 12px; font-size: 12px; font-weight: 700; cursor: pointer; }
 .tier-chip.active { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-contrast); }
+#gear-library-home { margin-bottom: 36px; }
+.gear-library-category-block { margin-bottom: 28px; }
+.gear-library-category-block:last-child { margin-bottom: 0; }
+.gear-library-cat-title { margin: 0 0 12px; font-size: 1.05rem; font-weight: 800; color: var(--accent-black); }
+#gear-library-home .gear-library-product-grid { margin-top: 0; padding-top: 0; border-top: none; }
 .spotlight-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 36px; }
 .spotlight-card { border: 1px solid rgba(0,0,0,0.08); border-radius: 14px; padding: 14px; background: var(--chip-bg); display: flex; flex-direction: column; gap: 10px; }
 .spotlight-card .pick-name { margin-top: 2px; }

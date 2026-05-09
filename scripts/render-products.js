@@ -1,5 +1,5 @@
 (function() {
-  var SITE_VERSION = "2.3";
+  var SITE_VERSION = "2.4";
   var SITE_MEDIA_ORIGIN = "https://www.setupvaulthq.com";
 
   function resolveSiteAssetUrl(path) {
@@ -96,9 +96,31 @@
     );
   }
 
-  function standaloneGearAnchorHref(product) {
+  function standaloneGearAnchorHref(product, withCatQuery) {
     var id = product && product.id ? String(product.id) : "";
-    return id ? "gear.html#" + escapeHtml(id) : "#";
+    if (!id) return "#";
+    var encId = encodeURIComponent(id);
+    if (withCatQuery && product.category) {
+      return (
+        "gear.html?cat=" +
+        encodeURIComponent(String(product.category)) +
+        "#" +
+        encId
+      );
+    }
+    return "gear.html#" + encId;
+  }
+
+  function renderGearCatalogCta(product) {
+    if (!isStandaloneCatalogProduct(product) || !product.id) {
+      return renderViewProductAnchor(product);
+    }
+    var href = standaloneGearAnchorHref(product, true);
+    return (
+      '<a class="pick-link" href="' +
+      escapeHtml(href) +
+      '">View in Gear Library</a>'
+    );
   }
 
   function isStealthSection(sectionId) {
@@ -141,6 +163,10 @@
     var imgH = product.imageHeight != null ? Number(product.imageHeight) : 160;
     var pinPage =
       SITE_MEDIA_ORIGIN + "/" + getProductPageFilename(sectionId) + "#" + encodeURIComponent(product.id || "");
+    var copyHref =
+      sectionId === "gear-library"
+        ? standaloneGearAnchorHref(product, true)
+        : "#" + escapeHtml(product.id || "");
     var pinUrl =
       "https://pinterest.com/pin/create/button/?url=" +
       encodeURIComponent(pinPage) +
@@ -160,7 +186,9 @@
       '<span class="tier-badge ' + escapeHtml(tier) + '">' + escapeHtml(getTierLabel(tier)) + "</span>" +
       '<div class="title-wrapper">' +
       '<h4 class="part-title">' + escapeHtml(name) + "</h4>" +
-      '<a href="#' + escapeHtml(product.id || "") + '" class="copy-link-icon" title="Right click to copy link">🔗</a>' +
+      '<a href="' +
+      escapeHtml(copyHref) +
+      '" class="copy-link-icon" title="Right click to copy link">🔗</a>' +
       "</div>" +
       '<p class="part-benefit-note">' + escapeHtml(benefit) + "</p>" +
       '<a href="' + escapeHtml(amazonUrl) + '" target="_blank" class="part-btn">' +
@@ -306,7 +334,7 @@
               escapeHtml(product.name || "") +
               "</p>" +
               '<a href="' +
-              standaloneGearAnchorHref(product) +
+              standaloneGearAnchorHref(product, true) +
               '" class="copy-link-icon" title="Sağ tıkla bağlantıyı kopyala">🔗</a>' +
               "</div>"
             : '<p class="pick-name">' + escapeHtml(product.name || "") + "</p>";
@@ -325,7 +353,7 @@
             '<span class="tier-badge ' + escapeHtml(tier) + '">' + escapeHtml(getTierLabel(tier)) + "</span>" +
             titleRow +
             '<p class="pick-note">' + escapeHtml(product.benefit || "Smart value pick.") + "</p>" +
-            renderViewProductAnchor(product) +
+            renderGearCatalogCta(product) +
             "</article>"
           );
         })
@@ -391,6 +419,46 @@
     }
   }
 
+  function renderGearLibraryHomeSection(data) {
+    var mount = document.getElementById("gearLibraryHomeMount");
+    if (!mount) return;
+    var categories = data.categories || [];
+    var products = (data.products || []).filter(function(p) {
+      return Boolean(p.active) && p.section === "gear-library";
+    });
+    if (!products.length) {
+      mount.innerHTML =
+        '<p class="pick-note">Gear-only picks will appear here as you add them in Admin.</p>';
+      return;
+    }
+    var html = categories
+      .map(function(cat) {
+        var catProducts = products
+          .filter(function(p) {
+            return p.category === cat.id;
+          })
+          .sort(function(a, b) {
+            return (b.priority || 0) - (a.priority || 0);
+          });
+        if (!catProducts.length) return "";
+        var cards = catProducts.map(renderProductCard).join("");
+        return (
+          '<div class="gear-library-category-block" data-category="' +
+          escapeHtml(cat.id) +
+          '">' +
+          '<h3 class="gear-library-cat-title">' +
+          escapeHtml(cat.label) +
+          "</h3>" +
+          '<div class="setup-content-grid gear-library-product-grid">' +
+          cards +
+          "</div>" +
+          "</div>"
+        );
+      })
+      .join("");
+    mount.innerHTML = html;
+  }
+
   function renderTierFilters(products) {
     var chips = document.getElementById("tierFilterChips");
     if (!chips) return;
@@ -415,6 +483,7 @@
       var filterTier = currentTier;
       var cards = document.querySelectorAll(
         ".setup-content-grid .part-card[data-tier], " +
+          "#gearLibraryHomeMount .part-card[data-tier], " +
           "#categoryProductsGrid .pick-card[data-tier], " +
           "#categorySpotlightGrid .spotlight-card[data-tier], " +
           "#topPicksGrid .pick-card[data-tier]"
@@ -494,12 +563,11 @@
             escapeHtml(best.name) +
             "</p>" +
             '<a href="' +
-            standaloneGearAnchorHref(best) +
+            standaloneGearAnchorHref(best, true) +
             '" class="copy-link-icon" title="Sağ tıkla bağlantıyı kopyala">🔗</a>' +
             "</div>"
           : '<p class="pick-name">' + escapeHtml(best.name) + "</p>";
-        var spotId =
-          isStandaloneCatalogProduct(best) && best.id ? ' id="' + escapeHtml(best.id) + '"' : "";
+        var spotId = "";
         return (
           '<article class="spotlight-card"' +
           spotId +
@@ -511,7 +579,7 @@
           '<span class="tier-badge ' + escapeHtml(tier) + '">' + escapeHtml(getTierLabel(tier)) + "</span>" +
           spotTitle +
           '<p class="pick-note">' + escapeHtml(best.benefit || "Top value pick in this category.") + "</p>" +
-          renderViewProductAnchor(best) +
+          renderGearCatalogCta(best) +
           "</article>"
         );
       })
@@ -603,6 +671,7 @@
         renderCategorySpotlights(data || {});
         renderCategoryLibrary(data || {});
         renderTierFilters((data && data.products) || []);
+        renderGearLibraryHomeSection(data || {});
         if (typeof window.__svReapplyTierFilter === "function") {
           window.__svReapplyTierFilter();
         }
