@@ -1,0 +1,39 @@
+{
+  "headers": [
+    {
+      "source": "/(.*)\\.(jfif|jpg|jpeg|png|webp|woff2)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/robots.txt",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
+      ]
+    },
+    {
+      "source": "/sitemap.xml",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "setupvaulthq.com" }],
+      "destination": "https://www.setupvaulthq.com/:path*",
+      "permanent": true
+    }
+  ]
+}

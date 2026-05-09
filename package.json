@@ -1,0 +1,17 @@
+{
+  "name": "setup-vault-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "smoke:site": "node scripts/smoke-site.mjs",
+    "verify:deploy": "node scripts/verify-deploy.mjs",
+    "lighthouse": "node scripts/run-lighthouse.mjs",
+    "fonts:build": "node scripts/fetch-inter-fonts.mjs && node scripts/build-inter-local-css.mjs",
+    "optimize:images": "node scripts/optimize-assets.mjs"
+  },
+  "devDependencies": {
+    "lighthouse": "^12.2.1",
+    "playwright": "1.49.1",
+    "sharp": "^0.34.5"
+  }
+}

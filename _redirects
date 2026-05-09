@@ -1,0 +1,4 @@
+# Single-hop canonical: apex and legacy host -> www HTTPS
+https://setupvaulthq.com/*  https://www.setupvaulthq.com/:splat  301!
+http://setupvaulthq.com/*   https://www.setupvaulthq.com/:splat  301!
+http://www.setupvaulthq.com/*  https://www.setupvaulthq.com/:splat  301!
