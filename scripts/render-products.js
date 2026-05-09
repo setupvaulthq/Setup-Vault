@@ -179,6 +179,9 @@
         })
         .join("");
       grid.innerHTML = html || '<p class="pick-note">No active products in this category yet.</p>';
+      if (typeof window.__svReapplyTierFilter === "function") {
+        window.__svReapplyTierFilter();
+      }
     }
 
     draw(categories[0].id);
@@ -209,14 +212,29 @@
       })
       .join("");
 
+    var currentTier = "all";
+
     function applyTierFilter(tier) {
-      var cards = document.querySelectorAll(".setup-content-grid .part-card[data-tier], #categoryProductsGrid .pick-card[data-tier]");
+      if (typeof tier === "string") {
+        currentTier = tier;
+      }
+      var filterTier = currentTier;
+      var cards = document.querySelectorAll(
+        ".setup-content-grid .part-card[data-tier], " +
+          "#categoryProductsGrid .pick-card[data-tier], " +
+          "#categorySpotlightGrid .spotlight-card[data-tier], " +
+          "#topPicksGrid .pick-card[data-tier]"
+      );
       cards.forEach(function(card) {
         var cardTier = card.getAttribute("data-tier") || "entry";
-        var visible = tier === "all" || cardTier === tier;
+        var visible = filterTier === "all" || cardTier === filterTier;
         card.style.display = visible ? "" : "none";
       });
     }
+
+    window.__svReapplyTierFilter = function() {
+      applyTierFilter();
+    };
 
     applyTierFilter("all");
     chips.addEventListener("click", function(e) {
@@ -254,7 +272,7 @@
         if (!best) return "";
         var tier = getTier(best);
         return (
-          '<article class="spotlight-card">' +
+          '<article class="spotlight-card" data-tier="' + escapeHtml(tier) + '">' +
           '<span class="spotlight-kicker">' + escapeHtml(category.label) + " • " + escapeHtml(tier) + " tier</span>" +
           '<span class="tier-badge ' + escapeHtml(tier) + '">' + escapeHtml(getTierLabel(tier)) + "</span>" +
           '<p class="pick-name">' + escapeHtml(best.name) + "</p>" +
@@ -267,17 +285,24 @@
     wrap.innerHTML = html || '<p class="pick-note">Category highlights will appear as products grow.</p>';
   }
 
-  function renderTopPicks(topPicks) {
+  function renderTopPicks(topPicks, products) {
     var grid = document.getElementById("topPicksGrid");
     if (!grid || !Array.isArray(topPicks) || topPicks.length === 0) {
       return;
     }
 
+    var byId = {};
+    (products || []).forEach(function(p) {
+      if (p && p.id) byId[p.id] = p;
+    });
+
     var html = topPicks
       .slice(0, 3)
       .map(function(pick) {
+        var linked = pick && pick.id ? byId[pick.id] : null;
+        var tier = linked ? getTier(linked) : "entry";
         return (
-          '<article class="pick-card">' +
+          '<article class="pick-card" data-tier="' + escapeHtml(tier) + '">' +
           '<span class="pick-label">' + escapeHtml(pick.label || "Top Pick") + "</span>" +
           '<p class="pick-name">' + escapeHtml(pick.name || "Curated product") + "</p>" +
           '<p class="pick-note">' + escapeHtml(pick.note || "Selected for practical daily value.") + "</p>" +
@@ -318,12 +343,15 @@
       })
       .then(function(data) {
         exposeProductStore(data || {});
-        renderTopPicks((data && data.topPicks) || []);
+        renderTopPicks((data && data.topPicks) || [], (data && data.products) || []);
         renderSectionProducts((data && data.products) || []);
         syncStaticCardTiers(data || {});
+        renderCategorySpotlights(data || {});
         renderCategoryLibrary(data || {});
         renderTierFilters((data && data.products) || []);
-        renderCategorySpotlights(data || {});
+        if (typeof window.__svReapplyTierFilter === "function") {
+          window.__svReapplyTierFilter();
+        }
         var badge = document.getElementById("siteVersionBadge");
         if (badge) {
           var dataVersion = data && data.meta && data.meta.version ? data.meta.version : "-";
