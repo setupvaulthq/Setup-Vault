@@ -61,13 +61,14 @@
             width: var(--sidebar-width);
             background-color: var(--surface-color);
             border-right: 1px solid rgba(0,0,0,0.06);
-            height: 100%;
-            position: relative;
+            height: 100vh;
+            position: sticky;
+            top: 0;
             padding: 40px 30px;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            overflow: visible;
+            overflow-y: auto;
             z-index: 100;
         }
 
@@ -319,8 +320,6 @@
                     <li>Picks focus on real value tiers, not inflated luxury bundles.</li>
                     <li>As an Amazon Associate I earn from qualifying purchases.</li>
                 </ul>
-                <span class="campaign-day-badge" id="campaignDayBadge">◉ 1/5</span>
-                <span class="version-badge" id="siteVersionBadge">◈2.2 · ⬢- · ⏱-</span>
             </div>
 
             <div class="top-picks-wrap">
