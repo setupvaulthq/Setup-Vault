@@ -112,6 +112,26 @@
     });
   }
 
+  function syncStaticCardTiers(data) {
+    var products = (data && data.products) || [];
+    if (!products.length) return;
+    var byId = {};
+    products.forEach(function(product) {
+      if (product && product.id) byId[product.id] = product;
+    });
+
+    var cards = document.querySelectorAll(".setup-content-grid .part-card[id]");
+    cards.forEach(function(card) {
+      var productId = card.getAttribute("id");
+      var matched = byId[productId];
+      if (!matched) return;
+      var tier = getTier(matched);
+      var category = matched.category || "gear";
+      card.setAttribute("data-tier", tier);
+      card.setAttribute("data-category", category);
+    });
+  }
+
   function renderCategoryLibrary(data) {
     var tabsWrap = document.getElementById("categoryTabs");
     var grid = document.getElementById("categoryProductsGrid");
@@ -300,19 +320,20 @@
         exposeProductStore(data || {});
         renderTopPicks((data && data.topPicks) || []);
         renderSectionProducts((data && data.products) || []);
+        syncStaticCardTiers(data || {});
         renderCategoryLibrary(data || {});
         renderTierFilters((data && data.products) || []);
         renderCategorySpotlights(data || {});
         var badge = document.getElementById("siteVersionBadge");
         if (badge) {
           var dataVersion = data && data.meta && data.meta.version ? data.meta.version : "-";
-          var freshness = "EN GUNCEL";
+          var freshness = "LATEST";
           if (data && data.meta && data.meta.updatedAt) {
             var updatedTs = Date.parse(String(data.meta.updatedAt));
             if (!Number.isNaN(updatedTs)) {
               var ageHours = (Date.now() - updatedTs) / (1000 * 60 * 60);
               if (ageHours <= 48) {
-                freshness = "AZ ONCE GUNCELLENDI";
+                freshness = "UPDATED RECENTLY";
               }
             }
           }

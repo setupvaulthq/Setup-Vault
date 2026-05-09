@@ -61,14 +61,13 @@
             width: var(--sidebar-width);
             background-color: var(--surface-color);
             border-right: 1px solid rgba(0,0,0,0.06);
-            height: 100vh;
-            position: sticky;
-            top: 0;
+            height: 100%;
+            position: relative;
             padding: 40px 30px;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            overflow-y: auto;
+            overflow: visible;
             z-index: 100;
         }
 
@@ -306,6 +305,7 @@
                 <span onclick="openModal('about')">About Us</span>
                 <span onclick="openModal('privacy')">Privacy Policy</span>
                 <span onclick="openModal('terms')">Terms of Service</span>
+                <span id="cookiePrefsLink">Cookie Settings</span>
                 <span onclick="window.location.href='mailto:setupvaulthq@gmail.com'">Contact</span>
                 <p style="font-size: 10px; color: #94A3B8; margin-top: 10px; line-height: 1.5;">* As an Amazon Associate I earn from qualifying purchases.</p>
             </div>
@@ -319,8 +319,8 @@
                     <li>Picks focus on real value tiers, not inflated luxury bundles.</li>
                     <li>As an Amazon Associate I earn from qualifying purchases.</li>
                 </ul>
-                <span class="campaign-day-badge" id="campaignDayBadge">Campaign Day 1 / 5</span>
-                <span class="version-badge" id="siteVersionBadge">Site v2.2 | Data v- | Updated -</span>
+                <span class="campaign-day-badge" id="campaignDayBadge">◉ 1/5</span>
+                <span class="version-badge" id="siteVersionBadge">◈2.2 · ⬢- · ⏱-</span>
             </div>
 
             <div class="top-picks-wrap">
@@ -929,7 +929,7 @@
         </a>
         <a href="#" onclick="window.scrollTo(0,0); return false;">
             <span>⬆️</span>
-            Yukarı Çık
+            Back to Top
         </a>
     </div>
 
@@ -1001,7 +1001,7 @@
 
             var campaignBadge = document.getElementById('campaignDayBadge');
             if (campaignBadge) {
-                campaignBadge.textContent = 'Campaign Day ' + campaignDay + ' / 5';
+                campaignBadge.textContent = '◉ ' + campaignDay + '/5';
             }
 
             function loadGa() {
@@ -1044,11 +1044,17 @@
                 var acceptBtn = document.getElementById('cookieAcceptBtn');
                 var rejectBtn = document.getElementById('cookieRejectBtn');
                 var policyBtn = document.getElementById('cookiePolicyBtn');
+                var prefsLink = document.getElementById('cookiePrefsLink');
                 if (!banner || !acceptBtn || !rejectBtn || !policyBtn) return;
 
                 policyBtn.addEventListener('click', function() {
                     openModal('privacy');
                 });
+                if (prefsLink) {
+                    prefsLink.addEventListener('click', function() {
+                        banner.style.display = 'block';
+                    });
+                }
                 acceptBtn.addEventListener('click', function() {
                     localStorage.setItem(consentKey, 'accepted');
                     banner.style.display = 'none';
@@ -1174,6 +1180,7 @@
 
             var copyIcons = document.querySelectorAll('.copy-link-icon');
             copyIcons.forEach(function(icon) {
+                icon.setAttribute('title', 'Right click and copy link');
                 icon.addEventListener('click', function(e) {
                     e.preventDefault();
                     var anchor = icon.getAttribute('href');

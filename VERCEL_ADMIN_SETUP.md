@@ -9,6 +9,10 @@ Project Settings -> Environment Variables:
 
 Use different values for Preview and Production.
 
+Optional hardening variables:
+
+- `ADMIN_IP_ALLOWLIST`: comma-separated IP list allowed to login (example: `1.2.3.4,5.6.7.8`)
+
 ## 2) Deploy
 
 Push this repo, then trigger a Vercel deployment.
@@ -32,3 +36,9 @@ When you want to change admin password:
 3. Logout/login again.
 
 No code change is needed to rotate password.
+
+## 5) Security hardening included
+
+- Login rate limiting is enabled (`7` attempts / `10` minutes per IP).
+- Failed logins and blocked requests are logged in Vercel Function Logs.
+- Optional IP allowlist support with `ADMIN_IP_ALLOWLIST`.
