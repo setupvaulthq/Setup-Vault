@@ -40,9 +40,63 @@
   }
 
   function getProductDeepLink(product) {
-    var id = product && product.id ? String(product.id) : "";
-    var sectionId = (product && product.section) || "zen-workspace";
+    if (!product) return "#";
+    var sectionId = product.section || "zen-workspace";
+    if (sectionId === "gear-library") {
+      var amz = String(product.amazonUrl || "").trim();
+      if (amz) return amz;
+      var gid = product.id ? String(product.id) : "";
+      return "gear.html#" + gid;
+    }
+    var id = product.id ? String(product.id) : "";
     return getProductPageFilename(sectionId) + "#" + id;
+  }
+
+  function renderViewProductAnchor(product) {
+    var href = getProductDeepLink(product);
+    var safe = escapeHtml(href);
+    var isExternal = /^https?:\/\//i.test(href || "");
+    var attrs = isExternal ? ' target="_blank" rel="noopener noreferrer"' : "";
+    var label =
+      product && product.section === "gear-library" && isExternal
+        ? "View on Amazon"
+        : "View Product";
+    return '<a class="pick-link" href="' + safe + '"' + attrs + ">" + label + "</a>";
+  }
+
+  function isStandaloneCatalogProduct(product) {
+    return Boolean(product && product.section === "gear-library");
+  }
+
+  function getProductSharePageUrl(product) {
+    if (!product || !product.id) return SITE_MEDIA_ORIGIN + "/gear.html";
+    var sectionId = product.section || "zen-workspace";
+    return (
+      SITE_MEDIA_ORIGIN +
+      "/" +
+      getProductPageFilename(sectionId) +
+      "#" +
+      encodeURIComponent(String(product.id))
+    );
+  }
+
+  function buildPinterestUrlForProduct(product) {
+    var pinPage = getProductSharePageUrl(product);
+    var pinterestMedia = (product && (product.pinterestMedia || product.image)) || "";
+    var name = (product && product.name) || "Setup Vault";
+    return (
+      "https://pinterest.com/pin/create/button/?url=" +
+      encodeURIComponent(pinPage) +
+      "&media=" +
+      encodeURIComponent(resolveSiteAssetUrl(pinterestMedia)) +
+      "&description=" +
+      encodeURIComponent(name + " - Setup Vault")
+    );
+  }
+
+  function standaloneGearAnchorHref(product) {
+    var id = product && product.id ? String(product.id) : "";
+    return id ? "gear.html#" + escapeHtml(id) : "#";
   }
 
   function isStealthSection(sectionId) {
@@ -222,26 +276,54 @@
           var thumbClass =
             isStealthSection(product.section) ? "pick-thumb pick-thumb--stealth" : "pick-thumb";
           var thumbSrc = resolveSiteAssetUrl(product.image || "");
-          var thumb =
-            '<div class="pick-thumb-wrap">' +
-            (thumbSrc
-              ? '<img src="' +
-                escapeHtml(thumbSrc) +
-                '" class="' +
-                thumbClass +
-                '" alt="' +
-                escapeHtml(product.alt || product.name || "") +
-                '" width="240" height="160" loading="lazy">'
-              : "") +
-            "</div>";
+          var thumbImg = thumbSrc
+            ? '<img src="' +
+              escapeHtml(thumbSrc) +
+              '" class="' +
+              thumbClass +
+              '" alt="' +
+              escapeHtml(product.alt || product.name || "") +
+              '" width="240" height="160" loading="lazy">'
+            : "";
+          var thumb;
+          if (isStandaloneCatalogProduct(product)) {
+            var pinGear = buildPinterestUrlForProduct(product);
+            thumb =
+              '<div class="pick-thumb-wrap pick-thumb-wrap--standalone">' +
+              '<a href="' +
+              escapeHtml(pinGear) +
+              '" target="_blank" rel="noopener noreferrer" class="pinterest-save-btn">Save</a>' +
+              thumbImg +
+              "</div>";
+          } else {
+            thumb = '<div class="pick-thumb-wrap">' + thumbImg + "</div>";
+          }
+          var titleRow = isStandaloneCatalogProduct(product)
+            ? '<div class="pick-title-row">' +
+              '<p class="pick-name">' +
+              escapeHtml(product.name || "") +
+              "</p>" +
+              '<a href="' +
+              standaloneGearAnchorHref(product) +
+              '" class="copy-link-icon" title="Sağ tıkla bağlantıyı kopyala">🔗</a>' +
+              "</div>"
+            : '<p class="pick-name">' + escapeHtml(product.name || "") + "</p>";
+          var cardId =
+            isStandaloneCatalogProduct(product) && product.id
+              ? ' id="' + escapeHtml(product.id) + '"'
+              : "";
           return (
-            '<article class="pick-card" data-tier="' + escapeHtml(tier) + '">' +
+            '<article class="pick-card"' +
+            cardId +
+            ' data-tier="' +
+            escapeHtml(tier) +
+            '">' +
             thumb +
             '<span class="pick-label">' + escapeHtml(pickLabelForSection(product.section)) + "</span>" +
             '<span class="tier-badge ' + escapeHtml(tier) + '">' + escapeHtml(getTierLabel(tier)) + "</span>" +
-            '<p class="pick-name">' + escapeHtml(product.name || "") + "</p>" +
+            titleRow +
             '<p class="pick-note">' + escapeHtml(product.benefit || "Smart value pick.") + "</p>" +
-            '<a class="pick-link" href="' + escapeHtml(getProductDeepLink(product)) + '">View Product</a>' +
+            renderViewProductAnchor(product) +
             "</article>"
           );
         })
@@ -354,8 +436,7 @@
           })[0];
         if (!best) return "";
         var tier = getTier(best);
-        var spThumb =
-          '<div class="spotlight-thumb-wrap">' +
+        var spImg =
           '<img src="' +
           escapeHtml(resolveSiteAssetUrl(best.image || "")) +
           '" class="' +
@@ -364,16 +445,44 @@
             : "spotlight-thumb") +
           '" alt="' +
           escapeHtml(best.alt || best.name || "") +
-          '" width="240" height="160" loading="lazy">' +
-          "</div>";
+          '" width="240" height="160" loading="lazy">';
+        var spThumb;
+        if (isStandaloneCatalogProduct(best)) {
+          var pinSpot = buildPinterestUrlForProduct(best);
+          spThumb =
+            '<div class="spotlight-thumb-wrap spotlight-thumb-wrap--standalone">' +
+            '<a href="' +
+            escapeHtml(pinSpot) +
+            '" target="_blank" rel="noopener noreferrer" class="pinterest-save-btn">Save</a>' +
+            spImg +
+            "</div>";
+        } else {
+          spThumb = '<div class="spotlight-thumb-wrap">' + spImg + "</div>";
+        }
+        var spotTitle = isStandaloneCatalogProduct(best)
+          ? '<div class="pick-title-row">' +
+            '<p class="pick-name">' +
+            escapeHtml(best.name) +
+            "</p>" +
+            '<a href="' +
+            standaloneGearAnchorHref(best) +
+            '" class="copy-link-icon" title="Sağ tıkla bağlantıyı kopyala">🔗</a>' +
+            "</div>"
+          : '<p class="pick-name">' + escapeHtml(best.name) + "</p>";
+        var spotId =
+          isStandaloneCatalogProduct(best) && best.id ? ' id="' + escapeHtml(best.id) + '"' : "";
         return (
-          '<article class="spotlight-card" data-tier="' + escapeHtml(tier) + '">' +
+          '<article class="spotlight-card"' +
+          spotId +
+          ' data-tier="' +
+          escapeHtml(tier) +
+          '">' +
           spThumb +
           '<span class="spotlight-kicker">' + escapeHtml(category.label) + " • " + escapeHtml(tier) + " tier</span>" +
           '<span class="tier-badge ' + escapeHtml(tier) + '">' + escapeHtml(getTierLabel(tier)) + "</span>" +
-          '<p class="pick-name">' + escapeHtml(best.name) + "</p>" +
+          spotTitle +
           '<p class="pick-note">' + escapeHtml(best.benefit || "Top value pick in this category.") + "</p>" +
-          '<a class="pick-link" href="' + escapeHtml(getProductDeepLink(best)) + '">View Product</a>' +
+          renderViewProductAnchor(best) +
           "</article>"
         );
       })

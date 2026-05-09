@@ -158,6 +158,34 @@ section h2::before { content: ''; width: 6px; height: 28px; background-color: va
 .pick-link { display: inline-flex; align-items: center; justify-content: center; padding: 10px; border-radius: 8px; background: var(--accent-black); color: white; text-decoration: none; font-size: 12px; font-weight: 700; transition: background 0.2s ease; }
 .pick-link:hover { background: var(--primary-accent); }
 
+.pick-title-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 0 0 4px;
+}
+.pick-title-row .pick-name { margin: 0; flex: 1; min-width: 0; }
+.pick-card:hover .pick-title-row .copy-link-icon,
+.spotlight-card:hover .pick-title-row .copy-link-icon {
+    opacity: 1;
+}
+
+.pick-thumb-wrap--standalone,
+.spotlight-thumb-wrap--standalone {
+    position: relative;
+}
+.pick-card:hover .pick-thumb-wrap--standalone .pinterest-save-btn,
+.spotlight-card:hover .spotlight-thumb-wrap--standalone .pinterest-save-btn {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.pick-card[id],
+.spotlight-card[id] {
+    scroll-margin-top: 100px;
+}
+
 .pick-thumb-wrap {
     border-radius: 10px;
     overflow: hidden;
