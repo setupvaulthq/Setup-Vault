@@ -1,6 +1,6 @@
-const { clearSessionCookie } = require("./_auth");
+import { clearSessionCookie } from "./_auth.js";
 
-module.exports = function handler(req, res) {
+export default function handler(req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
     return res.status(405).json({ ok: false, error: "Method not allowed" });
@@ -8,4 +8,4 @@ module.exports = function handler(req, res) {
 
   res.setHeader("Set-Cookie", clearSessionCookie());
   return res.status(200).json({ ok: true });
-};
+}

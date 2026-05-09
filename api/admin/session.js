@@ -1,6 +1,6 @@
-const { hasAuthenticatedSession } = require("./_auth");
+import { hasAuthenticatedSession } from "./_auth.js";
 
-module.exports = function handler(req, res) {
+export default function handler(req, res) {
   if (req.method !== "GET") {
     res.setHeader("Allow", "GET");
     return res.status(405).json({ ok: false, error: "Method not allowed" });
@@ -12,4 +12,4 @@ module.exports = function handler(req, res) {
   }
 
   return res.status(200).json({ ok: true, authenticated: true });
-};
+}

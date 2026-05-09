@@ -1,13 +1,9 @@
-const {
-  getSecrets,
-  createSessionToken,
-  sessionCookie
-} = require("./_auth");
+import { getSecrets, createSessionToken, sessionCookie } from "./_auth.js";
 
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000; // 10 minutes
 const RATE_LIMIT_MAX_ATTEMPTS = 7;
-const attemptsByIp = global.__svAdminAttempts || new Map();
-global.__svAdminAttempts = attemptsByIp;
+const attemptsByIp = globalThis.__svAdminAttempts || new Map();
+globalThis.__svAdminAttempts = attemptsByIp;
 
 function getClientIp(req) {
   const forwarded = req.headers["x-forwarded-for"];
@@ -76,7 +72,7 @@ function readBody(req) {
   });
 }
 
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   try {
     if (req.method !== "POST") {
       res.setHeader("Allow", "POST");
@@ -126,4 +122,4 @@ module.exports = async function handler(req, res) {
       detail: err && err.message ? err.message : "Unknown error"
     });
   }
-};
+}

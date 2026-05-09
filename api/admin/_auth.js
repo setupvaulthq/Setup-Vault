@@ -1,4 +1,4 @@
-const crypto = require("crypto");
+import crypto from "node:crypto";
 
 const COOKIE_NAME = "sv_admin_session";
 const SESSION_TTL_SECONDS = 60 * 60 * 12; // 12 hours
@@ -36,8 +36,9 @@ function parseCookies(req) {
 }
 
 function getSecrets() {
-  const adminPassword = process.env.ADMIN_PASSWORD || "";
-  const sessionSecret = process.env.ADMIN_SESSION_SECRET || "";
+  // Trim password so accidental newlines/spaces in Vercel env UI don't break login.
+  const adminPassword = String(process.env.ADMIN_PASSWORD || "").trim();
+  const sessionSecret = String(process.env.ADMIN_SESSION_SECRET || "").trim();
   return { adminPassword, sessionSecret };
 }
 
@@ -94,7 +95,7 @@ function hasAuthenticatedSession(req) {
   return verifySessionToken(cookies[COOKIE_NAME] || "", sessionSecret);
 }
 
-module.exports = {
+export {
   getSecrets,
   createSessionToken,
   hasAuthenticatedSession,

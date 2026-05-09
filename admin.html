@@ -148,6 +148,23 @@
     .preview-title { margin: 0 0 4px; font-size: 14px; }
     .preview-meta { margin: 0; color: var(--muted); font-size: 12px; }
     .soft { background: #1f2937; border-color: #374151; }
+    .product-item[draggable="true"] { cursor: grab; }
+    .product-item.dragging { opacity: 0.55; cursor: grabbing; }
+    .product-item .item-actions { margin-top: 8px; flex-wrap: wrap; gap: 6px; }
+    .product-item .item-actions button { padding: 6px 10px; font-size: 12px; }
+    .pick-chip { background: #312e81; border-color: #4f46e5; font-size: 11px; }
+    .form-extras { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; }
+    .form-extras .thumb-box {
+      width: 120px; height: 80px; border: 1px solid var(--border); border-radius: 10px;
+      overflow: hidden; background: #0a1226; display: flex; align-items: center; justify-content: center;
+    }
+    .form-extras .thumb-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .form-extras .thumb-placeholder { font-size: 11px; color: var(--muted); padding: 8px; text-align: center; }
+    .priority-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .priority-row input#fPriority { min-width: 70px; width: 80px; }
+    .tpl-row { margin-top: 10px; gap: 8px; align-items: center; }
+    .tpl-row span { font-size: 13px; color: var(--muted); margin-right: 4px; }
+    .tpl-row button { font-size: 12px; padding: 8px 10px; }
   </style>
 </head>
 <body>
@@ -167,7 +184,7 @@
       <div class="card">
         <h1>Product Admin Panel</h1>
         <p>New product form: fill fields, choose category, then click add. You do not need to edit code manually.</p>
-        <span class="badge" id="adminVersionBadge">Admin v2.2</span>
+        <span class="badge" id="adminVersionBadge">Admin v2.3</span>
         <span class="badge" id="adminDataVersionBadge">Data v-</span>
         <span class="badge" id="adminUpdatedAtBadge">Updated -</span>
         <span class="badge" id="countAll">Products: 0</span>
@@ -186,14 +203,7 @@
             <option value="zen-workspace">Zen Workspace</option>
             <option value="stealth-operator">Stealth Operator</option>
           </select>
-          <select id="fCategory">
-            <option value="keyboard">Keyboard</option>
-            <option value="mouse">Mouse</option>
-            <option value="headset">Headset</option>
-            <option value="monitor">Monitor</option>
-            <option value="desk-mat">Desk Mat</option>
-            <option value="light">Lighting</option>
-          </select>
+          <select id="fCategory"></select>
           <select id="fValueTier">
             <option value="entry">Entry Tier</option>
             <option value="mid">Mid Tier</option>
@@ -211,13 +221,35 @@
             <option value="custom">Custom medal...</option>
           </select>
           <input id="fBadgeCustom" placeholder="Custom medal text (optional)">
-          <input id="fPriority" type="number" value="5" min="1" max="100" placeholder="Priority">
+          <div class="priority-row" style="grid-column: 1 / -1;">
+            <button type="button" id="priDec" title="Lower priority number">−</button>
+            <input id="fPriority" type="number" value="5" min="1" max="99999" placeholder="Priority">
+            <button type="button" id="priInc" title="Raise priority number">+</button>
+            <button type="button" id="priTopCategory" class="soft" title="Set higher than any product matching current list filters">Top in filter</button>
+          </div>
           <select id="fActive">
             <option value="true">Active</option>
             <option value="false">Inactive</option>
           </select>
         </div>
         <input id="fBenefit" style="width:100%;" placeholder="Short benefit text (what this product is good at)">
+        <div class="form-extras">
+          <div class="thumb-box" id="formImagePreviewWrap" title="Image preview (site root path)">
+            <span class="thumb-placeholder" id="formImagePreviewPh">No image file</span>
+            <img id="formImagePreviewImg" alt="" class="hidden" width="120" height="80" decoding="async">
+          </div>
+          <div style="flex:1; min-width:200px;">
+            <p class="mini" id="amazonUrlHint" style="margin:0 0 6px;">Paste an Amazon or amzn.to link.</p>
+            <div class="row tpl-row" style="margin:0;">
+              <span>Templates:</span>
+              <button type="button" id="tplZenMouse" class="soft">Zen · Mouse · Mid</button>
+              <button type="button" id="tplZenKeyboard" class="soft">Zen · Keyboard · Premium</button>
+              <button type="button" id="tplStealthMouse" class="soft">Stealth · Mouse · Stealth medal</button>
+              <button type="button" id="tplStealthHeadset" class="soft">Stealth · Headset · Blackout</button>
+              <button type="button" id="tplZenDeskOrg" class="soft">Zen · Desk organizer · Entry</button>
+            </div>
+          </div>
+        </div>
         <p class="field-hint" id="formHint">Name, image file, and Amazon URL are required.</p>
         <div class="preview-card" id="livePreviewCard">
           <h3 class="preview-title" id="previewName">Preview: Product name</h3>
@@ -231,7 +263,7 @@
         <p class="muted">After adding, click download and upload that file to repo as <code>data/products.json</code>.</p>
       </div>
 
-      <div class="card">
+      <div class="card" id="topPicksSection">
         <h1>Top Picks Manager</h1>
         <p>Top picks are selected manually from your product list (no auto add).</p>
         <div class="grid">
@@ -254,15 +286,7 @@
             <option value="zen-workspace">Zen Workspace</option>
             <option value="stealth-operator">Stealth Operator</option>
           </select>
-          <select id="listCategoryFilter">
-            <option value="all">All Categories</option>
-            <option value="keyboard">Keyboard</option>
-            <option value="mouse">Mouse</option>
-            <option value="headset">Headset</option>
-            <option value="monitor">Monitor</option>
-            <option value="desk-mat">Desk Mat</option>
-            <option value="light">Lighting</option>
-          </select>
+          <select id="listCategoryFilter"></select>
           <select id="listActiveFilter">
             <option value="all">All Status</option>
             <option value="active">Active only</option>
@@ -270,6 +294,7 @@
           </select>
           <button id="refreshListBtn">Refresh List</button>
         </div>
+        <p class="mini" id="dragSortHint" style="margin:0 0 8px;">Tip: Choose a single Section and Category (All status, no search) to drag products and auto-update priorities.</p>
         <div class="products-panel" id="productsList"></div>
       </div>
 
@@ -292,7 +317,17 @@
     (function() {
       var ADMIN_API_BASE = "/api/admin";
       var DATA_PATH = "data/products.json";
-      var ADMIN_VERSION = "2.2";
+      var ADMIN_VERSION = "2.3";
+      var FALLBACK_CATEGORIES = [
+        { id: "keyboard", label: "Keyboards" },
+        { id: "mouse", label: "Mice" },
+        { id: "headset", label: "Headsets" },
+        { id: "monitor", label: "Monitors" },
+        { id: "desk-mat", label: "Desk Mats" },
+        { id: "light", label: "Lighting" },
+        { id: "desk-organizer", label: "Desk Organizers" }
+      ];
+      var dragSrcProductId = null;
 
       var loginCard = document.getElementById("loginCard");
       var adminApp = document.getElementById("adminApp");
@@ -345,6 +380,171 @@
       var listSearch = document.getElementById("listSearch");
       var listActiveFilter = document.getElementById("listActiveFilter");
       var saveAllBtn = document.getElementById("saveAllBtn");
+      var formImagePreviewImg = document.getElementById("formImagePreviewImg");
+      var formImagePreviewPh = document.getElementById("formImagePreviewPh");
+      var amazonUrlHint = document.getElementById("amazonUrlHint");
+      var dragSortHint = document.getElementById("dragSortHint");
+
+      function escapeHtml(s) {
+        return String(s == null ? "" : s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function populateCategorySelects(data) {
+        var cats =
+          data && Array.isArray(data.categories) && data.categories.length
+            ? data.categories
+            : FALLBACK_CATEGORIES;
+        var prevForm = fCategory.value;
+        var prevList = listCategoryFilter.value;
+        var opts = cats
+          .map(function(c) {
+            return (
+              '<option value="' +
+              escapeHtml(c.id) +
+              '">' +
+              escapeHtml(c.label) +
+              "</option>"
+            );
+          })
+          .join("");
+        fCategory.innerHTML = opts;
+        listCategoryFilter.innerHTML =
+          '<option value="all">All Categories</option>' + opts;
+        if (
+          prevForm &&
+          Array.prototype.some.call(fCategory.options, function(o) {
+            return o.value === prevForm;
+          })
+        ) {
+          fCategory.value = prevForm;
+        }
+        if (
+          prevList &&
+          Array.prototype.some.call(listCategoryFilter.options, function(o) {
+            return o.value === prevList;
+          })
+        ) {
+          listCategoryFilter.value = prevList;
+        } else {
+          listCategoryFilter.value = "all";
+        }
+      }
+
+      function ensureCategoryOption(catId) {
+        if (!catId) return;
+        var found = Array.prototype.some.call(fCategory.options, function(o) {
+          return o.value === catId;
+        });
+        if (!found) {
+          var opt = document.createElement("option");
+          opt.value = catId;
+          opt.textContent = catId;
+          fCategory.appendChild(opt);
+        }
+        found = Array.prototype.some.call(listCategoryFilter.options, function(o) {
+          return o.value === catId;
+        });
+        if (!found) {
+          var opt2 = document.createElement("option");
+          opt2.value = catId;
+          opt2.textContent = catId;
+          listCategoryFilter.appendChild(opt2);
+        }
+      }
+
+      function updateImagePreview() {
+        var raw = (fImage.value || "").trim();
+        if (!formImagePreviewImg || !formImagePreviewPh) return;
+        if (!raw) {
+          formImagePreviewImg.classList.add("hidden");
+          formImagePreviewPh.classList.remove("hidden");
+          formImagePreviewPh.textContent = "No image file";
+          formImagePreviewImg.removeAttribute("src");
+          return;
+        }
+        var src = raw.replace(/^\//, "");
+        if (!/^https?:\/\//i.test(src)) {
+          src = "./" + src.replace(/^\.\//, "");
+        }
+        formImagePreviewImg.onload = function() {
+          formImagePreviewPh.classList.add("hidden");
+          formImagePreviewImg.classList.remove("hidden");
+        };
+        formImagePreviewImg.onerror = function() {
+          formImagePreviewPh.textContent = "Image not found at this path";
+          formImagePreviewPh.classList.remove("hidden");
+          formImagePreviewImg.classList.add("hidden");
+        };
+        formImagePreviewImg.src = src;
+      }
+
+      function updateAmazonHint() {
+        if (!amazonUrlHint) return;
+        var url = (fAmazonUrl.value || "").trim();
+        if (!url) {
+          amazonUrlHint.textContent = "Paste an Amazon or amzn.to link.";
+          return;
+        }
+        var m =
+          url.match(/\/(?:dp|gp\/product)\/([A-Z0-9]{10})/i) ||
+          url.match(/[?&]asin=([A-Z0-9]{10})/i);
+        if (m) {
+          amazonUrlHint.textContent = "Detected ASIN: " + m[1];
+          return;
+        }
+        if (/amzn\.to|a\.co\//i.test(url)) {
+          amazonUrlHint.textContent =
+            "Short link — open in browser to verify the destination ASIN if needed.";
+          return;
+        }
+        if (/amazon\./i.test(url)) {
+          amazonUrlHint.textContent =
+            "Amazon URL — could not parse a 10-character ASIN from this path.";
+          return;
+        }
+        amazonUrlHint.textContent = "Non-Amazon URL.";
+      }
+
+      function findProductRow(productId) {
+        var nodes = productsList.querySelectorAll(".product-item[data-product-id]");
+        for (var i = 0; i < nodes.length; i++) {
+          if (nodes[i].getAttribute("data-product-id") === productId) return nodes[i];
+        }
+        return null;
+      }
+
+      function applyPriorityOrderFromDom() {
+        var parsed = getEditorData();
+        if (!parsed || !isValidShape(parsed)) {
+          setStatus("Invalid JSON — fix the editor before reordering.", true);
+          return;
+        }
+        var sectionFilter = listSectionFilter.value;
+        var categoryFilter = listCategoryFilter.value;
+        if (sectionFilter === "all" || categoryFilter === "all") return;
+        var ids = [];
+        productsList.querySelectorAll(".product-item[data-product-id]").forEach(function(el) {
+          ids.push(el.getAttribute("data-product-id"));
+        });
+        if (!ids.length) return;
+        var n = ids.length;
+        ids.forEach(function(id, idx) {
+          var p = parsed.products.find(function(x) {
+            return x.id === id;
+          });
+          if (p) p.priority = (n - idx) * 10;
+        });
+        bumpDataMeta(parsed);
+        jsonEditor.value = JSON.stringify(parsed, null, 2);
+        refreshCounts(parsed);
+        renderProductsList(parsed);
+        populateTopPickSelectors(parsed);
+        setStatus("Priorities updated from drag order.", false);
+      }
 
       function setStatus(text, isError) {
         statusLine.textContent = text;
@@ -401,12 +601,24 @@
       function renderProductsList(data) {
         if (!data || !Array.isArray(data.products)) {
           productsList.innerHTML = '<p class="mini">No products loaded.</p>';
+          if (dragSortHint) dragSortHint.style.display = "none";
           return;
         }
         var sectionFilter = listSectionFilter.value;
         var categoryFilter = listCategoryFilter.value;
         var activeFilter = listActiveFilter.value;
         var search = (listSearch.value || "").trim().toLowerCase();
+        var sortable =
+          sectionFilter !== "all" &&
+          categoryFilter !== "all" &&
+          !search &&
+          activeFilter === "all";
+        if (dragSortHint) {
+          dragSortHint.style.display = "";
+          dragSortHint.textContent = sortable
+            ? "Drag products in this list to reorder — priorities save automatically for this section + category."
+            : "Tip: Set Section + Category, set Status to “All”, clear search — then drag rows to reorder priorities.";
+        }
 
         var rows = data.products
           .filter(function(p) {
@@ -423,18 +635,60 @@
             return (b.priority || 0) - (a.priority || 0);
           })
           .map(function(p) {
+            var dragAttr =
+              sortable
+                ? ' draggable="true" data-product-id="' + escapeHtml(p.id) + '"'
+                : "";
             return (
-              '<div class="product-item">' +
-              "<h3>" + p.name + "</h3>" +
-              '<p class="mini-tier ' + (p.valueTier || "entry") + '">' + ((p.valueTier || "entry").toUpperCase()) + " TIER</p>" +
-              '<p class="mini">ID: ' + p.id + "</p>" +
-              '<p class="mini">Section: ' + p.section + " | Category: " + p.category + "</p>" +
-              '<p class="mini">Medal: ' + (p.badge || "-") + "</p>" +
-              '<p class="mini">Priority: ' + (p.priority || 0) + " | Active: " + String(Boolean(p.active)) + "</p>" +
-              '<p class="mini">Amazon: ' + (p.amazonUrl || "-") + "</p>" +
-              '<div class="row">' +
-              '<button type="button" data-action="edit" data-id="' + p.id + '">Edit</button>' +
-              '<button type="button" class="danger-btn" data-action="delete" data-id="' + p.id + '">Delete</button>' +
+              '<div class="product-item"' +
+              dragAttr +
+              ">" +
+              "<h3>" +
+              escapeHtml(p.name) +
+              "</h3>" +
+              '<p class="mini-tier ' +
+              (p.valueTier || "entry") +
+              '">' +
+              (p.valueTier || "entry").toUpperCase() +
+              " TIER</p>" +
+              '<p class="mini">ID: ' +
+              escapeHtml(p.id) +
+              "</p>" +
+              '<p class="mini">Section: ' +
+              escapeHtml(p.section) +
+              " | Category: " +
+              escapeHtml(p.category) +
+              "</p>" +
+              '<p class="mini">Medal: ' +
+              escapeHtml(p.badge || "-") +
+              "</p>" +
+              '<p class="mini">Priority: ' +
+              (p.priority || 0) +
+              " | Active: " +
+              String(Boolean(p.active)) +
+              "</p>" +
+              '<p class="mini">Amazon: ' +
+              escapeHtml(p.amazonUrl || "-") +
+              "</p>" +
+              '<div class="row item-actions">' +
+              '<button type="button" data-action="edit" data-id="' +
+              escapeHtml(p.id) +
+              '">Edit</button>' +
+              '<button type="button" class="soft" data-action="duplicate" data-id="' +
+              escapeHtml(p.id) +
+              '">Duplicate</button>' +
+              '<button type="button" class="pick-chip" data-action="toppick" data-slot="1" data-id="' +
+              escapeHtml(p.id) +
+              '">Pick 1</button>' +
+              '<button type="button" class="pick-chip" data-action="toppick" data-slot="2" data-id="' +
+              escapeHtml(p.id) +
+              '">Pick 2</button>' +
+              '<button type="button" class="pick-chip" data-action="toppick" data-slot="3" data-id="' +
+              escapeHtml(p.id) +
+              '">Pick 3</button>' +
+              '<button type="button" class="danger-btn" data-action="delete" data-id="' +
+              escapeHtml(p.id) +
+              '">Delete</button>' +
               "</div>" +
               "</div>"
             );
@@ -498,6 +752,7 @@
             return res.json();
           })
           .then(function(data) {
+            populateCategorySelects(data);
             jsonEditor.value = JSON.stringify(data, null, 2);
             refreshCounts(data);
             renderProductsList(data);
@@ -516,6 +771,7 @@
             setStatus("Invalid shape: must include topPicks[] and products[].", true);
             return null;
           }
+          populateCategorySelects(parsed);
           refreshCounts(parsed);
           renderProductsList(parsed);
           populateTopPickSelectors(parsed);
@@ -554,7 +810,7 @@
         fImage.value = "";
         fAmazonUrl.value = "";
         fSection.value = "zen-workspace";
-        fCategory.value = "keyboard";
+        if (fCategory.options.length) fCategory.selectedIndex = 0;
         fValueTier.value = "entry";
         fMedalPreset.value = "Top Rated";
         fBadgeCustom.value = "";
@@ -585,6 +841,8 @@
         addProductBtn.style.opacity = valid ? "1" : "0.6";
         formHint.style.display = valid ? "none" : "block";
         updatePreview();
+        updateImagePreview();
+        updateAmazonHint();
       }
 
       function addProductFromForm() {
@@ -689,9 +947,50 @@
         setStatus("Top picks saved from selected products.", false);
       }
 
+      function duplicateProductById(productId) {
+        var parsed = getEditorData();
+        if (!parsed || !Array.isArray(parsed.products)) {
+          setStatus("Load valid JSON first (Reload Live JSON or fix editor).", true);
+          return;
+        }
+        var p = parsed.products.find(function(item) {
+          return item.id === productId;
+        });
+        if (!p) return;
+        editingProductId = "";
+        fId.value = "";
+        fName.value = (p.name || "Product") + " (copy)";
+        fImage.value = p.image || "";
+        fAmazonUrl.value = p.amazonUrl || "";
+        fSection.value = p.section || "zen-workspace";
+        ensureCategoryOption(p.category);
+        fCategory.value = p.category || (fCategory.options[0] && fCategory.options[0].value);
+        fValueTier.value = p.valueTier || "entry";
+        fPriority.value = p.priority || 5;
+        fActive.value = String(Boolean(p.active));
+        fBenefit.value = p.benefit || "";
+        fBadgeCustom.value = "";
+        var presetOptions = Array.prototype.map.call(fMedalPreset.options, function(opt) {
+          return opt.value;
+        });
+        if (presetOptions.indexOf(p.badge) >= 0) {
+          fMedalPreset.value = p.badge;
+        } else {
+          fMedalPreset.value = "custom";
+          fBadgeCustom.value = p.badge || "";
+        }
+        addProductBtn.textContent = "Add Product";
+        setStatus("Duplicate loaded — adjust name/ID and click Add Product.", false);
+        fName.scrollIntoView({ behavior: "smooth", block: "center" });
+        updateFormState();
+      }
+
       function editProductById(productId) {
         var parsed = getEditorData();
-        if (!parsed || !Array.isArray(parsed.products)) return;
+        if (!parsed || !Array.isArray(parsed.products)) {
+          setStatus("Load valid JSON first (Reload Live JSON or fix editor).", true);
+          return;
+        }
         var p = parsed.products.find(function(item) { return item.id === productId; });
         if (!p) return;
         editingProductId = p.id;
@@ -700,7 +999,8 @@
         fImage.value = p.image || "";
         fAmazonUrl.value = p.amazonUrl || "";
         fSection.value = p.section || "zen-workspace";
-        fCategory.value = p.category || "keyboard";
+        ensureCategoryOption(p.category);
+        fCategory.value = p.category || (fCategory.options[0] && fCategory.options[0].value);
         fValueTier.value = p.valueTier || "entry";
         fPriority.value = p.priority || 5;
         fActive.value = String(Boolean(p.active));
@@ -715,6 +1015,7 @@
         }
         addProductBtn.textContent = "Update Product";
         setStatus("Editing product: " + p.name, false);
+        updateFormState();
       }
 
       function deleteProductById(productId) {
@@ -784,10 +1085,64 @@
         var action = btn.getAttribute("data-action");
         if (action === "edit") {
           editProductById(id);
+        } else if (action === "duplicate") {
+          duplicateProductById(id);
+        } else if (action === "toppick") {
+          var slot = btn.getAttribute("data-slot");
+          if (slot === "1") topPickProduct1.value = id;
+          if (slot === "2") topPickProduct2.value = id;
+          if (slot === "3") topPickProduct3.value = id;
+          var topSec = document.getElementById("topPicksSection");
+          if (topSec) topSec.scrollIntoView({ behavior: "smooth", block: "nearest" });
+          setStatus(
+            "Top Pick " +
+              slot +
+              " set to this product — click Save Top Picks to apply.",
+            false
+          );
         } else if (action === "delete") {
           var ok = window.confirm("Delete this product?");
           if (ok) deleteProductById(id);
         }
+      });
+
+      productsList.addEventListener("dragstart", function(e) {
+        var item = e.target.closest(".product-item");
+        if (!item || item.getAttribute("draggable") !== "true") return;
+        dragSrcProductId = item.getAttribute("data-product-id");
+        item.classList.add("dragging");
+        e.dataTransfer.setData("text/plain", dragSrcProductId || "");
+        e.dataTransfer.effectAllowed = "move";
+      });
+      productsList.addEventListener("dragend", function(e) {
+        var item = e.target.closest(".product-item");
+        if (item) item.classList.remove("dragging");
+        dragSrcProductId = null;
+      });
+      productsList.addEventListener("dragover", function(e) {
+        var item = e.target.closest(".product-item");
+        if (!item || item.getAttribute("draggable") !== "true") return;
+        e.preventDefault();
+        e.dataTransfer.dropEffect = "move";
+      });
+      productsList.addEventListener("drop", function(e) {
+        e.preventDefault();
+        var target = e.target.closest(".product-item");
+        if (!target || target.getAttribute("draggable") !== "true") return;
+        var dragId = e.dataTransfer.getData("text/plain");
+        if (!dragId) return;
+        var src = findProductRow(dragId);
+        if (!src || src === target) return;
+        var rect = target.getBoundingClientRect();
+        var before = e.clientY - rect.top < rect.height / 2;
+        if (before) {
+          productsList.insertBefore(src, target);
+        } else if (target.nextSibling) {
+          productsList.insertBefore(src, target.nextSibling);
+        } else {
+          productsList.appendChild(src);
+        }
+        applyPriorityOrderFromDom();
       });
       validateBtn.addEventListener("click", validateEditorJson);
       addProductBtn.addEventListener("click", addProductFromForm);
@@ -828,6 +1183,64 @@
         var parsed = getEditorData();
         if (parsed) renderProductsList(parsed);
       });
+      document.getElementById("priDec").addEventListener("click", function() {
+        var v = Math.max(1, Number(fPriority.value || 0) - 1);
+        fPriority.value = v;
+        updateFormState();
+      });
+      document.getElementById("priInc").addEventListener("click", function() {
+        fPriority.value = Number(fPriority.value || 0) + 1;
+        updateFormState();
+      });
+      document.getElementById("priTopCategory").addEventListener("click", function() {
+        var parsed = getEditorData();
+        if (!parsed || !Array.isArray(parsed.products)) {
+          setStatus("Load valid JSON first.", true);
+          return;
+        }
+        var sectionFilter = listSectionFilter.value;
+        var categoryFilter = listCategoryFilter.value;
+        var pool = parsed.products.filter(function(p) {
+          var okS = sectionFilter === "all" || p.section === sectionFilter;
+          var okC = categoryFilter === "all" || p.category === categoryFilter;
+          return okS && okC;
+        });
+        var maxP = pool.reduce(function(m, p) {
+          return Math.max(m, p.priority || 0);
+        }, 0);
+        fPriority.value = maxP + 1;
+        updateFormState();
+        setStatus("Priority set to " + fPriority.value + " (higher than matching list filters).", false);
+      });
+      function applyTemplate(section, category, tier, medal, medalCustom) {
+        fSection.value = section;
+        ensureCategoryOption(category);
+        fCategory.value = category;
+        fValueTier.value = tier;
+        if (medal === "custom") {
+          fMedalPreset.value = "custom";
+          fBadgeCustom.value = medalCustom || "";
+        } else {
+          fMedalPreset.value = medal;
+          fBadgeCustom.value = "";
+        }
+        updateFormState();
+      }
+      document.getElementById("tplZenMouse").addEventListener("click", function() {
+        applyTemplate("zen-workspace", "mouse", "mid", "Top Rated", "");
+      });
+      document.getElementById("tplZenKeyboard").addEventListener("click", function() {
+        applyTemplate("zen-workspace", "keyboard", "premium", "Premium Tier", "");
+      });
+      document.getElementById("tplStealthMouse").addEventListener("click", function() {
+        applyTemplate("stealth-operator", "mouse", "mid", "Stealth Choice", "");
+      });
+      document.getElementById("tplStealthHeadset").addEventListener("click", function() {
+        applyTemplate("stealth-operator", "headset", "premium", "Blackout Masterpiece", "");
+      });
+      document.getElementById("tplZenDeskOrg").addEventListener("click", function() {
+        applyTemplate("zen-workspace", "desk-organizer", "entry", "Verified Quality", "");
+      });
       logoutBtn.addEventListener("click", function() {
         logoutBackend()
           .catch(function() { /* noop */ })
@@ -843,6 +1256,7 @@
         .catch(function() {
           loginError.textContent = "Admin API unavailable. Check Vercel deployment settings.";
         });
+      populateCategorySelects({ categories: FALLBACK_CATEGORIES });
       updateFormState();
     })();
   </script>
