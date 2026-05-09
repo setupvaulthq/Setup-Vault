@@ -297,6 +297,10 @@
       var STORAGE_KEY = "sv_admin_ok";
       var DATA_PATH = "data/products.json";
       var ADMIN_VERSION = "2.2";
+      var IS_LOCAL_ADMIN_HOST =
+        location.protocol === "file:" ||
+        location.hostname === "localhost" ||
+        location.hostname === "127.0.0.1";
 
       var loginCard = document.getElementById("loginCard");
       var adminApp = document.getElementById("adminApp");
@@ -700,6 +704,10 @@
       }
 
       loginBtn.addEventListener("click", function() {
+        if (!IS_LOCAL_ADMIN_HOST) {
+          loginError.textContent = "Admin panel is disabled on public hosting. Use localhost only.";
+          return;
+        }
         if (!ADMIN_PASSWORD) {
           loginError.textContent = "Admin login is disabled: password is not configured on server.";
           return;
@@ -787,7 +795,11 @@
       });
       logoutBtn.addEventListener("click", closeAdmin);
 
-      if (localStorage.getItem(STORAGE_KEY) === "1") {
+      if (!IS_LOCAL_ADMIN_HOST) {
+        loginError.textContent = "Admin panel is disabled on public hosting. Use localhost only.";
+        passwordInput.disabled = true;
+        loginBtn.disabled = true;
+      } else if (localStorage.getItem(STORAGE_KEY) === "1") {
         openAdmin();
       }
       updateFormState();
