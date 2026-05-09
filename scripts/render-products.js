@@ -1,5 +1,5 @@
 (function() {
-  var SITE_VERSION = "2.2";
+  var SITE_VERSION = "2.3";
   var SITE_MEDIA_ORIGIN = "https://www.setupvaulthq.com";
 
   function resolveSiteAssetUrl(path) {
@@ -8,7 +8,9 @@
     if (/^https?:\/\//i.test(p)) return p;
     if (p.indexOf("//") === 0) return "https:" + p;
     var normalized = p.indexOf("/") === 0 ? p : "/" + p;
-    return SITE_MEDIA_ORIGIN + normalized.replace(/\/{2,}/g, "/");
+    var base = SITE_MEDIA_ORIGIN + normalized.replace(/\/{2,}/g, "/");
+    var sep = base.indexOf("?") >= 0 ? "&" : "?";
+    return base + sep + "v=" + encodeURIComponent(SITE_VERSION);
   }
 
   function getTier(product) {
@@ -334,8 +336,6 @@
       }
     }
 
-    draw(categories[0].id);
-
     tabsWrap.addEventListener("click", function(e) {
       var tab = e.target.closest(".catalog-tab");
       if (!tab) return;
@@ -349,16 +349,45 @@
     var params =
       typeof URLSearchParams !== "undefined" ? new URLSearchParams(window.location.search) : null;
     var catParam = params && params.get("cat");
-    if (catParam) {
-      var matched = categories.some(function(c) {
-        return c.id === catParam;
+    var hashRaw =
+      typeof window.location.hash === "string" && window.location.hash.length > 1
+        ? window.location.hash.slice(1)
+        : "";
+    var hashId = hashRaw;
+    try {
+      hashId = decodeURIComponent(hashRaw.replace(/^#/, ""));
+    } catch (eHash) {
+      hashId = hashRaw.replace(/^#/, "");
+    }
+
+    var initialCat = categories[0].id;
+    if (catParam && categories.some(function(c) {
+      return c.id === catParam;
+    })) {
+      initialCat = catParam;
+    } else if (hashId) {
+      var hashProduct = products.find(function(p) {
+        return p.id === hashId;
       });
-      if (matched) {
-        tabsWrap.querySelectorAll(".catalog-tab").forEach(function(btn) {
-          btn.classList.toggle("active", btn.getAttribute("data-category-id") === catParam);
-        });
-        draw(catParam);
+      if (hashProduct && hashProduct.category) {
+        initialCat = hashProduct.category;
       }
+    }
+
+    tabsWrap.querySelectorAll(".catalog-tab").forEach(function(btn) {
+      btn.classList.toggle("active", btn.getAttribute("data-category-id") === initialCat);
+    });
+    draw(initialCat);
+
+    if (hashId) {
+      window.requestAnimationFrame(function() {
+        window.requestAnimationFrame(function() {
+          var el = document.getElementById(hashId);
+          if (el && typeof el.scrollIntoView === "function") {
+            el.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+        });
+      });
     }
   }
 
