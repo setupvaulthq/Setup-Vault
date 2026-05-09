@@ -1,5 +1,16 @@
 (function() {
   var SITE_VERSION = "2.2";
+  var SITE_MEDIA_ORIGIN = "https://www.setupvaulthq.com";
+
+  function resolveSiteAssetUrl(path) {
+    if (!path) return "";
+    var p = String(path).trim();
+    if (/^https?:\/\//i.test(p)) return p;
+    if (p.indexOf("//") === 0) return "https:" + p;
+    var normalized = p.indexOf("/") === 0 ? p : "/" + p;
+    return SITE_MEDIA_ORIGIN + normalized.replace(/\/{2,}/g, "/");
+  }
+
   function getTier(product) {
     if (product && product.valueTier) return product.valueTier;
     var priority = Number((product && product.priority) || 0);
@@ -61,20 +72,21 @@
     var imgW = product.imageWidth != null ? Number(product.imageWidth) : 240;
     var imgH = product.imageHeight != null ? Number(product.imageHeight) : 160;
     var pinPage =
-      "https://www.setupvaulthq.com/" + getProductPageFilename(sectionId) + "#" + encodeURIComponent(product.id || "");
+      SITE_MEDIA_ORIGIN + "/" + getProductPageFilename(sectionId) + "#" + encodeURIComponent(product.id || "");
     var pinUrl =
       "https://pinterest.com/pin/create/button/?url=" +
       encodeURIComponent(pinPage) +
-      "&media=https://www.setupvaulthq.com/" +
-      encodeURIComponent(pinterestMedia || "") +
+      "&media=" +
+      encodeURIComponent(resolveSiteAssetUrl(pinterestMedia || "")) +
       "&description=" +
       encodeURIComponent((name || "") + " - Setup Vault");
+    var imageSrc = resolveSiteAssetUrl(image);
 
     return (
       '<div class="' + cardClass + '" id="' + escapeHtml(product.id || "") + '" data-category="' + escapeHtml(category) + '" data-tier="' + escapeHtml(tier) + '">' +
       '<div class="img-wrapper">' +
       '<a href="' + pinUrl + '" target="_blank" class="pinterest-save-btn">Save</a>' +
-      '<img src="' + escapeHtml(image) + '" class="' + imageClass + '" alt="' + escapeHtml(alt) + '" width="' + imgW + '" height="' + imgH + '" loading="lazy">' +
+      '<img src="' + escapeHtml(imageSrc) + '" class="' + imageClass + '" alt="' + escapeHtml(alt) + '" width="' + imgW + '" height="' + imgH + '" loading="lazy">' +
       "</div>" +
       '<div class="' + medalClass + '">' + escapeHtml(badge) + "</div>" +
       '<span class="tier-badge ' + escapeHtml(tier) + '">' + escapeHtml(getTierLabel(tier)) + "</span>" +
@@ -166,8 +178,24 @@
         })
         .map(function(product) {
           var tier = getTier(product);
+          var thumbClass =
+            product.section === "stealth-operator" ? "pick-thumb pick-thumb--stealth" : "pick-thumb";
+          var thumbSrc = resolveSiteAssetUrl(product.image || "");
+          var thumb =
+            '<div class="pick-thumb-wrap">' +
+            (thumbSrc
+              ? '<img src="' +
+                escapeHtml(thumbSrc) +
+                '" class="' +
+                thumbClass +
+                '" alt="' +
+                escapeHtml(product.alt || product.name || "") +
+                '" width="240" height="160" loading="lazy">'
+              : "") +
+            "</div>";
           return (
             '<article class="pick-card" data-tier="' + escapeHtml(tier) + '">' +
+            thumb +
             '<span class="pick-label">' + escapeHtml(product.section === "stealth-operator" ? "Stealth" : "Zen") + "</span>" +
             '<span class="tier-badge ' + escapeHtml(tier) + '">' + escapeHtml(getTierLabel(tier)) + "</span>" +
             '<p class="pick-name">' + escapeHtml(product.name || "") + "</p>" +
@@ -285,8 +313,21 @@
           })[0];
         if (!best) return "";
         var tier = getTier(best);
+        var spThumb =
+          '<div class="spotlight-thumb-wrap">' +
+          '<img src="' +
+          escapeHtml(resolveSiteAssetUrl(best.image || "")) +
+          '" class="' +
+          (best.section === "stealth-operator"
+            ? "spotlight-thumb spotlight-thumb--stealth"
+            : "spotlight-thumb") +
+          '" alt="' +
+          escapeHtml(best.alt || best.name || "") +
+          '" width="240" height="160" loading="lazy">' +
+          "</div>";
         return (
           '<article class="spotlight-card" data-tier="' + escapeHtml(tier) + '">' +
+          spThumb +
           '<span class="spotlight-kicker">' + escapeHtml(category.label) + " • " + escapeHtml(tier) + " tier</span>" +
           '<span class="tier-badge ' + escapeHtml(tier) + '">' + escapeHtml(getTierLabel(tier)) + "</span>" +
           '<p class="pick-name">' + escapeHtml(best.name) + "</p>" +
@@ -315,8 +356,27 @@
       .map(function(pick) {
         var linked = pick && pick.id ? byId[pick.id] : null;
         var tier = linked ? getTier(linked) : "entry";
+        var topThumb = "";
+        if (linked && linked.image) {
+          var tsrc = resolveSiteAssetUrl(linked.image);
+          var tcls =
+            linked.section === "stealth-operator"
+              ? "pick-thumb pick-thumb--stealth"
+              : "pick-thumb";
+          topThumb =
+            '<div class="pick-thumb-wrap">' +
+            '<img src="' +
+            escapeHtml(tsrc) +
+            '" class="' +
+            tcls +
+            '" alt="' +
+            escapeHtml(linked.alt || linked.name || "") +
+            '" width="240" height="160" loading="lazy">' +
+            "</div>";
+        }
         return (
           '<article class="pick-card" data-tier="' + escapeHtml(tier) + '">' +
+          topThumb +
           '<span class="pick-label">' + escapeHtml(pick.label || "Top Pick") + "</span>" +
           '<p class="pick-name">' + escapeHtml(pick.name || "Curated product") + "</p>" +
           '<p class="pick-note">' + escapeHtml(pick.note || "Selected for practical daily value.") + "</p>" +
