@@ -1,18 +1,39 @@
 {
   "meta": {
-    "version": 2,
+    "version": 3,
     "updatedAt": "2026-05-09",
     "currency": "USD",
     "defaultDisclosure": "As an Amazon Associate, Setup Vault earns from qualifying purchases."
   },
   "categories": [
-    { "id": "keyboard", "label": "Keyboards" },
-    { "id": "mouse", "label": "Mice" },
-    { "id": "headset", "label": "Headsets" },
-    { "id": "monitor", "label": "Monitors" },
-    { "id": "desk-mat", "label": "Desk Mats" },
-    { "id": "light", "label": "Lighting" },
-    { "id": "desk-organizer", "label": "Desk Organizers" }
+    {
+      "id": "keyboard",
+      "label": "Keyboards"
+    },
+    {
+      "id": "mouse",
+      "label": "Mice"
+    },
+    {
+      "id": "headset",
+      "label": "Headsets"
+    },
+    {
+      "id": "monitor",
+      "label": "Monitors"
+    },
+    {
+      "id": "desk-mat",
+      "label": "Desk Mats"
+    },
+    {
+      "id": "light",
+      "label": "Lighting"
+    },
+    {
+      "id": "desk-organizer",
+      "label": "Desk Organizers"
+    }
   ],
   "topPicks": [
     {
@@ -231,6 +252,22 @@
       "pinterestMedia": "stealth_light.jpg",
       "valueTier": "entry",
       "priority": 5,
+      "active": true
+    },
+    {
+      "id": "the-vault-cable-organizer",
+      "section": "gear-library",
+      "campaignGroup": "catalog",
+      "category": "desk-organizer",
+      "valueTier": "mid",
+      "name": "The Vault Cable Organizer",
+      "badge": "Verified Quality",
+      "benefit": "Zero Clutter",
+      "image": "Gear_cablemaneger.jpg",
+      "alt": "The Vault Cable Organizer",
+      "amazonUrl": "https://amzn.to/4nmIi99",
+      "pinterestMedia": "Gear_cablemaneger.jpg",
+      "priority": 7,
       "active": true
     }
   ]
