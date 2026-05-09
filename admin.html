@@ -290,17 +290,9 @@
 
   <script>
     (function() {
-      // Change this before production publish.
-      // Do not hardcode secrets in frontend source.
-      // Inject this at runtime from a trusted backend/template.
-      var ADMIN_PASSWORD = window.__ADMIN_PASSWORD__ || "";
-      var STORAGE_KEY = "sv_admin_ok";
+      var ADMIN_API_BASE = "/api/admin";
       var DATA_PATH = "data/products.json";
       var ADMIN_VERSION = "2.2";
-      var IS_LOCAL_ADMIN_HOST =
-        location.protocol === "file:" ||
-        location.hostname === "localhost" ||
-        location.hostname === "127.0.0.1";
 
       var loginCard = document.getElementById("loginCard");
       var adminApp = document.getElementById("adminApp");
@@ -458,10 +450,45 @@
       }
 
       function closeAdmin() {
-        localStorage.removeItem(STORAGE_KEY);
         loginCard.classList.remove("hidden");
         adminApp.classList.add("hidden");
         passwordInput.value = "";
+      }
+
+      function callAdminApi(path, options) {
+        return fetch(ADMIN_API_BASE + path, Object.assign({
+          credentials: "same-origin",
+          headers: { "Content-Type": "application/json" }
+        }, options || {}));
+      }
+
+      function loginWithBackend(password) {
+        return callAdminApi("/login", {
+          method: "POST",
+          body: JSON.stringify({ password: password })
+        })
+          .then(function(res) {
+            return res.json()
+              .catch(function() { return {}; })
+              .then(function(body) {
+                return { ok: res.ok, body: body };
+              });
+          });
+      }
+
+      function checkSession() {
+        return callAdminApi("/session", { method: "GET" })
+          .then(function(res) {
+            return res.json()
+              .catch(function() { return {}; })
+              .then(function(body) {
+                return { ok: res.ok, body: body };
+              });
+          });
+      }
+
+      function logoutBackend() {
+        return callAdminApi("/logout", { method: "POST" });
       }
 
       function loadLiveJson() {
@@ -704,21 +731,28 @@
       }
 
       loginBtn.addEventListener("click", function() {
-        if (!IS_LOCAL_ADMIN_HOST) {
-          loginError.textContent = "Admin panel is disabled on public hosting. Use localhost only.";
+        var pass = passwordInput.value || "";
+        if (!pass.trim()) {
+          loginError.textContent = "Password is required.";
           return;
         }
-        if (!ADMIN_PASSWORD) {
-          loginError.textContent = "Admin login is disabled: password is not configured on server.";
-          return;
-        }
-        if (passwordInput.value === ADMIN_PASSWORD) {
-          localStorage.setItem(STORAGE_KEY, "1");
-          loginError.textContent = "";
-          openAdmin();
-          return;
-        }
-        loginError.textContent = "Wrong password.";
+        loginBtn.disabled = true;
+        loginError.textContent = "";
+        loginWithBackend(pass)
+          .then(function(result) {
+            if (result.ok && result.body && result.body.ok) {
+              loginError.textContent = "";
+              openAdmin();
+              return;
+            }
+            loginError.textContent = "Wrong password.";
+          })
+          .catch(function() {
+            loginError.textContent = "Login service is unavailable.";
+          })
+          .finally(function() {
+            loginBtn.disabled = false;
+          });
       });
 
       passwordInput.addEventListener("keydown", function(e) {
@@ -793,15 +827,21 @@
         var parsed = getEditorData();
         if (parsed) renderProductsList(parsed);
       });
-      logoutBtn.addEventListener("click", closeAdmin);
+      logoutBtn.addEventListener("click", function() {
+        logoutBackend()
+          .catch(function() { /* noop */ })
+          .finally(closeAdmin);
+      });
 
-      if (!IS_LOCAL_ADMIN_HOST) {
-        loginError.textContent = "Admin panel is disabled on public hosting. Use localhost only.";
-        passwordInput.disabled = true;
-        loginBtn.disabled = true;
-      } else if (localStorage.getItem(STORAGE_KEY) === "1") {
-        openAdmin();
-      }
+      checkSession()
+        .then(function(result) {
+          if (result.ok && result.body && result.body.authenticated) {
+            openAdmin();
+          }
+        })
+        .catch(function() {
+          loginError.textContent = "Admin API unavailable. Check Vercel deployment settings.";
+        });
       updateFormState();
     })();
   </script>
