@@ -34,7 +34,9 @@
   }
 
   function getProductPageFilename(sectionId) {
-    return sectionId === "stealth-operator" ? "stealth.html" : "zen.html";
+    if (sectionId === "stealth-operator") return "stealth.html";
+    if (sectionId === "gear-library") return "gear.html";
+    return "zen.html";
   }
 
   function getProductDeepLink(product) {
@@ -43,16 +45,26 @@
     return getProductPageFilename(sectionId) + "#" + id;
   }
 
+  function isStealthSection(sectionId) {
+    return sectionId === "stealth-operator";
+  }
+
+  function pickLabelForSection(sectionId) {
+    if (sectionId === "stealth-operator") return "Stealth";
+    if (sectionId === "gear-library") return "Gear";
+    return "Zen";
+  }
+
   function getCardClassForSection(sectionId) {
-    return sectionId === "stealth-operator" ? "part-card stealth-card" : "part-card";
+    return isStealthSection(sectionId) ? "part-card stealth-card" : "part-card";
   }
 
   function getImageClassForSection(sectionId) {
-    return sectionId === "stealth-operator" ? "stealth-part-image" : "part-image";
+    return isStealthSection(sectionId) ? "stealth-part-image" : "part-image";
   }
 
   function getMedalClassForSection(sectionId) {
-    return sectionId === "stealth-operator" ? "medal-badge medal-dark" : "medal-badge";
+    return isStealthSection(sectionId) ? "medal-badge medal-dark" : "medal-badge";
   }
 
   function renderProductCard(product) {
@@ -208,7 +220,7 @@
         .map(function(product) {
           var tier = getTier(product);
           var thumbClass =
-            product.section === "stealth-operator" ? "pick-thumb pick-thumb--stealth" : "pick-thumb";
+            isStealthSection(product.section) ? "pick-thumb pick-thumb--stealth" : "pick-thumb";
           var thumbSrc = resolveSiteAssetUrl(product.image || "");
           var thumb =
             '<div class="pick-thumb-wrap">' +
@@ -225,7 +237,7 @@
           return (
             '<article class="pick-card" data-tier="' + escapeHtml(tier) + '">' +
             thumb +
-            '<span class="pick-label">' + escapeHtml(product.section === "stealth-operator" ? "Stealth" : "Zen") + "</span>" +
+            '<span class="pick-label">' + escapeHtml(pickLabelForSection(product.section)) + "</span>" +
             '<span class="tier-badge ' + escapeHtml(tier) + '">' + escapeHtml(getTierLabel(tier)) + "</span>" +
             '<p class="pick-name">' + escapeHtml(product.name || "") + "</p>" +
             '<p class="pick-note">' + escapeHtml(product.benefit || "Smart value pick.") + "</p>" +
@@ -347,7 +359,7 @@
           '<img src="' +
           escapeHtml(resolveSiteAssetUrl(best.image || "")) +
           '" class="' +
-          (best.section === "stealth-operator"
+          (isStealthSection(best.section)
             ? "spotlight-thumb spotlight-thumb--stealth"
             : "spotlight-thumb") +
           '" alt="' +
@@ -389,7 +401,7 @@
         if (linked && linked.image) {
           var tsrc = resolveSiteAssetUrl(linked.image);
           var tcls =
-            linked.section === "stealth-operator"
+            isStealthSection(linked.section)
               ? "pick-thumb pick-thumb--stealth"
               : "pick-thumb";
           topThumb =

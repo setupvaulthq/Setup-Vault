@@ -195,11 +195,17 @@
       <div class="card">
         <h1>Add New Product</h1>
         <div class="grid">
-          <input id="fId" placeholder="Product id (optional)">
+          <div>
+            <input id="fId" placeholder="e.g. bamboo-desk-tray (optional)" maxlength="96" title="URL slug — not Amazon ASIN or a numeric DB id">
+            <p class="mini" style="margin:6px 0 0;font-size:11px;line-height:1.35;color:#94a3b8;">
+              <strong>ID</strong> = kısa dosya/anchor adı (<code>harf-rakam-tire</code>). Veritabanı “max 11” veya ASIN değil; boş bırakırsan isimden üretilir (~80 karakter üstü engellenir).
+            </p>
+          </div>
           <input id="fName" placeholder="Product name">
           <input id="fImage" placeholder="Image file name (example: mouse.jpg)">
           <input id="fAmazonUrl" placeholder="Amazon link (https://...)">
-          <select id="fSection">
+          <select id="fSection" title="Build sayfası: Zen/Stealth. Sadece Gear kataloğu için alttaki seçenek.">
+            <option value="gear-library">Gear Library only (no Zen/Stealth page)</option>
             <option value="zen-workspace">Zen Workspace</option>
             <option value="stealth-operator">Stealth Operator</option>
           </select>
@@ -253,7 +259,7 @@
         <p class="field-hint" id="formHint">Name, image file, and Amazon URL are required.</p>
         <div class="preview-card" id="livePreviewCard">
           <h3 class="preview-title" id="previewName">Preview: Product name</h3>
-          <p class="preview-meta" id="previewMeta">Category: keyboard | Section: zen-workspace | Medal: Top Rated</p>
+          <p class="preview-meta" id="previewMeta">Category: keyboard | Section: gear-library | Medal: Top Rated</p>
           <p class="preview-meta" id="previewLink">Amazon: https://...</p>
         </div>
         <div class="row" style="margin-top: 10px;">
@@ -283,6 +289,7 @@
           <input id="listSearch" placeholder="Search by product name...">
           <select id="listSectionFilter">
             <option value="all">All Sections</option>
+            <option value="gear-library">Gear Library only</option>
             <option value="zen-workspace">Zen Workspace</option>
             <option value="stealth-operator">Stealth Operator</option>
           </select>
@@ -567,6 +574,12 @@
           .replace(/^-+|-+$/g, "");
       }
 
+      function campaignGroupFromSection(section) {
+        if (section === "stealth-operator") return "stealth";
+        if (section === "zen-workspace") return "angel";
+        return "catalog";
+      }
+
       function getEditorData() {
         try {
           return JSON.parse(jsonEditor.value || "{}");
@@ -809,7 +822,7 @@
         fName.value = "";
         fImage.value = "";
         fAmazonUrl.value = "";
-        fSection.value = "zen-workspace";
+        fSection.value = "gear-library";
         if (fCategory.options.length) fCategory.selectedIndex = 0;
         fValueTier.value = "entry";
         fMedalPreset.value = "Top Rated";
@@ -864,11 +877,15 @@
           }
           productId = newId;
         }
+        if (String(productId).length > 80) {
+          setStatus("Ürün id çok uzun (en fazla 80 karakter). Daha kısa ID veya isim kullan.", true);
+          return;
+        }
 
         var newProduct = {
           id: productId,
           section: fSection.value,
-          campaignGroup: fSection.value === "stealth-operator" ? "stealth" : "angel",
+          campaignGroup: campaignGroupFromSection(fSection.value),
           category: fCategory.value,
           valueTier: fValueTier.value,
           name: fName.value.trim(),
@@ -933,7 +950,7 @@
           var product = parsed.products.find(function(item) { return item.id === pick.id; });
           return {
             id: pick.id,
-            section: product ? product.section : "zen-workspace",
+            section: product ? product.section : "gear-library",
             label: pick.label,
             name: product ? product.name : pick.id,
             note: product ? (product.benefit || "Top pick") : "Top pick",
@@ -962,7 +979,7 @@
         fName.value = (p.name || "Product") + " (copy)";
         fImage.value = p.image || "";
         fAmazonUrl.value = p.amazonUrl || "";
-        fSection.value = p.section || "zen-workspace";
+        fSection.value = p.section || "gear-library";
         ensureCategoryOption(p.category);
         fCategory.value = p.category || (fCategory.options[0] && fCategory.options[0].value);
         fValueTier.value = p.valueTier || "entry";
@@ -998,7 +1015,7 @@
         fName.value = p.name || "";
         fImage.value = p.image || "";
         fAmazonUrl.value = p.amazonUrl || "";
-        fSection.value = p.section || "zen-workspace";
+        fSection.value = p.section || "gear-library";
         ensureCategoryOption(p.category);
         fCategory.value = p.category || (fCategory.options[0] && fCategory.options[0].value);
         fValueTier.value = p.valueTier || "entry";
