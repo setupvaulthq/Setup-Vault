@@ -1,5 +1,5 @@
 (function() {
-  var SITE_VERSION = "2.4";
+  var SITE_VERSION = "2.5";
   var SITE_MEDIA_ORIGIN = "https://www.setupvaulthq.com";
 
   function resolveSiteAssetUrl(path) {
@@ -353,7 +353,7 @@
             '<span class="tier-badge ' + escapeHtml(tier) + '">' + escapeHtml(getTierLabel(tier)) + "</span>" +
             titleRow +
             '<p class="pick-note">' + escapeHtml(product.benefit || "Smart value pick.") + "</p>" +
-            renderGearCatalogCta(product) +
+            renderViewProductAnchor(product) +
             "</article>"
           );
         })

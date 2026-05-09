@@ -181,6 +181,13 @@ section h2::before { content: ''; width: 6px; height: 28px; background-color: va
     transform: scale(1);
 }
 
+/* Gear Library category tabs: Save + copy link always visible (not hover-only) */
+#categoryProductsGrid .pick-thumb-wrap--standalone .pinterest-save-btn,
+#categoryProductsGrid .pick-title-row .copy-link-icon {
+    opacity: 1;
+    transform: scale(1);
+}
+
 .pick-card[id],
 .spotlight-card[id] {
     scroll-margin-top: 100px;
