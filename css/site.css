@@ -276,7 +276,19 @@ section h2::before { content: ''; width: 6px; height: 28px; background-color: va
 .gear-library-category-block { margin-bottom: 28px; }
 .gear-library-category-block:last-child { margin-bottom: 0; }
 .gear-library-cat-title { margin: 0 0 12px; font-size: 1.05rem; font-weight: 800; color: var(--accent-black); }
-#gear-library-home .gear-library-product-grid { margin-top: 0; padding-top: 0; border-top: none; }
+/* Align with other part-cards: cap column width so a single item does not stretch full row / focus zoom overflow */
+#gear-library-home .gear-library-product-grid {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 320px));
+    justify-content: start;
+}
+#gear-library-home .gear-library-product-grid > .part-card {
+    width: 100%;
+    max-width: 320px;
+    box-sizing: border-box;
+}
 .spotlight-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 36px; }
 .spotlight-card { border: 1px solid rgba(0,0,0,0.08); border-radius: 14px; padding: 14px; background: var(--chip-bg); display: flex; flex-direction: column; gap: 10px; }
 .spotlight-card .pick-name { margin-top: 2px; }
