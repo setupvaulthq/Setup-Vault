@@ -345,8 +345,9 @@ section h2::before { content: ''; width: 6px; height: 28px; background-color: va
 .focus-mode .part-card.target-focus.focus-shift-left:target { transform: translate(-48px, -10px) scale(1.4); }
 @keyframes highlightPulse { 0% { box-shadow: 0 0 0 0 rgba(30, 58, 138, 0.6); } 100% { box-shadow: 0 0 0 15px rgba(30, 58, 138, 0); } }
 .focus-mode .focus-eligible:not(.target-focus) { filter: blur(0.9px) saturate(0.9); opacity: 0.62; transform: scale(0.99); transition: all 0.25s ease; }
+/* Do not scale images inside overflow:hidden wrapper — avoids cropped edges in focus mode */
 .focus-mode .focus-eligible.target-focus .part-image,
-.focus-mode .focus-eligible.target-focus .stealth-part-image { transform: scale(1.03); }
+.focus-mode .focus-eligible.target-focus .stealth-part-image { transform: none; }
 .focus-close-btn { position: fixed; top: 18px; right: 18px; z-index: 1600; display: none; align-items: center; gap: 8px; border: 1px solid rgba(15, 23, 42, 0.2); background: rgba(255,255,255,0.92); color: var(--text-primary); font-size: 12px; font-weight: 700; border-radius: 999px; padding: 10px 14px; cursor: pointer; backdrop-filter: blur(6px); box-shadow: 0 8px 24px rgba(15,23,42,0.15); }
 .focus-close-btn:hover { background: var(--color-secondary); border-color: rgba(29, 78, 216, 0.35); color: var(--color-accent); }
 .focus-mode .focus-close-btn { display: inline-flex; }
@@ -366,7 +367,7 @@ section h2::before { content: ''; width: 6px; height: 28px; background-color: va
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 176px;
+    min-height: 200px;
     overflow: hidden;
 }
 .pinterest-save-btn { position: absolute; top: 10px; right: 10px; background-color: var(--pinterest-red); color: var(--color-accent-contrast); font-weight: bold; font-size: 12px; padding: 6px 12px; border-radius: 20px; text-decoration: none; opacity: 0; transform: scale(0.9); transition: all 0.2s ease; z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
@@ -375,20 +376,20 @@ section h2::before { content: ''; width: 6px; height: 28px; background-color: va
 
 .part-image {
     max-width: 100%;
-    max-height: 148px;
+    max-height: 188px;
     width: auto;
     height: auto;
     object-fit: contain;
     object-position: center;
     mix-blend-mode: normal;
-    transition: transform 0.3s ease;
+    transition: opacity 0.3s ease;
     display: block;
 }
-.part-card:hover .part-image { transform: scale(1.02); }
+.part-card:hover .part-image { transform: none; }
 
 .stealth-part-image {
     max-width: 100%;
-    max-height: 148px;
+    max-height: 188px;
     width: auto;
     height: auto;
     object-fit: contain;
@@ -398,10 +399,10 @@ section h2::before { content: ''; width: 6px; height: 28px; background-color: va
     padding: 10px;
     box-sizing: border-box;
     mix-blend-mode: normal;
-    transition: transform 0.3s ease;
+    transition: opacity 0.3s ease;
     display: block;
 }
-.part-card:hover .stealth-part-image { transform: scale(1.02); }
+.part-card:hover .stealth-part-image { transform: none; }
 
 .case-parts-grid .img-wrapper {
     min-height: 148px;
