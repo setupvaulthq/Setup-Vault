@@ -245,6 +245,9 @@
             <img id="formImagePreviewImg" alt="" class="hidden" width="120" height="80" decoding="async">
           </div>
           <div style="flex:1; min-width:200px;">
+            <p class="mini" id="imagePreviewHint" style="margin:0 0 8px;line-height:1.45;color:#94a3b8;font-size:11px;">
+              Önizleme = canlı sitede <code>/dosya.jpg</code> adresinden yüklenir. JPG’yi henüz GitHub’a push etmediysen veya deploy olmadıysa “bulunamadı” normaldir; ürün yine de JSON’a yazılır.
+            </p>
             <p class="mini" id="amazonUrlHint" style="margin:0 0 6px;">Paste an Amazon or amzn.to link.</p>
             <div class="row tpl-row" style="margin:0;">
               <span>Templates:</span>
@@ -463,6 +466,21 @@
         }
       }
 
+      function encodePathSegments(relPath) {
+        return String(relPath || "")
+          .replace(/^\//, "")
+          .split("/")
+          .filter(Boolean)
+          .map(function(seg) {
+            try {
+              return encodeURIComponent(seg);
+            } catch (e) {
+              return seg;
+            }
+          })
+          .join("/");
+      }
+
       function updateImagePreview() {
         var raw = (fImage.value || "").trim();
         if (!formImagePreviewImg || !formImagePreviewPh) return;
@@ -473,16 +491,20 @@
           formImagePreviewImg.removeAttribute("src");
           return;
         }
-        var src = raw.replace(/^\//, "");
-        if (!/^https?:\/\//i.test(src)) {
-          src = "./" + src.replace(/^\.\//, "");
+        var src;
+        if (/^https?:\/\//i.test(raw)) {
+          src = raw;
+        } else {
+          var encoded = encodePathSegments(raw.replace(/^\.\//, ""));
+          src = "/" + encoded;
         }
         formImagePreviewImg.onload = function() {
           formImagePreviewPh.classList.add("hidden");
           formImagePreviewImg.classList.remove("hidden");
         };
         formImagePreviewImg.onerror = function() {
-          formImagePreviewPh.textContent = "Image not found at this path";
+          formImagePreviewPh.innerHTML =
+            "Bu adreste görsel yok (404). Dosya adını kontrol et; sunucuda yoksa JPG’yi repo köküne ekleyip deploy et. <strong>Ürün kaydı yine de yapılabilir.</strong>";
           formImagePreviewPh.classList.remove("hidden");
           formImagePreviewImg.classList.add("hidden");
         };
@@ -911,8 +933,16 @@
         refreshCounts(parsed);
         renderProductsList(parsed);
         populateTopPickSelectors(parsed);
-        setStatus(editingProductId ? "Product updated." : "Product added. Now click Download products.json.", false);
+        setStatus(
+          editingProductId
+            ? "Güncellendi. Form sıfırlandı — başka ürün için doldur veya JSON indir."
+            : "Ürün JSON'a eklendi; form temizlendi (normal). Öncelik varsayılan 5'e döner. Şimdi: Download products.json → data/products.json yapıştır; JPG'yi repo köküne commit + push (önizleme o zaman yeşil olur).",
+          false
+        );
         resetProductForm();
+        try {
+          statusLine.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        } catch (e) {}
       }
 
       function populateTopPickSelectors(data) {
