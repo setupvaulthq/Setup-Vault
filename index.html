@@ -66,9 +66,10 @@
             --sidebar-width: 320px;
         }
 
+        /* hidden değil clip: Chromium'da body/html overflow-x:hidden sticky'yi öldürüyor */
         html {
             scroll-behavior: smooth;
-            overflow-x: hidden;
+            overflow-x: clip;
         }
 
         body {
@@ -78,11 +79,12 @@
             padding: 0;
             color: var(--text-main);
             -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
+            overflow-x: clip;
         }
 
         .app-layout {
             display: flex;
+            align-items: flex-start;
             min-height: 100vh;
         }
 
@@ -143,7 +145,7 @@
         .sidebar-footer-links span:hover { color: var(--primary-accent); }
 
         /* --- MAIN CONTENT --- */
-        .main-content { flex: 1; width: min(1100px, 100%); padding: 50px 60px 100px; margin: 0 auto; box-sizing: border-box; }
+        .main-content { flex: 1; min-width: 0; width: min(1100px, 100%); padding: 50px 60px 100px; margin: 0 auto; box-sizing: border-box; }
 
         section { margin-bottom: 80px; scroll-margin-top: 50px; }
         section h2 { font-size: 28px; font-weight: 900; margin-bottom: 40px; display: flex; align-items: center; gap: 12px; letter-spacing: -0.5px; color: var(--accent-black); }
@@ -273,8 +275,8 @@
         .mobile-bottom-bar a:hover, .mobile-bottom-bar a:active { color: var(--primary-accent); }
 
         @media (max-width: 900px) {
-            .app-layout { flex-direction: column; }
-            .sidebar { width: 100%; height: auto; position: relative; padding: 30px 20px; border-right: none; border-bottom: 1px solid rgba(0,0,0,0.06); align-items: center; text-align: center; }
+            .app-layout { flex-direction: column; align-items: stretch; }
+            .sidebar { width: 100%; max-height: none; height: auto; position: relative; padding: 30px 20px; border-right: none; border-bottom: 1px solid rgba(0,0,0,0.06); align-items: center; text-align: center; align-self: stretch; }
             .sidebar-nav { width: 100%; max-width: 400px; text-align: left; }
             .sidebar-footer-links { align-items: center; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 15px; margin-bottom: 20px; }
             .main-content { padding: 40px 20px 100px; }
