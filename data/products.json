@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": 4,
+    "version": 5,
     "updatedAt": "2026-05-10",
     "currency": "USD",
     "defaultDisclosure": "As an Amazon Associate, Setup Vault earns from qualifying purchases."
@@ -532,6 +532,22 @@
       "amazonUrl": "https://amzn.to/4tS70AF",
       "pinterestMedia": "angel_power.jpg",
       "priority": 1,
+      "active": true
+    },
+    {
+      "id": "lian-li-o11-vision-compact-panoramic-white-pc-case",
+      "section": "gear-library",
+      "campaignGroup": "catalog",
+      "category": "pc-case",
+      "valueTier": "premium",
+      "name": "Lian Li O11 Vision Compact - Panoramic White PC Case",
+      "badge": "4.5+ Elite Choice",
+      "benefit": "Panoramic \"Aquarium\" View: Uninterrupted three-panel tempered glass to showcase your high-end components.",
+      "image": "kasa1.jpg",
+      "alt": "Lian Li O11 Vision Compact - Panoramic White PC Case",
+      "amazonUrl": "https://amzn.to/4njKrm1",
+      "pinterestMedia": "kasa1.jpg",
+      "priority": 10,
       "active": true
     }
   ]
