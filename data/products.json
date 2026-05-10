@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": 32,
+    "version": 33,
     "updatedAt": "2026-05-10",
     "currency": "USD",
     "defaultDisclosure": "As an Amazon Associate, Setup Vault earns from qualifying purchases."
@@ -829,6 +829,22 @@
       "amazonUrl": "https://amzn.to/4d33yNT",
       "pinterestMedia": "noir_microphone.jpg",
       "priority": 7,
+      "active": true
+    },
+    {
+      "id": "secretlab-titan-evo-black-gaming-chair",
+      "section": "vault-noir",
+      "campaignGroup": "noir",
+      "category": "chair",
+      "valueTier": "premium",
+      "name": "Secretlab Titan Evo Black Gaming Chair",
+      "badge": "4.5+ Elite Choice",
+      "benefit": "Balanced pick for daily use.",
+      "image": "noir_chair.jpg",
+      "alt": "Secretlab Titan Evo Black Gaming Chair",
+      "amazonUrl": "https://amzn.to/3Rvzyla",
+      "pinterestMedia": "noir_chair.jpg",
+      "priority": 5,
       "active": true
     }
   ]
