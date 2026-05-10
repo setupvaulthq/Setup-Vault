@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": 13,
+    "version": 20,
     "updatedAt": "2026-05-10",
     "currency": "USD",
     "defaultDisclosure": "As an Amazon Associate, Setup Vault earns from qualifying purchases."
@@ -641,14 +641,14 @@
       "campaignGroup": "noir",
       "category": "pc-component",
       "valueTier": "premium",
-      "name": "Samsung 990 PRO 4TB NVMe",
-      "badge": "4.5+ Elite Choice",
+      "name": "Corsair RM1200x Shift (ATX 3.0)",
+      "badge": "Verified Quality",
       "benefit": "Balanced pick for daily use.",
-      "image": "noir_ssd.jpg",
-      "alt": "Samsung 990 PRO 4TB NVMe",
-      "amazonUrl": "https://amzn.to/4wmtjQA",
-      "pinterestMedia": "noir_ssd.jpg",
-      "priority": 5,
+      "image": "noir_power.jpg",
+      "alt": "Corsair RM1200x Shift (ATX 3.0)",
+      "amazonUrl": "https://amzn.to/3RvwnKg",
+      "pinterestMedia": "noir_power.jpg",
+      "priority": 4,
       "active": true
     },
     {
@@ -662,7 +662,7 @@
       "benefit": "Balanced pick for daily use.",
       "image": "noir_cooler.jpg",
       "alt": "NZXT Kraken Elite 360 (2024 Black)",
-      "amazonUrl": "https://amzn.to/3RvwnKg",
+      "amazonUrl": "https://amzn.to/3PyTOBQ",
       "pinterestMedia": "noir_cooler.jpg",
       "priority": 5,
       "active": true
