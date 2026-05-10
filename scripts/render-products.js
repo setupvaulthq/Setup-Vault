@@ -1,5 +1,5 @@
 (function() {
-  var SITE_VERSION = "3.1";
+  var SITE_VERSION = "3.2";
   var SITE_MEDIA_ORIGIN = "https://www.setupvaulthq.com";
 
   function resolveSiteAssetUrl(path) {
