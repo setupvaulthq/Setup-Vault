@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": 21,
+    "version": 22,
     "updatedAt": "2026-05-10",
     "currency": "USD",
     "defaultDisclosure": "As an Amazon Associate, Setup Vault earns from qualifying purchases."
@@ -563,10 +563,10 @@
       "name": "The Monolith",
       "badge": "Blackout Masterpiece",
       "benefit": "The absolute pinnacle of stealth setups. Powered by the RTX 5080 and Core Ultra 9 for elite creators who demand the best",
-      "image": "noir_full",
+      "image": "noir_full.jfif",
       "alt": "The Monolith",
       "amazonUrl": "",
-      "pinterestMedia": "noir_full",
+      "pinterestMedia": "noir_full.jfif",
       "priority": 15,
       "active": true,
       "isBuildUnit": true
@@ -580,10 +580,10 @@
       "name": "ASUS ProArt GeForce RTX 5080 OC",
       "badge": "4.5+ Elite Choice",
       "benefit": "Balanced pick for daily use.",
-      "image": "noir_gpu",
+      "image": "noir_gpu.jpg",
       "alt": "ASUS ProArt GeForce RTX 5080 OC",
       "amazonUrl": "https://amzn.to/4nuLaRt",
-      "pinterestMedia": "noir_gpu",
+      "pinterestMedia": "noir_gpu.jpg",
       "priority": 7,
       "active": true
     },
@@ -596,10 +596,10 @@
       "name": "Intel Core Ultra 9 285K",
       "badge": "4.5+ Elite Choice",
       "benefit": "Balanced pick for daily use.",
-      "image": "noir_cpu",
+      "image": "noir_cpu.jpg",
       "alt": "Intel Core Ultra 9 285K",
       "amazonUrl": "https://amzn.to/4udNwqg",
-      "pinterestMedia": "noir_cpu",
+      "pinterestMedia": "noir_cpu.jpg",
       "priority": 9,
       "active": true
     },
@@ -612,10 +612,10 @@
       "name": "ASUS ProArt Z890-Creator WiFi",
       "badge": "Verified Quality",
       "benefit": "Balanced pick for daily use.",
-      "image": "noir_mabo.jpg",
+      "image": "noir_mobo.jpg",
       "alt": "ASUS ProArt Z890-Creator WiFi",
       "amazonUrl": "https://amzn.to/4uGkK1z",
-      "pinterestMedia": "noir_mabo.jpg",
+      "pinterestMedia": "noir_mobo.jpg",
       "priority": 7,
       "active": true
     },
@@ -636,19 +636,35 @@
       "active": true
     },
     {
-      "id": "samsung-990-pro-4tb-nvme",
+      "id": "corsair-rm1200x-shift-atx-3",
       "section": "vault-noir",
       "campaignGroup": "noir",
       "category": "pc-component",
       "valueTier": "premium",
       "name": "Corsair RM1200x Shift (ATX 3.0)",
       "badge": "Verified Quality",
-      "benefit": "Balanced pick for daily use.",
+      "benefit": "1200W silent ATX 3.0 — clean rear cable layout, future-proof for the RTX 5080.",
       "image": "noir_power.jpg",
       "alt": "Corsair RM1200x Shift (ATX 3.0)",
       "amazonUrl": "https://amzn.to/3RvwnKg",
       "pinterestMedia": "noir_power.jpg",
       "priority": 4,
+      "active": true
+    },
+    {
+      "id": "noir-blackout-chassis",
+      "section": "vault-noir",
+      "campaignGroup": "noir",
+      "category": "pc-component",
+      "valueTier": "premium",
+      "name": "Vault Noir Blackout Chassis",
+      "badge": "Blackout Masterpiece",
+      "benefit": "Full-tower obsidian shell — the matte chassis behind The Monolith, before the internals are dropped in.",
+      "image": "noir_case.jpg",
+      "alt": "Vault Noir empty blackout chassis (case shell)",
+      "amazonUrl": "",
+      "pinterestMedia": "noir_case.jpg",
+      "priority": 12,
       "active": true
     },
     {

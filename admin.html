@@ -7,22 +7,27 @@
   <title>Setup Vault Admin</title>
   <style>
     :root {
-      --bg: #0f1115;
-      --card: #171a21;
-      --border: #2a2f3a;
-      --text: #e5e7eb;
-      --muted: #9ca3af;
-      --accent: #6366f1;
-      --good: #16a34a;
-      --warn: #f59e0b;
+      --bg: #0b0c0e;
+      --surface: #131418;
+      --surface-2: #181a1f;
+      --border: #24262c;
+      --border-soft: #1e2025;
+      --text: #d8d9dc;
+      --text-strong: #f1f2f4;
+      --muted: #8a8d93;
+      --accent: #c9cbd1;
+      --accent-soft: #2a2c32;
+      --good: #2c6b3f;
+      --warn: #6b5022;
     }
     * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: Inter, Arial, sans-serif;
-      background: linear-gradient(180deg, #0b0d12 0%, #10131a 100%);
+      background: var(--bg);
       color: var(--text);
       min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
     }
     .wrap {
       max-width: 980px;
@@ -31,46 +36,65 @@
     }
     .card {
       border: 1px solid var(--border);
-      border-radius: 14px;
-      background: var(--card);
+      border-radius: 12px;
+      background: var(--surface);
       padding: 16px;
       margin-bottom: 14px;
     }
-    h1 { margin: 0 0 6px; font-size: 22px; }
-    p { margin: 0 0 10px; color: var(--muted); line-height: 1.5; }
+    h1 { margin: 0 0 6px; font-size: 20px; color: var(--text-strong); font-weight: 600; letter-spacing: -0.01em; }
+    p { margin: 0 0 10px; color: var(--muted); line-height: 1.55; }
     .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
     input, textarea, button, select {
       border: 1px solid var(--border);
-      background: #11151d;
+      background: var(--surface-2);
       color: var(--text);
-      border-radius: 10px;
-      padding: 10px 12px;
-      font-size: 14px;
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: 13.5px;
+      font-family: inherit;
+      transition: border-color 0.15s ease, background 0.15s ease;
     }
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: #4a4d54;
+      background: #1c1e23;
+    }
+    input::placeholder, textarea::placeholder { color: #5e6066; }
     input, select { min-width: 180px; }
     textarea {
       width: 100%;
       min-height: 380px;
-      font-family: Consolas, monospace;
-      line-height: 1.4;
+      font-family: Consolas, "JetBrains Mono", monospace;
+      line-height: 1.45;
       resize: vertical;
     }
-    button { cursor: pointer; }
-    .primary { background: var(--accent); border-color: var(--accent); }
-    .ok { background: var(--good); border-color: var(--good); }
-    .warn { background: var(--warn); border-color: var(--warn); color: #111827; }
+    button {
+      cursor: pointer;
+      background: var(--surface-2);
+      border-color: var(--border);
+      color: var(--text);
+    }
+    button:hover { background: #20232a; border-color: #353841; }
+    button:disabled { opacity: 0.45; cursor: not-allowed; }
+    .primary { background: #2a2c32; border-color: #3a3d45; color: var(--text-strong); }
+    .primary:hover { background: #34373f; }
+    .ok { background: var(--good); border-color: #386b48; color: #e8eee9; }
+    .ok:hover { background: #347449; }
+    .warn { background: var(--warn); border-color: #7a5a26; color: #f1e6cc; }
+    .warn:hover { background: #74572b; }
     .hidden { display: none; }
     .badge {
       display: inline-block;
       border: 1px solid var(--border);
       border-radius: 999px;
-      padding: 4px 9px;
+      padding: 4px 10px;
       color: var(--muted);
-      font-size: 12px;
-      margin-right: 8px;
-      margin-bottom: 8px;
+      font-size: 11.5px;
+      margin-right: 6px;
+      margin-bottom: 6px;
+      background: var(--surface-2);
     }
-    .danger { color: #fca5a5; }
+    .danger { color: #c98c8c; }
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -81,90 +105,76 @@
       border: 1px solid var(--border);
       border-radius: 10px;
       padding: 10px;
-      max-height: 320px;
+      max-height: 360px;
       overflow: auto;
-      background: #0a1226;
+      background: var(--bg);
     }
     .product-item {
-      border: 1px solid #243052;
-      border-radius: 10px;
+      border: 1px solid var(--border-soft);
+      border-radius: 8px;
       padding: 10px;
       margin-bottom: 8px;
+      background: var(--surface-2);
     }
-    .product-item h3 {
-      margin: 0 0 6px;
-      font-size: 14px;
-    }
-    .mini {
-      font-size: 12px;
-      color: var(--muted);
-      margin: 0 0 4px;
-    }
+    .product-item h3 { margin: 0 0 6px; font-size: 13.5px; color: var(--text-strong); font-weight: 500; }
+    .mini { font-size: 12px; color: var(--muted); margin: 0 0 4px; }
     .mini-tier {
       display: inline-flex;
       width: fit-content;
       border-radius: 999px;
       padding: 2px 8px;
       font-size: 10px;
-      font-weight: 800;
+      font-weight: 700;
       margin: 0 0 6px;
-      border: 1px solid transparent;
-    }
-    .mini-tier.entry { background: #f1f5f9; color: #334155; border-color: #cbd5e1; }
-    .mini-tier.mid { background: #dbeafe; color: #1e40af; border-color: #93c5fd; }
-    .mini-tier.premium { background: #ede9fe; color: #5b21b6; border-color: #c4b5fd; }
-    .muted {
+      border: 1px solid var(--border);
+      background: var(--surface);
       color: var(--muted);
-      font-size: 12px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
     }
+    .mini-tier.entry { color: #9aa0a8; }
+    .mini-tier.mid { color: #b4b8c0; }
+    .mini-tier.premium { color: #d6d8de; border-color: #3a3d45; }
+    .muted { color: var(--muted); font-size: 12px; }
     .advanced-toggle {
       margin-top: 10px;
       font-size: 12px;
-      color: #a5b4fc;
+      color: var(--muted);
       cursor: pointer;
       text-decoration: underline;
+      text-underline-offset: 2px;
       background: transparent;
       border: none;
       padding: 0;
     }
-    .danger-btn {
-      background: #dc2626;
-      border-color: #dc2626;
-      color: #fff;
-    }
-    .field-hint {
-      font-size: 12px;
-      color: #fca5a5;
-      margin-top: 8px;
-      display: none;
-    }
+    .advanced-toggle:hover { color: var(--text); background: transparent; }
+    .field-hint { font-size: 12px; color: #c98c8c; margin-top: 8px; display: none; }
     .preview-card {
-      border: 1px solid var(--border);
-      border-radius: 12px;
+      border: 1px solid var(--border-soft);
+      border-radius: 10px;
       padding: 12px;
-      background: #11151d;
+      background: var(--surface-2);
       margin-top: 10px;
     }
-    .preview-title { margin: 0 0 4px; font-size: 14px; }
+    .preview-title { margin: 0 0 4px; font-size: 13.5px; color: var(--text-strong); font-weight: 500; }
     .preview-meta { margin: 0; color: var(--muted); font-size: 12px; }
-    .soft { background: #1f2937; border-color: #374151; }
+    .soft { background: var(--surface-2); border-color: var(--border); }
     .product-item[draggable="true"] { cursor: grab; }
     .product-item.dragging { opacity: 0.55; cursor: grabbing; }
     .product-item .item-actions { margin-top: 8px; flex-wrap: wrap; gap: 6px; }
-    .product-item .item-actions button { padding: 6px 10px; font-size: 12px; }
-    .pick-chip { background: #312e81; border-color: #4f46e5; font-size: 11px; }
+    .product-item .item-actions button { padding: 5px 10px; font-size: 12px; }
+    .pick-chip { background: #2a2c32; border-color: #3a3d45; color: var(--text-strong); font-size: 11px; }
     .form-extras { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; }
     .form-extras .thumb-box {
-      width: 120px; height: 80px; border: 1px solid var(--border); border-radius: 10px;
-      overflow: hidden; background: #0a1226; display: flex; align-items: center; justify-content: center;
+      width: 120px; height: 80px; border: 1px solid var(--border); border-radius: 8px;
+      overflow: hidden; background: var(--bg); display: flex; align-items: center; justify-content: center;
     }
     .form-extras .thumb-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
     .form-extras .thumb-placeholder { font-size: 11px; color: var(--muted); padding: 8px; text-align: center; }
     .priority-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
     .priority-row input#fPriority { min-width: 70px; width: 80px; }
-    .tpl-row { margin-top: 10px; gap: 8px; align-items: center; }
-    .tpl-row span { font-size: 13px; color: var(--muted); margin-right: 4px; }
-    .tpl-row button { font-size: 12px; padding: 8px 10px; }
+    code { font-family: Consolas, "JetBrains Mono", monospace; font-size: 0.92em; color: var(--text-strong); background: var(--surface-2); padding: 1px 5px; border-radius: 4px; border: 1px solid var(--border-soft); }
+    a { color: #b4b8c0; }
   </style>
 </head>
 <body>
@@ -183,24 +193,13 @@
     <div id="adminApp" class="hidden">
       <div class="card">
         <h1>Product Admin Panel</h1>
-        <p>New product form: fill fields, choose category, then click add. You do not need to edit code manually.</p>
-        <span class="badge" id="adminVersionBadge">Admin v2.7</span>
+        <p>Doldur, ekle, alttan <strong>Save to GitHub</strong> — site otomatik güncellenir.</p>
+        <span class="badge" id="adminVersionBadge">Admin v3.0</span>
         <span class="badge" id="adminDataVersionBadge">Data v-</span>
         <span class="badge" id="adminUpdatedAtBadge">Updated -</span>
         <span class="badge" id="countAll">Products: 0</span>
         <span class="badge" id="countActive">Active: 0</span>
         <span class="badge" id="countPicks">Top Picks: 0</span>
-      </div>
-
-      <div class="card" style="border-color:#4338ca;">
-        <h1>Ürün siteye neden düşmüyor?</h1>
-        <p style="margin-bottom:10px;">Bu panel bir veritabanına yazmıyor; sadece <strong>products.json</strong> üretir. Canlı site her zaman repodaki <code>data/products.json</code> dosyasını okur.</p>
-        <ol style="margin:0;padding-left:18px;line-height:1.55;color:#cbd5e1;font-size:14px;">
-          <li><strong>Ürün Ekle</strong> → tarayıcı otomatik olarak güncel JSON dosyasını indirir.</li>
-          <li>Aşağıdan <strong>GitHub’a kaydet</strong> (hesap ayarlıysa) → repoya yazar, Vercel yeniden deploy eder (~1–2 dk).</li>
-          <li>Ya da indirdiğin dosyayı projede <code>data/products.json</code> üzerine yapıştırıp <code>git push</code> yap.</li>
-          <li>Görsel dosyayı (<code>.jpg</code>) repo köküne ekleyip push etmeyi unutma.</li>
-        </ol>
       </div>
 
       <div class="card">
@@ -266,25 +265,14 @@
             <img id="formImagePreviewImg" alt="" class="hidden" width="120" height="80" decoding="async">
           </div>
           <div style="flex:1; min-width:200px;">
-            <p class="mini" id="imagePreviewHint" style="margin:0 0 8px;line-height:1.45;color:#94a3b8;font-size:11px;">
-              Önizleme = canlı sitede <code>/dosya.jpg</code> adresinden yüklenir. JPG’yi henüz GitHub’a push etmediysen veya deploy olmadıysa “bulunamadı” normaldir; ürün yine de JSON’a yazılır.
-            </p>
-            <p class="mini" id="amazonUrlHint" style="margin:0 0 6px;">Paste an Amazon or amzn.to link.</p>
+            <p class="mini" id="amazonUrlHint" style="margin:0 0 6px;">Amazon / amzn.to link (boş bırakılabilir → birleşik PC kartı için).</p>
             <div class="row" style="margin:0 0 8px; flex-wrap:wrap; gap:8px; align-items:center;">
               <input type="file" id="fImageFile" accept="image/jpeg,image/png,image/webp,.jfif" style="flex:1; min-width:220px;">
-              <button type="button" id="uploadImageBtn" class="primary" disabled title="GITHUB_TOKEN + GITHUB_OWNER + GITHUB_REPO gerekli">GitHub’a görsel yükle</button>
+              <button type="button" id="uploadImageBtn" class="primary" disabled title="Görsel seç → tek tıklamayla repoya commit'lenir">Görseli yükle</button>
             </div>
-            <p class="mini" id="uploadImageHint" style="margin:0 0 8px;line-height:1.45;color:#94a3b8;font-size:11px;">
-              Görsel seç → (isteğe bağlı) <strong>Image file name</strong> alanına repo kökündeki hedef adı yaz (ör. <code>my-gear.jpg</code>) → yükle. Boşsa dosya adından türetilir. Ürün eklerken bu alan otomatik dolar.
+            <p class="mini" id="uploadImageHint" style="margin:0;line-height:1.5;color:#7a7d83;font-size:11px;">
+              Görsel seç → tek tıklamayla repoya commit’lenir. <strong>Image file name</strong> alanı otomatik dolar.
             </p>
-            <div class="row tpl-row" style="margin:0;">
-              <span>Templates:</span>
-              <button type="button" id="tplZenMouse" class="soft">Zen · Mouse · Mid</button>
-              <button type="button" id="tplZenKeyboard" class="soft">Zen · Keyboard · Premium</button>
-              <button type="button" id="tplStealthMouse" class="soft">Stealth · Mouse · Stealth medal</button>
-              <button type="button" id="tplStealthHeadset" class="soft">Stealth · Headset · Blackout</button>
-              <button type="button" id="tplZenDeskOrg" class="soft">Zen · Desk organizer · Entry</button>
-            </div>
           </div>
         </div>
         <p class="field-hint" id="formHint">Name and image file are required. (Amazon URL also required unless this is a Birleşik PC kartı.)</p>
@@ -297,7 +285,7 @@
           <button id="addProductBtn" class="ok">Add Product</button>
           <button id="clearFormBtn">Clear Form</button>
         </div>
-        <p class="muted">After adding, click download and upload that file to repo as <code>data/products.json</code>.</p>
+        <p class="muted">Ekledikten sonra alttaki <strong>Save to GitHub</strong> butonuna bas — site ~1–2 dakikada güncellenir.</p>
       </div>
 
       <div class="card" id="topPicksSection">
@@ -340,14 +328,12 @@
       <div class="card">
         <div class="row">
           <button id="reloadBtn">Reload Live JSON</button>
-          <button id="validateBtn" class="ok">Validate</button>
-          <button id="downloadBtn" class="primary">Download products.json</button>
-          <button id="saveAllBtn" class="primary soft">Save All & Download</button>
-          <button id="saveGithubBtn" class="ok" type="button" disabled title="Repoya data/products.json yazar — Vercel otomatik deploy">GitHub’a kaydet → canlı site</button>
+          <button id="validateBtn">Validate</button>
+          <button id="saveGithubBtn" class="ok" type="button" disabled title="Repoya data/products.json yazar — Vercel otomatik deploy">Save to GitHub → live site</button>
           <button id="logoutBtn" class="warn">Logout</button>
         </div>
-        <p class="mini" id="githubSaveHint" style="margin:6px 0 8px;line-height:1.45;">GitHub durumu yükleniyor…</p>
-        <p id="statusLine">Ready.</p>
+        <p class="mini" id="githubSaveHint" style="margin:8px 0 6px;line-height:1.5;">GitHub durumu yükleniyor…</p>
+        <p id="statusLine" class="mini" style="margin:0;">Ready.</p>
         <button id="toggleAdvancedBtn" class="advanced-toggle" type="button">Show advanced JSON editor</button>
         <textarea id="jsonEditor" spellcheck="false" class="hidden"></textarea>
       </div>
@@ -358,7 +344,7 @@
     (function() {
       var ADMIN_API_BASE = "/api/admin";
       var DATA_PATH = "data/products.json";
-      var ADMIN_VERSION = "2.8";
+      var ADMIN_VERSION = "3.0";
       var FALLBACK_CATEGORIES = [
         { id: "keyboard", label: "Keyboards" },
         { id: "mouse", label: "Mice" },
@@ -380,7 +366,6 @@
       var loginError = document.getElementById("loginError");
       var reloadBtn = document.getElementById("reloadBtn");
       var validateBtn = document.getElementById("validateBtn");
-      var downloadBtn = document.getElementById("downloadBtn");
       var logoutBtn = document.getElementById("logoutBtn");
       var statusLine = document.getElementById("statusLine");
       var jsonEditor = document.getElementById("jsonEditor");
@@ -424,7 +409,6 @@
       var editingProductId = "";
       var listSearch = document.getElementById("listSearch");
       var listActiveFilter = document.getElementById("listActiveFilter");
-      var saveAllBtn = document.getElementById("saveAllBtn");
       var saveGithubBtn = document.getElementById("saveGithubBtn");
       var githubSaveHint = document.getElementById("githubSaveHint");
       var formImagePreviewImg = document.getElementById("formImagePreviewImg");
@@ -967,18 +951,6 @@
         }
       }
 
-      function downloadJson(data) {
-        var blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
-        var url = URL.createObjectURL(blob);
-        var link = document.createElement("a");
-        link.href = url;
-        link.download = "products.json";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
-      }
-
       function resolveBadge() {
         if (fMedalPreset.value === "custom") {
           return fBadgeCustom.value.trim() || "Top Rated";
@@ -1098,11 +1070,10 @@
         refreshCounts(parsed);
         renderProductsList(parsed);
         populateTopPickSelectors(parsed);
-        downloadJson(parsed);
         setStatus(
           editingProductId
-            ? "Güncellendi; güncel JSON indirildi. Form sıfırlandı. İstersen GitHub’a kaydet veya dosyayı repoya yapıştır."
-            : "Ürün eklendi; güncel products.json tarayıcıya indirildi (İndirilenler). Form temizlendi. Sonra GitHub’a kaydet veya dosyayı data/products.json yapıştırıp push et — yoksa sitede görünmez.",
+            ? "Ürün güncellendi. Aşağıdan Save to GitHub'a basarsan canlıya çıkar."
+            : "Ürün eklendi. Aşağıdan Save to GitHub'a basarsan canlıya çıkar.",
           false
         );
         resetProductForm();
@@ -1373,18 +1344,6 @@
           toggleAdvancedBtn.textContent = "Show advanced JSON editor";
         }
       });
-      downloadBtn.addEventListener("click", function() {
-        var parsed = validateEditorJson();
-        if (!parsed) return;
-        downloadJson(parsed);
-        setStatus("Downloaded products.json. Replace data/products.json with this file.");
-      });
-      saveAllBtn.addEventListener("click", function() {
-        var parsed = validateEditorJson();
-        if (!parsed) return;
-        downloadJson(parsed);
-        setStatus("Saved all changes and downloaded products.json.");
-      });
       saveGithubBtn.addEventListener("click", function() {
         var parsed = validateEditorJson();
         if (!parsed) return;
@@ -1459,35 +1418,6 @@
         fPriority.value = maxP + 1;
         updateFormState();
         setStatus("Priority set to " + fPriority.value + " (higher than matching list filters).", false);
-      });
-      function applyTemplate(section, category, tier, medal, medalCustom) {
-        fSection.value = section;
-        ensureCategoryOption(category);
-        fCategory.value = category;
-        fValueTier.value = tier;
-        if (medal === "custom") {
-          fMedalPreset.value = "custom";
-          fBadgeCustom.value = medalCustom || "";
-        } else {
-          fMedalPreset.value = medal;
-          fBadgeCustom.value = "";
-        }
-        updateFormState();
-      }
-      document.getElementById("tplZenMouse").addEventListener("click", function() {
-        applyTemplate("zen-workspace", "mouse", "mid", "Top Rated", "");
-      });
-      document.getElementById("tplZenKeyboard").addEventListener("click", function() {
-        applyTemplate("zen-workspace", "keyboard", "premium", "Premium Tier", "");
-      });
-      document.getElementById("tplStealthMouse").addEventListener("click", function() {
-        applyTemplate("stealth-operator", "mouse", "mid", "Stealth Choice", "");
-      });
-      document.getElementById("tplStealthHeadset").addEventListener("click", function() {
-        applyTemplate("stealth-operator", "headset", "premium", "Blackout Masterpiece", "");
-      });
-      document.getElementById("tplZenDeskOrg").addEventListener("click", function() {
-        applyTemplate("zen-workspace", "desk-organizer", "entry", "Verified Quality", "");
       });
       logoutBtn.addEventListener("click", function() {
         logoutBackend()
