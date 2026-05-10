@@ -668,18 +668,18 @@
       "active": true
     },
     {
-      "id": "fractal-design-north",
+      "id": "samsung-990-pro-4tb-nvme-2",
       "section": "vault-noir",
       "campaignGroup": "noir",
-      "category": "pc-case",
+      "category": "pc-component",
       "valueTier": "premium",
-      "name": "Fractal Design North",
+      "name": "Samsung 990 PRO 4TB NVMe",
       "badge": "4.5+ Elite Choice",
       "benefit": "Balanced pick for daily use.",
-      "image": "noir_case",
-      "alt": "Fractal Design North",
-      "amazonUrl": "https://amzn.to/3QVyqHv",
-      "pinterestMedia": "noir_case",
+      "image": "noir_ssd.jpg",
+      "alt": "Samsung 990 PRO 4TB NVMe",
+      "amazonUrl": "https://amzn.to/4dgwaC3",
+      "pinterestMedia": "noir_ssd.jpg",
       "priority": 5,
       "active": true
     }
