@@ -1,5 +1,5 @@
 (function() {
-  var SITE_VERSION = "2.9";
+  var SITE_VERSION = "3.0";
   var SITE_MEDIA_ORIGIN = "https://www.setupvaulthq.com";
 
   function resolveSiteAssetUrl(path) {
@@ -233,6 +233,32 @@
     );
   }
 
+  function parseCategoryFilterFromGrid(grid) {
+    var excludeRaw = grid.getAttribute("data-category-exclude") || "";
+    var onlyRaw = grid.getAttribute("data-category-only") || "";
+    return {
+      exclude: excludeRaw
+        .split(",")
+        .map(function(s) {
+          return s.trim();
+        })
+        .filter(Boolean),
+      only: onlyRaw
+        .split(",")
+        .map(function(s) {
+          return s.trim();
+        })
+        .filter(Boolean)
+    };
+  }
+
+  function productMatchesCategoryFilter(product, filter) {
+    var cat = (product && product.category) || "";
+    if (filter.only.length && filter.only.indexOf(cat) < 0) return false;
+    if (filter.exclude.length && filter.exclude.indexOf(cat) >= 0) return false;
+    return true;
+  }
+
   function applyVaultNoirState(products) {
     var hasNoir = (products || []).some(function(product) {
       return product && product.active && product.section === "vault-noir";
@@ -257,18 +283,21 @@
     if (!sections.length) return;
     sections.forEach(function(grid) {
       var sectionId = grid.getAttribute("data-dynamic-section");
+      var catFilter = parseCategoryFilterFromGrid(grid);
       var html = (products || [])
         .filter(function(product) {
-          return Boolean(product.active) && product.section === sectionId;
+          return (
+            Boolean(product.active) &&
+            product.section === sectionId &&
+            productMatchesCategoryFilter(product, catFilter)
+          );
         })
         .sort(function(a, b) {
           return (b.priority || 0) - (a.priority || 0);
         })
         .map(renderProductCard)
         .join("");
-      if (html) {
-        grid.innerHTML = html;
-      }
+      grid.innerHTML = html;
     });
   }
 
@@ -536,6 +565,7 @@
       var filterTier = currentTier;
       var cards = document.querySelectorAll(
         ".setup-content-grid .part-card[data-tier], " +
+          "#vault-noir .case-parts-grid .part-card[data-tier], " +
           "#gearLibraryHomeMount .part-card[data-tier], " +
           "#categoryProductsGrid .pick-card[data-tier], " +
           "#categorySpotlightGrid .spotlight-card[data-tier], " +

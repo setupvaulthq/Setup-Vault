@@ -629,6 +629,35 @@ section h2::before { content: ''; width: 6px; height: 28px; background-color: va
     color: var(--primary-accent);
 }
 
+/* Vault Noir — JSON cards use .stealth-card; remap to noir palette inside #vault-noir */
+#vault-noir .part-card.stealth-card {
+    background: var(--noir-secondary);
+    border-color: var(--noir-border);
+}
+#vault-noir .part-card.stealth-card .part-title {
+    color: var(--noir-heading);
+}
+#vault-noir .part-card.stealth-card .part-benefit-note,
+#vault-noir .part-card.stealth-card .trust-inline-note {
+    color: var(--noir-text-muted);
+}
+#vault-noir .part-card.stealth-card .part-btn {
+    background: var(--noir-dominant);
+    color: var(--noir-heading);
+    border-color: var(--noir-btn-border);
+}
+#vault-noir .part-card.stealth-card .part-btn:hover {
+    background: var(--noir-accent);
+    border-color: var(--noir-accent);
+    color: var(--noir-dominant);
+}
+#vault-noir .part-card.stealth-card .copy-link-icon {
+    color: var(--noir-text-muted);
+}
+#vault-noir .part-card.stealth-card .copy-link-icon:hover {
+    color: var(--noir-accent);
+}
+
 #categoryProductsGrid.top-picks-grid {
     margin-top: 8px;
 }

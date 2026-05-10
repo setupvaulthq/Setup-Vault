@@ -184,7 +184,7 @@
       <div class="card">
         <h1>Product Admin Panel</h1>
         <p>New product form: fill fields, choose category, then click add. You do not need to edit code manually.</p>
-        <span class="badge" id="adminVersionBadge">Admin v2.6</span>
+        <span class="badge" id="adminVersionBadge">Admin v2.7</span>
         <span class="badge" id="adminDataVersionBadge">Data v-</span>
         <span class="badge" id="adminUpdatedAtBadge">Updated -</span>
         <span class="badge" id="countAll">Products: 0</span>
@@ -221,6 +221,9 @@
             <option value="zen-workspace">Zen Workspace</option>
             <option value="stealth-operator">Stealth Operator</option>
           </select>
+          <p id="vaultNoirMatryoshkaHint" class="mini" style="display:none;margin:4px 0 0;grid-column:1/-1;font-size:11px;line-height:1.45;color:#94a3b8;">
+            <strong>Vault Noir (matryoshka):</strong> Dış grid = <strong>PC Components dışındaki</strong> tüm kategoriler (klavye, kasa şasisi, vb.). GPU/CPU/RAM/SSD/anakart/soğutucu/PSU için kategori mutlaka <code>pc-component</code> — bunlar yalnızca ana sayfa + <code>noir.html</code> üzerindeki <strong>birleşik kasa fotoğrafının altındaki iç parça accordion’unda</strong> listelenir (Zen/Stealth ile aynı akış).
+          </p>
           <select id="fCategory"></select>
           <select id="fValueTier">
             <option value="entry">Entry Tier</option>
@@ -349,7 +352,7 @@
     (function() {
       var ADMIN_API_BASE = "/api/admin";
       var DATA_PATH = "data/products.json";
-      var ADMIN_VERSION = "2.6";
+      var ADMIN_VERSION = "2.7";
       var FALLBACK_CATEGORIES = [
         { id: "keyboard", label: "Keyboards" },
         { id: "mouse", label: "Mice" },
@@ -1014,6 +1017,10 @@
         addProductBtn.disabled = !valid;
         addProductBtn.style.opacity = valid ? "1" : "0.6";
         formHint.style.display = valid ? "none" : "block";
+        var noirMatryoshkaHint = document.getElementById("vaultNoirMatryoshkaHint");
+        if (noirMatryoshkaHint) {
+          noirMatryoshkaHint.style.display = fSection.value === "vault-noir" ? "block" : "none";
+        }
         updatePreview();
         updateImagePreview();
         updateAmazonHint();

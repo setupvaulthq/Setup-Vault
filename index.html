@@ -20,7 +20,7 @@
     <meta property="og:type" content="website">
 
     <link rel="stylesheet" href="fonts/inter-local.css">
-    <link rel="stylesheet" href="css/site.css?v=6">
+    <link rel="stylesheet" href="css/site.css?v=7">
 </head>
 <body>
     <button type="button" class="focus-close-btn" id="focusCloseBtn" aria-label="Exit focus mode">✕ Focus Mode Off</button>
@@ -137,16 +137,39 @@
                             <span class="noir-coming-soon-kicker">Coming Soon</span>
                             <p class="noir-coming-soon-title">The Vault Noir is being curated</p>
                             <p class="noir-coming-soon-desc">A premium midnight battlestation, above the Stealth Operator tier. Each piece is hand-verified before it drops here — peripherals, the Vault Noir Core, and every internal component will reveal one by one.</p>
-                            <p class="noir-coming-soon-meta">Drops appear automatically once added in Admin · <strong>Section: Vault Noir</strong></p>
+                            <p class="noir-coming-soon-meta">Drops appear automatically once added in Admin · <strong>Section: Vault Noir</strong> · Matryoshka PC: use <strong>PC Components</strong> only for parts inside the assembled case drawer.</p>
                         </div>
 
                         <details class="parts-accordion" data-noir-products-wrap hidden>
                             <summary style="background-color: var(--noir-secondary); color: var(--noir-heading); border: 1px solid var(--noir-border); box-shadow: none;">View Setup Content</summary>
 
-                            <div class="setup-content-grid" data-dynamic-section="vault-noir" style="border-top-color: var(--noir-border);"></div>
+                            <div
+                                class="setup-content-grid"
+                                data-dynamic-section="vault-noir"
+                                data-category-exclude="pc-component"
+                                style="border-top: 1px solid var(--noir-border); padding-top: 20px;"></div>
+
+                            <div class="part-card case-unit-card" style="background-color: var(--noir-secondary); border: 1px solid var(--noir-border); margin-top: 28px;" id="noir-pc-unit">
+                                <img src="noir_full.jpg" class="case-assembled-image" alt="Assembled Vault Noir PC build" width="1024" height="572" loading="lazy" decoding="async" onclick="document.getElementById('noirInternals').open = !document.getElementById('noirInternals').open">
+                                <div class="case-unit-details">
+                                    <div class="medal-badge medal-dark" style="background: var(--noir-dominant); color: var(--noir-accent); border-color: var(--noir-border);">🌃 Heirloom Tier</div>
+                                    <h4 class="part-title" style="color: var(--noir-heading); font-size: 20px;">The Vault Noir Core (PC Unit)</h4>
+                                    <p class="build-desc" style="font-size: 14px; margin-bottom: 16px; color: var(--noir-text-muted);">Assembled chassis — open below for the internal component grid (same matryoshka flow as Zen &amp; Stealth).</p>
+
+                                    <details class="case-internals-accordion" id="noirInternals">
+                                        <summary style="background-color: var(--noir-dominant); color: var(--noir-heading); border: 1px solid var(--noir-btn-border); padding: 15px; font-size: 16px; cursor: pointer;">🔍 View PC build parts (internals)</summary>
+
+                                        <div
+                                            class="case-parts-grid"
+                                            style="border-top-color: var(--noir-border); margin-top: 20px;"
+                                            data-dynamic-section="vault-noir"
+                                            data-category-only="pc-component"></div>
+                                    </details>
+                                </div>
+                            </div>
 
                             <div class="case-unit-details" style="margin-top: 20px;">
-                                <p class="build-desc" style="color: var(--noir-text-muted); font-size: 13px; margin: 0;">PC case &amp; internal components for Vault Noir keep arriving — anything tagged <strong>Vault Noir</strong> in Admin lands directly in this grid.</p>
+                                <p class="build-desc" style="color: var(--noir-text-muted); font-size: 13px; margin: 0;"><strong>Admin:</strong> Section <strong>Vault Noir</strong>. Peripherals + chassis card use any category <em>except</em> <strong>PC Components</strong> (they land in the outer grid). GPU, CPU, RAM, SSD, cooler, PSU, motherboard — set category to <strong>PC Components</strong>; they render only inside the drawer above.</p>
                             </div>
                         </details>
                     </div>
@@ -751,7 +774,7 @@
         </div>
     </div>
 
-    <script src="scripts/render-products.js?v=2.9" defer></script>
+    <script src="scripts/render-products.js?v=3.0" defer></script>
     <script src="scripts/site-shell.js" defer></script>
 </body>
 </html>

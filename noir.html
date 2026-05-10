@@ -20,7 +20,7 @@
     <meta property="og:type" content="website">
 
     <link rel="stylesheet" href="fonts/inter-local.css">
-    <link rel="stylesheet" href="css/site.css?v=6">
+    <link rel="stylesheet" href="css/site.css?v=7">
     <style>
       body.theme-noir { background-color: var(--noir-dominant); color: var(--noir-heading); }
       body.theme-noir .main-content { color: var(--noir-heading); }
@@ -94,25 +94,11 @@
                 <h2>🌃 Vault Noir — Gear</h2>
                 <p class="build-desc">Active Vault Noir products are listed below. As you publish more pieces from Admin (section: <strong>Vault Noir</strong>), they automatically appear here.</p>
 
-                <div class="build-master-card" style="margin-bottom: 32px; background: var(--noir-secondary); border: 1px solid var(--noir-border); box-shadow: 0 20px 50px rgba(0,0,0,0.45);">
-                    <a href="index.html#vault-noir" style="display: block; text-decoration: none;">
-                        <img src="noir_full.jpg" alt="Vault Noir assembled PC core" style="width: 100%; height: auto; display: block;" width="1024" height="572" loading="lazy" decoding="async">
-                    </a>
-                    <div class="build-content">
-                        <div class="segment-badge dark" style="background: var(--noir-dominant); color: var(--noir-accent); border-color: var(--noir-border);">Premium Drop · 60-30-10 Noir</div>
-                        <h3 class="build-title" style="color: var(--noir-heading);">The Vault Noir Core</h3>
-                        <p class="build-desc" style="color: var(--noir-text-muted); margin-bottom: 0;">A midnight obsidian foundation with a thin champagne accent — built to feel like an heirloom, not a gadget.</p>
-                        <p style="margin: 16px 0 0;">
-                            <a href="index.html#vault-noir" class="part-btn" style="display: inline-flex; background: var(--noir-dominant); color: var(--noir-heading); border: 1px solid var(--noir-btn-border);">Open the Vault Noir story →</a>
-                        </p>
-                    </div>
-                </div>
-
                 <div class="noir-coming-soon" data-noir-coming-soon>
                     <span class="noir-coming-soon-kicker">Coming Soon</span>
                     <p class="noir-coming-soon-title">Vault Noir collection drops here</p>
                     <p class="noir-coming-soon-desc">Each peripheral, the Vault Noir Core, and every internal part is being verified before it goes live. Cards arrive automatically as items are published from Admin.</p>
-                    <p class="noir-coming-soon-meta">Section: <strong>Vault Noir</strong> — premium tier above Stealth</p>
+                    <p class="noir-coming-soon-meta">Section: <strong>Vault Noir</strong> — premium tier above Stealth · Matryoshka: <strong>PC Components</strong> = inside the assembled PC drawer only.</p>
                 </div>
 
                 <div data-noir-products-wrap hidden>
@@ -122,7 +108,29 @@
                         <div class="tier-chips" id="tierFilterChips"></div>
                     </div>
 
-                    <div class="setup-content-grid" data-dynamic-section="vault-noir"></div>
+                    <div
+                        class="setup-content-grid"
+                        data-dynamic-section="vault-noir"
+                        data-category-exclude="pc-component"></div>
+
+                    <div class="build-master-card" style="margin-top: 28px; background: var(--noir-secondary); border: 1px solid var(--noir-border); box-shadow: 0 20px 50px rgba(0,0,0,0.45);">
+                        <div class="part-card case-unit-card" style="background: transparent; border: none; box-shadow: none; margin: 0;" id="noir-pc-unit-page">
+                            <img src="noir_full.jpg" class="case-assembled-image" alt="Assembled Vault Noir PC build" width="1024" height="572" loading="lazy" decoding="async" onclick="document.getElementById('noirInternalsPage').open = !document.getElementById('noirInternalsPage').open">
+                            <div class="case-unit-details">
+                                <div class="medal-badge medal-dark" style="background: var(--noir-dominant); color: var(--noir-accent); border-color: var(--noir-border);">🌃 Heirloom Tier</div>
+                                <h3 class="build-title" style="color: var(--noir-heading); font-size: 20px;">The Vault Noir Core (PC Unit)</h3>
+                                <p class="build-desc" style="color: var(--noir-text-muted); margin-bottom: 0;">Tap the photo or expand below — internals are the same <strong>PC Components</strong> drawer as on Home.</p>
+                                <details class="case-internals-accordion" id="noirInternalsPage" style="margin-top: 16px;">
+                                    <summary style="background-color: var(--noir-dominant); color: var(--noir-heading); border: 1px solid var(--noir-btn-border); padding: 15px; font-size: 16px; cursor: pointer;">🔍 View PC build parts (internals)</summary>
+                                    <div
+                                        class="case-parts-grid"
+                                        style="border-top-color: var(--noir-border); margin-top: 20px;"
+                                        data-dynamic-section="vault-noir"
+                                        data-category-only="pc-component"></div>
+                                </details>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
         </main>
@@ -150,7 +158,7 @@
         </div>
     </div>
 
-    <script src="scripts/render-products.js?v=2.9" defer></script>
+    <script src="scripts/render-products.js?v=3.0" defer></script>
     <script src="scripts/site-shell.js" defer></script>
 </body>
 </html>
