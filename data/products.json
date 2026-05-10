@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": 24,
+    "version": 25,
     "updatedAt": "2026-05-10",
     "currency": "USD",
     "defaultDisclosure": "As an Amazon Associate, Setup Vault earns from qualifying purchases."
@@ -713,6 +713,22 @@
       "amazonUrl": "https://amzn.to/42r9qKA",
       "pinterestMedia": "noir_speakers.jpg",
       "priority": 9,
+      "active": true
+    },
+    {
+      "id": "aula-f75-pro-wireless-mechanical-keyboard-75",
+      "section": "vault-noir",
+      "campaignGroup": "noir",
+      "category": "keyboard",
+      "valueTier": "premium",
+      "name": "AULA F75 Pro Wireless Mechanical Keyboard,75%",
+      "badge": "Verified Quality",
+      "benefit": "Balanced pick for daily use.",
+      "image": "noir_keyboard.jpg",
+      "alt": "AULA F75 Pro Wireless Mechanical Keyboard,75%",
+      "amazonUrl": "https://amzn.to/3PtgFie",
+      "pinterestMedia": "noir_keyboard.jpg",
+      "priority": 8,
       "active": true
     }
   ]
