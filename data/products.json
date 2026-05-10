@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": 23,
+    "version": 24,
     "updatedAt": "2026-05-10",
     "currency": "USD",
     "defaultDisclosure": "As an Amazon Associate, Setup Vault earns from qualifying purchases."
@@ -697,6 +697,22 @@
       "amazonUrl": "https://amzn.to/4dgwaC3",
       "pinterestMedia": "noir_ssd.jpg",
       "priority": 5,
+      "active": true
+    },
+    {
+      "id": "jbl-305p-mkii-5-2-way-active-powered-studio-reference-monitors-speakers",
+      "section": "vault-noir",
+      "campaignGroup": "noir",
+      "category": "desktop-audio",
+      "valueTier": "premium",
+      "name": "JBL 305P MkII 5\" 2-Way Active Powered Studio Reference Monitors Speakers",
+      "badge": "4.5+ Elite Choice",
+      "benefit": "Balanced pick for daily use.",
+      "image": "noir_speakers.jpg",
+      "alt": "JBL 305P MkII 5\" 2-Way Active Powered Studio Reference Monitors Speakers",
+      "amazonUrl": "https://amzn.to/42r9qKA",
+      "pinterestMedia": "noir_speakers.jpg",
+      "priority": 9,
       "active": true
     }
   ]
