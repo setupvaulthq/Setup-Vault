@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": 31,
+    "version": 32,
     "updatedAt": "2026-05-10",
     "currency": "USD",
     "defaultDisclosure": "As an Amazon Associate, Setup Vault earns from qualifying purchases."
@@ -749,8 +749,8 @@
     },
     {
       "id": "logitech-g700s",
-      "section": "gear-library",
-      "campaignGroup": "catalog",
+      "section": "vault-noir",
+      "campaignGroup": "noir",
       "category": "mouse",
       "valueTier": "premium",
       "name": "Logitech G700s",
