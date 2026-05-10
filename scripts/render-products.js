@@ -1,5 +1,5 @@
 (function() {
-  var SITE_VERSION = "2.8";
+  var SITE_VERSION = "2.9";
   var SITE_MEDIA_ORIGIN = "https://www.setupvaulthq.com";
 
   function resolveSiteAssetUrl(path) {
@@ -565,6 +565,8 @@
     });
   }
 
+  var SPOTLIGHT_CATEGORY_LIMIT = 6;
+
   function renderCategorySpotlights(data) {
     var wrap = document.getElementById("categorySpotlightGrid");
     if (!wrap) return;
@@ -636,6 +638,10 @@
           "</article>"
         );
       })
+      .filter(function(chunk) {
+        return Boolean(chunk);
+      })
+      .slice(0, SPOTLIGHT_CATEGORY_LIMIT)
       .join("");
     wrap.innerHTML = html || '<p class="pick-note">Category highlights will appear as products grow.</p>';
   }
