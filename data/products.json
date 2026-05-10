@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": 9,
+    "version": 10,
     "updatedAt": "2026-05-10",
     "currency": "USD",
     "defaultDisclosure": "As an Amazon Associate, Setup Vault earns from qualifying purchases."
@@ -601,6 +601,22 @@
       "amazonUrl": "https://amzn.to/4udNwqg",
       "pinterestMedia": "noir_cpu",
       "priority": 9,
+      "active": true
+    },
+    {
+      "id": "asus-proart-z890-creator-wifi",
+      "section": "vault-noir",
+      "campaignGroup": "noir",
+      "category": "pc-component",
+      "valueTier": "premium",
+      "name": "ASUS ProArt Z890-Creator WiFi",
+      "badge": "Verified Quality",
+      "benefit": "Balanced pick for daily use.",
+      "image": "noir_mabo.jpg",
+      "alt": "ASUS ProArt Z890-Creator WiFi",
+      "amazonUrl": "https://amzn.to/4uGkK1z",
+      "pinterestMedia": "noir_mabo.jpg",
+      "priority": 7,
       "active": true
     }
   ]
