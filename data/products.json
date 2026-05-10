@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": 7,
+    "version": 8,
     "updatedAt": "2026-05-10",
     "currency": "USD",
     "defaultDisclosure": "As an Amazon Associate, Setup Vault earns from qualifying purchases."
@@ -570,6 +570,22 @@
       "priority": 15,
       "active": true,
       "isBuildUnit": true
+    },
+    {
+      "id": "asus-proart-geforce-rtx-5080-oc",
+      "section": "vault-noir",
+      "campaignGroup": "noir",
+      "category": "pc-component",
+      "valueTier": "premium",
+      "name": "ASUS ProArt GeForce RTX 5080 OC",
+      "badge": "4.5+ Elite Choice",
+      "benefit": "Balanced pick for daily use.",
+      "image": "noir_gpu",
+      "alt": "ASUS ProArt GeForce RTX 5080 OC",
+      "amazonUrl": "https://amzn.to/4nuLaRt",
+      "pinterestMedia": "noir_gpu",
+      "priority": 7,
+      "active": true
     }
   ]
 }
