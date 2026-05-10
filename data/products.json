@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": 33,
+    "version": 34,
     "updatedAt": "2026-05-10",
     "currency": "USD",
     "defaultDisclosure": "As an Amazon Associate, Setup Vault earns from qualifying purchases."
@@ -837,11 +837,11 @@
       "campaignGroup": "noir",
       "category": "chair",
       "valueTier": "premium",
-      "name": "Secretlab Titan Evo Black Gaming Chair",
+      "name": "The Throne",
       "badge": "4.5+ Elite Choice",
-      "benefit": "Balanced pick for daily use.",
+      "benefit": "Secretlab Titan Evo in blackout — magnetic head pillow, adaptive lumbar. The chair that disappears under you for 12-hour ranked grinds.",
       "image": "noir_chair.jpg",
-      "alt": "Secretlab Titan Evo Black Gaming Chair",
+      "alt": "The Throne — Secretlab Titan Evo blackout gaming chair",
       "amazonUrl": "https://amzn.to/3Rvzyla",
       "pinterestMedia": "noir_chair.jpg",
       "priority": 5,
