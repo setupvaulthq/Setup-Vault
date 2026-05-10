@@ -184,7 +184,7 @@
       <div class="card">
         <h1>Product Admin Panel</h1>
         <p>New product form: fill fields, choose category, then click add. You do not need to edit code manually.</p>
-        <span class="badge" id="adminVersionBadge">Admin v2.4</span>
+        <span class="badge" id="adminVersionBadge">Admin v2.5</span>
         <span class="badge" id="adminDataVersionBadge">Data v-</span>
         <span class="badge" id="adminUpdatedAtBadge">Updated -</span>
         <span class="badge" id="countAll">Products: 0</span>
@@ -260,6 +260,13 @@
               Önizleme = canlı sitede <code>/dosya.jpg</code> adresinden yüklenir. JPG’yi henüz GitHub’a push etmediysen veya deploy olmadıysa “bulunamadı” normaldir; ürün yine de JSON’a yazılır.
             </p>
             <p class="mini" id="amazonUrlHint" style="margin:0 0 6px;">Paste an Amazon or amzn.to link.</p>
+            <div class="row" style="margin:0 0 8px; flex-wrap:wrap; gap:8px; align-items:center;">
+              <input type="file" id="fImageFile" accept="image/jpeg,image/png,image/webp,.jfif" style="flex:1; min-width:220px;">
+              <button type="button" id="uploadImageBtn" class="primary" disabled title="GITHUB_TOKEN + GITHUB_OWNER + GITHUB_REPO gerekli">GitHub’a görsel yükle</button>
+            </div>
+            <p class="mini" id="uploadImageHint" style="margin:0 0 8px;line-height:1.45;color:#94a3b8;font-size:11px;">
+              Görsel seç → (isteğe bağlı) <strong>Image file name</strong> alanına repo kökündeki hedef adı yaz (ör. <code>my-gear.jpg</code>) → yükle. Boşsa dosya adından türetilir. Ürün eklerken bu alan otomatik dolar.
+            </p>
             <div class="row tpl-row" style="margin:0;">
               <span>Templates:</span>
               <button type="button" id="tplZenMouse" class="soft">Zen · Mouse · Mid</button>
@@ -340,7 +347,7 @@
     (function() {
       var ADMIN_API_BASE = "/api/admin";
       var DATA_PATH = "data/products.json";
-      var ADMIN_VERSION = "2.4";
+      var ADMIN_VERSION = "2.5";
       var FALLBACK_CATEGORIES = [
         { id: "keyboard", label: "Keyboards" },
         { id: "mouse", label: "Mice" },
@@ -409,6 +416,8 @@
       var formImagePreviewPh = document.getElementById("formImagePreviewPh");
       var amazonUrlHint = document.getElementById("amazonUrlHint");
       var dragSortHint = document.getElementById("dragSortHint");
+      var uploadImageBtn = document.getElementById("uploadImageBtn");
+      var fImageFile = document.getElementById("fImageFile");
 
       function escapeHtml(s) {
         return String(s == null ? "" : s)
@@ -778,18 +787,100 @@
             if (body && body.saveAvailable) {
               saveGithubBtn.disabled = false;
               saveGithubBtn.style.opacity = "1";
+              if (uploadImageBtn) {
+                uploadImageBtn.disabled = false;
+                uploadImageBtn.style.opacity = "1";
+              }
               githubSaveHint.innerHTML =
-                "<strong>GitHub bağlı:</strong> «GitHub’a kaydet → canlı site» ile <code>data/products.json</code> repoya yazılır; Vercel deploy sonrası ürün görünür.";
+                "<strong>GitHub bağlı:</strong> «GitHub’a kaydet → canlı site» ile <code>data/products.json</code> repoya yazılır; «GitHub’a görsel yükle» ile JPG/PNG/WebP repo köküne gider. Vercel deploy sonrası sitede görünür.";
             } else {
               saveGithubBtn.disabled = true;
               saveGithubBtn.style.opacity = "0.65";
+              if (uploadImageBtn) {
+                uploadImageBtn.disabled = true;
+                uploadImageBtn.style.opacity = "0.65";
+              }
               githubSaveHint.innerHTML =
-                "Otomatik kayıt için Vercel’e <code>GITHUB_TOKEN</code>, <code>GITHUB_OWNER</code>, <code>GITHUB_REPO</code> ekleyin (bkz. VERCEL_ADMIN_SETUP.md). Yoksa her eklemeden sonra inen <strong>products.json</strong> dosyasını projede <code>data/products.json</code> olarak kaydedip <code>git push</code> yapın.";
+                "Otomatik kayıt için Vercel’e <code>GITHUB_TOKEN</code>, <code>GITHUB_OWNER</code>, <code>GITHUB_REPO</code> ekleyin (bkz. VERCEL_ADMIN_SETUP.md). Yoksa her eklemeden sonra inen <strong>products.json</strong> dosyasını projede <code>data/products.json</code> olarak kaydedip <code>git push</code> yapın; görselleri de manuel repo köküne ekleyin.";
             }
           })
           .catch(function() {
             githubSaveHint.textContent = "GitHub durumu alınamadı (isteğe bağlı).";
+            if (uploadImageBtn) {
+              uploadImageBtn.disabled = true;
+              uploadImageBtn.style.opacity = "0.65";
+            }
           });
+      }
+
+      function uploadImageToGithub() {
+        if (!uploadImageBtn || !fImageFile) return;
+        var file = fImageFile.files && fImageFile.files[0];
+        if (!file) {
+          setStatus("Önce bir görsel dosyası seç.", true);
+          return;
+        }
+        var maxBytes = 3 * 1024 * 1024;
+        if (file.size > maxBytes) {
+          setStatus("Görsel en fazla 3 MiB olabilir.", true);
+          return;
+        }
+        var reader = new FileReader();
+        reader.onerror = function() {
+          setStatus("Dosya okunamadı.", true);
+        };
+        reader.onload = function() {
+          var dataUrl = reader.result;
+          var comma = typeof dataUrl === "string" ? dataUrl.indexOf(",") : -1;
+          var b64 = comma >= 0 ? dataUrl.slice(comma + 1) : "";
+          if (!b64) {
+            setStatus("Base64 oluşturulamadı.", true);
+            return;
+          }
+          var targetName = (fImage.value || "").trim();
+          uploadImageBtn.disabled = true;
+          callAdminApi("/upload-asset", {
+            method: "POST",
+            body: JSON.stringify({
+              contentBase64: b64,
+              contentType: file.type || "",
+              originalFilename: file.name || "",
+              targetFilename: targetName
+            })
+          })
+            .then(function(res) {
+              return res.json().catch(function() {
+                return {};
+              }).then(function(body) {
+                return { ok: res.ok, body: body };
+              });
+            })
+            .then(function(result) {
+              refreshGithubSaveUi();
+              if (result.ok && result.body && result.body.ok) {
+                var p = result.body.path || "";
+                if (p) fImage.value = p;
+                if (fImageFile) fImageFile.value = "";
+                updateFormState();
+                setStatus(
+                  (result.body.message || "Görsel yüklendi.") +
+                    " Sonra «Add Product» veya mevcut ürünü güncelle; ardından «GitHub’a kaydet → canlı site».",
+                  false
+                );
+              } else {
+                var msg = (result.body && result.body.error) ? result.body.error : "Yükleme başarısız";
+                var hint = result.body && result.body.hint ? " — " + result.body.hint : "";
+                var detail =
+                  result.body && result.body.detail ? " " + String(result.body.detail).slice(0, 280) : "";
+                setStatus(msg + hint + detail, true);
+              }
+            })
+            .catch(function() {
+              refreshGithubSaveUi();
+              setStatus("Görsel yükleme isteği başarısız (oturum veya ağ).", true);
+            });
+        };
+        reader.readAsDataURL(file);
       }
 
       function loginWithBackend(password) {
@@ -1291,6 +1382,7 @@
             setStatus("GitHub isteği başarısız (oturum veya ağ).", true);
           });
       });
+      if (uploadImageBtn) uploadImageBtn.addEventListener("click", uploadImageToGithub);
       [fId, fName, fImage, fAmazonUrl, fSection, fCategory, fValueTier, fMedalPreset, fBadgeCustom, fPriority, fActive, fBenefit]
         .forEach(function(el) {
           el.addEventListener("input", updateFormState);
