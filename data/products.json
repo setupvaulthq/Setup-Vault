@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": 5,
+    "version": 6,
     "updatedAt": "2026-05-10",
     "currency": "USD",
     "defaultDisclosure": "As an Amazon Associate, Setup Vault earns from qualifying purchases."
@@ -41,6 +41,10 @@
     {
       "id": "pc-component",
       "label": "PC Components"
+    },
+    {
+      "id": "desktop-audio",
+      "label": "Desktop Audio"
     }
   ],
   "topPicks": [
