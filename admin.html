@@ -184,7 +184,7 @@
       <div class="card">
         <h1>Product Admin Panel</h1>
         <p>New product form: fill fields, choose category, then click add. You do not need to edit code manually.</p>
-        <span class="badge" id="adminVersionBadge">Admin v2.5</span>
+        <span class="badge" id="adminVersionBadge">Admin v2.6</span>
         <span class="badge" id="adminDataVersionBadge">Data v-</span>
         <span class="badge" id="adminUpdatedAtBadge">Updated -</span>
         <span class="badge" id="countAll">Products: 0</span>
@@ -215,8 +215,9 @@
           <input id="fName" placeholder="Product name">
           <input id="fImage" placeholder="Image file name (example: mouse.jpg)">
           <input id="fAmazonUrl" placeholder="Amazon link (https://...)">
-          <select id="fSection" title="Build sayfası: Zen/Stealth. Sadece Gear kataloğu için alttaki seçenek.">
-            <option value="gear-library">Gear Library only (no Zen/Stealth page)</option>
+          <select id="fSection" title="Build sayfası: Vault Noir / Zen / Stealth. Sadece Gear kataloğu için ilk seçenek.">
+            <option value="gear-library">Gear Library only (no build page)</option>
+            <option value="vault-noir">Vault Noir</option>
             <option value="zen-workspace">Zen Workspace</option>
             <option value="stealth-operator">Stealth Operator</option>
           </select>
@@ -311,6 +312,7 @@
           <select id="listSectionFilter">
             <option value="all">All Sections</option>
             <option value="gear-library">Gear Library only</option>
+            <option value="vault-noir">Vault Noir</option>
             <option value="zen-workspace">Zen Workspace</option>
             <option value="stealth-operator">Stealth Operator</option>
           </select>
@@ -347,7 +349,7 @@
     (function() {
       var ADMIN_API_BASE = "/api/admin";
       var DATA_PATH = "data/products.json";
-      var ADMIN_VERSION = "2.5";
+      var ADMIN_VERSION = "2.6";
       var FALLBACK_CATEGORIES = [
         { id: "keyboard", label: "Keyboards" },
         { id: "mouse", label: "Mice" },
@@ -625,6 +627,7 @@
 
       function campaignGroupFromSection(section) {
         if (section === "stealth-operator") return "stealth";
+        if (section === "vault-noir") return "noir";
         if (section === "zen-workspace") return "angel";
         return "catalog";
       }

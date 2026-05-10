@@ -31,6 +31,16 @@
     --dark-icon-muted: #94A3B8;
     --dark-btn-border: #475569;
 
+    /* Vault Noir — premium midnight tier (deeper than Stealth). 60-30-10: black > navy > champagne. */
+    --noir-dominant: #04050C;
+    --noir-secondary: #0A1024;
+    --noir-border: #181F44;
+    --noir-heading: #F1F4FC;
+    --noir-text-muted: #9AA3C2;
+    --noir-btn-border: #2A325E;
+    --noir-accent: #C9B074;
+    --noir-accent-soft: rgba(201, 176, 116, 0.18);
+
     --bg-color: var(--color-dominant);
     --surface-color: var(--color-secondary);
     --primary-accent: var(--color-accent);
@@ -41,6 +51,62 @@
     --medal-text: #1E40AF;
     --sidebar-width: 320px;
 }
+
+.noir-coming-soon {
+    background: linear-gradient(140deg, var(--noir-secondary) 0%, var(--noir-dominant) 100%);
+    border: 1px solid var(--noir-border);
+    border-radius: 16px;
+    padding: 30px 26px;
+    margin-top: 18px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.noir-coming-soon::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 20% 0%, rgba(201, 176, 116, 0.10) 0%, transparent 45%),
+        radial-gradient(circle at 80% 100%, rgba(201, 176, 116, 0.08) 0%, transparent 50%);
+    pointer-events: none;
+}
+.noir-coming-soon > * { position: relative; z-index: 1; }
+.noir-coming-soon-kicker {
+    display: inline-block;
+    background: var(--noir-accent-soft);
+    color: var(--noir-accent);
+    border: 1px solid var(--noir-accent);
+    border-radius: 999px;
+    padding: 5px 14px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+}
+.noir-coming-soon-title {
+    color: var(--noir-heading);
+    font-size: 22px;
+    margin: 0 0 10px;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+}
+.noir-coming-soon-desc {
+    color: var(--noir-text-muted);
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0 auto;
+    max-width: 540px;
+}
+.noir-coming-soon-meta {
+    margin-top: 18px;
+    color: var(--noir-text-muted);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+}
+.noir-coming-soon-meta strong { color: var(--noir-accent); font-weight: 700; }
+[data-noir-products-wrap][hidden] { display: none !important; }
 
 /* hidden değil clip: Chromium'da body/html overflow-x:hidden sticky'yi öldürüyor */
 html {

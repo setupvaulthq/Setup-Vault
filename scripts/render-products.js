@@ -1,5 +1,5 @@
 (function() {
-  var SITE_VERSION = "2.6";
+  var SITE_VERSION = "2.8";
   var SITE_MEDIA_ORIGIN = "https://www.setupvaulthq.com";
 
   function resolveSiteAssetUrl(path) {
@@ -37,6 +37,7 @@
 
   function getProductPageFilename(sectionId) {
     if (sectionId === "stealth-operator") return "stealth.html";
+    if (sectionId === "vault-noir") return "noir.html";
     if (sectionId === "gear-library") return "gear.html";
     return "zen.html";
   }
@@ -156,11 +157,12 @@
   }
 
   function isStealthSection(sectionId) {
-    return sectionId === "stealth-operator";
+    return sectionId === "stealth-operator" || sectionId === "vault-noir";
   }
 
   function pickLabelForSection(sectionId) {
     if (sectionId === "stealth-operator") return "Stealth";
+    if (sectionId === "vault-noir") return "Noir";
     if (sectionId === "gear-library") return "Gear";
     return "Zen";
   }
@@ -229,6 +231,25 @@
       '<p class="trust-inline-note">Affiliate note: we may earn from qualifying purchases.</p>' +
       "</div>"
     );
+  }
+
+  function applyVaultNoirState(products) {
+    var hasNoir = (products || []).some(function(product) {
+      return product && product.active && product.section === "vault-noir";
+    });
+    var comingSoonNodes = document.querySelectorAll("[data-noir-coming-soon]");
+    var productsWrapNodes = document.querySelectorAll("[data-noir-products-wrap]");
+    comingSoonNodes.forEach(function(el) {
+      el.style.display = hasNoir ? "none" : "";
+    });
+    productsWrapNodes.forEach(function(el) {
+      if (hasNoir) {
+        el.removeAttribute("hidden");
+        el.style.display = "";
+      } else {
+        el.setAttribute("hidden", "");
+      }
+    });
   }
 
   function renderSectionProducts(products) {
@@ -701,6 +722,7 @@
         exposeProductStore(data || {});
         renderTopPicks((data && data.topPicks) || [], (data && data.products) || []);
         renderSectionProducts((data && data.products) || []);
+        applyVaultNoirState((data && data.products) || []);
         syncStaticCardTiers(data || {});
         syncStaticPartCardCopy((data && data.products) || []);
         renderCategorySpotlights(data || {});
