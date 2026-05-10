@@ -311,7 +311,9 @@
           desc: "font-size: 14px; margin-bottom: 16px;"
         };
 
-    var imgSrc = resolveSiteAssetUrl(product.image || "");
+    var rawImage = (product && product.image) || "";
+    var imgSrc = resolveSiteAssetUrl(rawImage);
+    var hasHeroImage = Boolean(String(rawImage).trim());
     var name = product.name || "Assembled PC Build";
     var desc = product.benefit || "Tap the photo to expand the internal parts.";
     var badgeText = product.badge || "PC Build";
@@ -335,19 +337,29 @@
           escapeHtml(sectionId || "this build") +
           "</strong> + category <strong>pc-component</strong> in Admin to populate the drawer.</p>";
 
+    var toggleDetails =
+      "var d=document.getElementById('" +
+      detailsId +
+      "'); if(d) d.open = !d.open;";
+    var heroVisual = hasHeroImage
+      ? '<img src="' +
+        escapeHtml(imgSrc) +
+        '" class="case-assembled-image" alt="' +
+        escapeHtml(product.alt || name) +
+        '" loading="lazy" decoding="async" onclick="' +
+        toggleDetails +
+        '">'
+      : '<div class="case-assembled-coming-soon" role="img" aria-label="Coming soon" onclick="' +
+        toggleDetails +
+        '"><span class="case-assembled-coming-soon-label">Coming Soon</span></div>';
+
     return (
       '<div class="part-card case-unit-card" id="' +
       escapeHtml(product.id || "") +
       '" style="grid-column: 1 / -1; ' +
       palette.card +
       '">' +
-      '<img src="' +
-      escapeHtml(imgSrc) +
-      '" class="case-assembled-image" alt="' +
-      escapeHtml(product.alt || name) +
-      '" loading="lazy" decoding="async" onclick="var d=document.getElementById(\'' +
-      detailsId +
-      '\'); if(d) d.open = !d.open;">' +
+      heroVisual +
       '<div class="case-unit-details">' +
       '<div class="' +
       palette.medalCls +
