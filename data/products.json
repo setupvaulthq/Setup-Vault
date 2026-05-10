@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": 20,
+    "version": 21,
     "updatedAt": "2026-05-10",
     "currency": "USD",
     "defaultDisclosure": "As an Amazon Associate, Setup Vault earns from qualifying purchases."
@@ -664,6 +664,22 @@
       "alt": "NZXT Kraken Elite 360 (2024 Black)",
       "amazonUrl": "https://amzn.to/3PyTOBQ",
       "pinterestMedia": "noir_cooler.jpg",
+      "priority": 5,
+      "active": true
+    },
+    {
+      "id": "fractal-design-north",
+      "section": "vault-noir",
+      "campaignGroup": "noir",
+      "category": "pc-case",
+      "valueTier": "premium",
+      "name": "Fractal Design North",
+      "badge": "4.5+ Elite Choice",
+      "benefit": "Balanced pick for daily use.",
+      "image": "noir_case",
+      "alt": "Fractal Design North",
+      "amazonUrl": "https://amzn.to/3QVyqHv",
+      "pinterestMedia": "noir_case",
       "priority": 5,
       "active": true
     }
