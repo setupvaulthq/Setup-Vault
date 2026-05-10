@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": 11,
+    "version": 12,
     "updatedAt": "2026-05-10",
     "currency": "USD",
     "defaultDisclosure": "As an Amazon Associate, Setup Vault earns from qualifying purchases."
@@ -632,6 +632,22 @@
       "alt": "Corsair Vengeance DDR5 64GB (Non-RGB)",
       "amazonUrl": "https://amzn.to/48RTzsc",
       "pinterestMedia": "noir_ram.jpg",
+      "priority": 5,
+      "active": true
+    },
+    {
+      "id": "samsung-990-pro-4tb-nvme",
+      "section": "vault-noir",
+      "campaignGroup": "noir",
+      "category": "pc-component",
+      "valueTier": "premium",
+      "name": "Samsung 990 PRO 4TB NVMe",
+      "badge": "4.5+ Elite Choice",
+      "benefit": "Balanced pick for daily use.",
+      "image": "noir_ssd.jpg",
+      "alt": "Samsung 990 PRO 4TB NVMe",
+      "amazonUrl": "https://amzn.to/4wmtjQA",
+      "pinterestMedia": "noir_ssd.jpg",
       "priority": 5,
       "active": true
     }
