@@ -1,5 +1,5 @@
 (function() {
-  var SITE_VERSION = "3.0";
+  var SITE_VERSION = "3.1";
   var SITE_MEDIA_ORIGIN = "https://www.setupvaulthq.com";
 
   function resolveSiteAssetUrl(path) {
@@ -278,26 +278,148 @@
     });
   }
 
+  function renderBuildUnitCard(product, internals) {
+    var sectionId = product.section || "";
+    var isNoir = sectionId === "vault-noir";
+    var isStealth = sectionId === "stealth-operator";
+    var palette = isNoir
+      ? {
+          card: "background-color: var(--noir-secondary); border: 1px solid var(--noir-border);",
+          summary:
+            "background-color: var(--noir-dominant); color: var(--noir-heading); border: 1px solid var(--noir-btn-border); padding: 15px; font-size: 16px; cursor: pointer;",
+          medalCls: "medal-badge medal-dark",
+          medalStyle: "background: var(--noir-dominant); color: var(--noir-accent); border-color: var(--noir-border);",
+          title: "color: var(--noir-heading); font-size: 20px;",
+          desc: "color: var(--noir-text-muted); font-size: 14px; margin-bottom: 16px;"
+        }
+      : isStealth
+      ? {
+          card: "background-color: var(--dark-secondary); border-color: var(--dark-border);",
+          summary:
+            "background-color: var(--dark-dominant); color: var(--color-accent-contrast); border: 1px solid var(--dark-btn-border); padding: 15px; font-size: 16px; cursor: pointer;",
+          medalCls: "medal-badge medal-dark",
+          medalStyle: "",
+          title: "color: var(--color-accent-contrast); font-size: 20px;",
+          desc: "color: var(--dark-text-muted); font-size: 14px; margin-bottom: 20px;"
+        }
+      : {
+          card: "",
+          summary: "padding: 15px; font-size: 16px; cursor: pointer;",
+          medalCls: "medal-badge",
+          medalStyle: "",
+          title: "font-size: 20px;",
+          desc: "font-size: 14px; margin-bottom: 16px;"
+        };
+
+    var imgSrc = resolveSiteAssetUrl(product.image || "");
+    var name = product.name || "Assembled PC Build";
+    var desc = product.benefit || "Tap the photo to expand the internal parts.";
+    var badgeText = product.badge || "PC Build";
+    var detailsId = "buildUnit_" + (product.id || Math.random().toString(36).slice(2));
+    var partsHtml = (internals || []).map(renderProductCard).join("");
+    var partsCount = (internals || []).length;
+    var summaryLabel =
+      partsCount > 0
+        ? "🔍 View PC Build Parts (" + partsCount + " items)"
+        : "🔍 View PC Build Parts (waiting for items)";
+    var emptyHint =
+      partsCount > 0
+        ? ""
+        : '<p class="build-desc" style="margin: 16px 0 0; font-size: 12px; color: ' +
+          (isNoir
+            ? "var(--noir-text-muted)"
+            : isStealth
+            ? "var(--dark-text-muted)"
+            : "var(--text-muted)") +
+          ';">Add products with section <strong>' +
+          escapeHtml(sectionId || "this build") +
+          "</strong> + category <strong>pc-component</strong> in Admin to populate the drawer.</p>";
+
+    return (
+      '<div class="part-card case-unit-card" id="' +
+      escapeHtml(product.id || "") +
+      '" style="grid-column: 1 / -1; ' +
+      palette.card +
+      '">' +
+      '<img src="' +
+      escapeHtml(imgSrc) +
+      '" class="case-assembled-image" alt="' +
+      escapeHtml(product.alt || name) +
+      '" loading="lazy" decoding="async" onclick="var d=document.getElementById(\'' +
+      detailsId +
+      '\'); if(d) d.open = !d.open;">' +
+      '<div class="case-unit-details">' +
+      '<div class="' +
+      palette.medalCls +
+      '"' +
+      (palette.medalStyle ? ' style="' + palette.medalStyle + '"' : "") +
+      ">" +
+      escapeHtml(badgeText) +
+      "</div>" +
+      '<h4 class="part-title" style="' +
+      palette.title +
+      '">' +
+      escapeHtml(name) +
+      "</h4>" +
+      '<p class="build-desc" style="' +
+      palette.desc +
+      '">' +
+      escapeHtml(desc) +
+      "</p>" +
+      '<details class="case-internals-accordion" id="' +
+      detailsId +
+      '">' +
+      '<summary style="' +
+      palette.summary +
+      '">' +
+      summaryLabel +
+      "</summary>" +
+      '<div class="case-parts-grid" style="margin-top: 20px;">' +
+      partsHtml +
+      "</div>" +
+      "</details>" +
+      emptyHint +
+      "</div>" +
+      "</div>"
+    );
+  }
+
   function renderSectionProducts(products) {
     var sections = document.querySelectorAll("[data-dynamic-section]");
     if (!sections.length) return;
+    var all = products || [];
     sections.forEach(function(grid) {
       var sectionId = grid.getAttribute("data-dynamic-section");
       var catFilter = parseCategoryFilterFromGrid(grid);
-      var html = (products || [])
-        .filter(function(product) {
-          return (
-            Boolean(product.active) &&
-            product.section === sectionId &&
-            productMatchesCategoryFilter(product, catFilter)
-          );
+      var includeBuildUnits = catFilter.only.indexOf("pc-component") < 0;
+      var sectionProducts = all.filter(function(p) {
+        return Boolean(p && p.active) && p.section === sectionId;
+      });
+      var pieces = sectionProducts
+        .filter(function(p) {
+          if (p.isBuildUnit) return includeBuildUnits;
+          return productMatchesCategoryFilter(p, catFilter);
         })
         .sort(function(a, b) {
+          var aBuild = a.isBuildUnit ? 1 : 0;
+          var bBuild = b.isBuildUnit ? 1 : 0;
+          if (aBuild !== bBuild) return aBuild - bBuild;
           return (b.priority || 0) - (a.priority || 0);
         })
-        .map(renderProductCard)
-        .join("");
-      grid.innerHTML = html;
+        .map(function(p) {
+          if (p.isBuildUnit) {
+            var internals = sectionProducts
+              .filter(function(x) {
+                return x && x.category === "pc-component";
+              })
+              .sort(function(a, b) {
+                return (b.priority || 0) - (a.priority || 0);
+              });
+            return renderBuildUnitCard(p, internals);
+          }
+          return renderProductCard(p);
+        });
+      grid.innerHTML = pieces.join("");
     });
   }
 

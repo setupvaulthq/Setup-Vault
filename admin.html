@@ -252,6 +252,12 @@
             <option value="true">Active</option>
             <option value="false">Inactive</option>
           </select>
+          <label for="fIsBuildUnit" style="grid-column:1/-1; display:flex; align-items:flex-start; gap:8px; padding:10px 12px; border:1px dashed #4338ca; border-radius:10px; background:#0a1226; cursor:pointer;">
+            <input type="checkbox" id="fIsBuildUnit" style="margin-top:3px;">
+            <span style="font-size:12px; line-height:1.5; color:#cbd5e1;">
+              <strong>Birleşik PC kartı (matryoshka)</strong> — bu ürün <em>Angel Core / Stealth Core</em> gibi birleşik PC görseli kartıdır. Amazon link gerekmez; aynı section’daki <code>pc-component</code> ürünleri otomatik olarak iç parça accordion’unda listelenir. Kategori için <code>pc-case</code> önerilir.
+            </span>
+          </label>
         </div>
         <input id="fBenefit" style="width:100%;" placeholder="Short benefit text (what this product is good at)">
         <div class="form-extras">
@@ -281,7 +287,7 @@
             </div>
           </div>
         </div>
-        <p class="field-hint" id="formHint">Name, image file, and Amazon URL are required.</p>
+        <p class="field-hint" id="formHint">Name and image file are required. (Amazon URL also required unless this is a Birleşik PC kartı.)</p>
         <div class="preview-card" id="livePreviewCard">
           <h3 class="preview-title" id="previewName">Preview: Product name</h3>
           <p class="preview-meta" id="previewMeta">Category: keyboard | Section: gear-library | Medal: Top Rated</p>
@@ -352,7 +358,7 @@
     (function() {
       var ADMIN_API_BASE = "/api/admin";
       var DATA_PATH = "data/products.json";
-      var ADMIN_VERSION = "2.7";
+      var ADMIN_VERSION = "2.8";
       var FALLBACK_CATEGORIES = [
         { id: "keyboard", label: "Keyboards" },
         { id: "mouse", label: "Mice" },
@@ -404,6 +410,7 @@
       var fPriority = document.getElementById("fPriority");
       var fActive = document.getElementById("fActive");
       var fBenefit = document.getElementById("fBenefit");
+      var fIsBuildUnit = document.getElementById("fIsBuildUnit");
       var formHint = document.getElementById("formHint");
       var previewName = document.getElementById("previewName");
       var previewMeta = document.getElementById("previewMeta");
@@ -994,12 +1001,17 @@
         fPriority.value = 5;
         fActive.value = "true";
         fBenefit.value = "";
+        if (fIsBuildUnit) fIsBuildUnit.checked = false;
         addProductBtn.textContent = "Add Product";
         updateFormState();
       }
 
       function isFormValid() {
-        return Boolean(fName.value.trim() && fAmazonUrl.value.trim() && fImage.value.trim());
+        var hasName = Boolean(fName.value.trim());
+        var hasImage = Boolean(fImage.value.trim());
+        var hasAmazon = Boolean(fAmazonUrl.value.trim());
+        var buildUnit = fIsBuildUnit && fIsBuildUnit.checked;
+        return hasName && hasImage && (buildUnit || hasAmazon);
       }
 
       function updatePreview() {
@@ -1029,8 +1041,14 @@
       function addProductFromForm() {
         var parsed = validateEditorJson();
         if (!parsed) return;
-        if (!fName.value.trim() || !fAmazonUrl.value.trim() || !fImage.value.trim()) {
-          setStatus("Name, image file, and Amazon URL are required.", true);
+        var buildUnit = Boolean(fIsBuildUnit && fIsBuildUnit.checked);
+        if (!fName.value.trim() || !fImage.value.trim() || (!buildUnit && !fAmazonUrl.value.trim())) {
+          setStatus(
+            buildUnit
+              ? "Birleşik PC kartı için isim ve görsel gerekli."
+              : "Name, image file, and Amazon URL are required.",
+            true
+          );
           return;
         }
 
@@ -1066,6 +1084,7 @@
           priority: Number(fPriority.value || 5),
           active: fActive.value === "true"
         };
+        if (buildUnit) newProduct.isBuildUnit = true;
 
         if (editingProductId) {
           parsed.products = parsed.products.map(function(p) {
@@ -1164,6 +1183,7 @@
         fActive.value = String(Boolean(p.active));
         fBenefit.value = p.benefit || "";
         fBadgeCustom.value = "";
+        if (fIsBuildUnit) fIsBuildUnit.checked = Boolean(p.isBuildUnit);
         var presetOptions = Array.prototype.map.call(fMedalPreset.options, function(opt) {
           return opt.value;
         });
@@ -1200,6 +1220,7 @@
         fActive.value = String(Boolean(p.active));
         fBenefit.value = p.benefit || "";
         fBadgeCustom.value = "";
+        if (fIsBuildUnit) fIsBuildUnit.checked = Boolean(p.isBuildUnit);
         var presetOptions = Array.prototype.map.call(fMedalPreset.options, function(opt) { return opt.value; });
         if (presetOptions.indexOf(p.badge) >= 0) {
           fMedalPreset.value = p.badge;
@@ -1396,7 +1417,8 @@
           });
       });
       if (uploadImageBtn) uploadImageBtn.addEventListener("click", uploadImageToGithub);
-      [fId, fName, fImage, fAmazonUrl, fSection, fCategory, fValueTier, fMedalPreset, fBadgeCustom, fPriority, fActive, fBenefit]
+      [fId, fName, fImage, fAmazonUrl, fSection, fCategory, fValueTier, fMedalPreset, fBadgeCustom, fPriority, fActive, fBenefit, fIsBuildUnit]
+        .filter(Boolean)
         .forEach(function(el) {
           el.addEventListener("input", updateFormState);
           el.addEventListener("change", updateFormState);
