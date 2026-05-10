@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": 10,
+    "version": 11,
     "updatedAt": "2026-05-10",
     "currency": "USD",
     "defaultDisclosure": "As an Amazon Associate, Setup Vault earns from qualifying purchases."
@@ -617,6 +617,22 @@
       "amazonUrl": "https://amzn.to/4uGkK1z",
       "pinterestMedia": "noir_mabo.jpg",
       "priority": 7,
+      "active": true
+    },
+    {
+      "id": "corsair-vengeance-ddr5-64gb-non-rgb",
+      "section": "vault-noir",
+      "campaignGroup": "noir",
+      "category": "pc-component",
+      "valueTier": "premium",
+      "name": "Corsair Vengeance DDR5 64GB (Non-RGB)",
+      "badge": "4.5+ Elite Choice",
+      "benefit": "Balanced pick for daily use.",
+      "image": "noir_ram.jpg",
+      "alt": "Corsair Vengeance DDR5 64GB (Non-RGB)",
+      "amazonUrl": "https://amzn.to/48RTzsc",
+      "pinterestMedia": "noir_ram.jpg",
+      "priority": 5,
       "active": true
     }
   ]
