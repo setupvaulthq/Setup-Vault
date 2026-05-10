@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": 12,
+    "version": 13,
     "updatedAt": "2026-05-10",
     "currency": "USD",
     "defaultDisclosure": "As an Amazon Associate, Setup Vault earns from qualifying purchases."
@@ -648,6 +648,22 @@
       "alt": "Samsung 990 PRO 4TB NVMe",
       "amazonUrl": "https://amzn.to/4wmtjQA",
       "pinterestMedia": "noir_ssd.jpg",
+      "priority": 5,
+      "active": true
+    },
+    {
+      "id": "nzxt-kraken-elite-360-2024-black",
+      "section": "vault-noir",
+      "campaignGroup": "noir",
+      "category": "pc-component",
+      "valueTier": "entry",
+      "name": "NZXT Kraken Elite 360 (2024 Black)",
+      "badge": "Premium Tier",
+      "benefit": "Balanced pick for daily use.",
+      "image": "noir_cooler.jpg",
+      "alt": "NZXT Kraken Elite 360 (2024 Black)",
+      "amazonUrl": "https://amzn.to/3RvwnKg",
+      "pinterestMedia": "noir_cooler.jpg",
       "priority": 5,
       "active": true
     }
