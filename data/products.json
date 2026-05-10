@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": 6,
+    "version": 7,
     "updatedAt": "2026-05-10",
     "currency": "USD",
     "defaultDisclosure": "As an Amazon Associate, Setup Vault earns from qualifying purchases."
@@ -553,6 +553,23 @@
       "pinterestMedia": "kasa1.jpg",
       "priority": 10,
       "active": true
+    },
+    {
+      "id": "the-monolith",
+      "section": "vault-noir",
+      "campaignGroup": "noir",
+      "category": "pc-case",
+      "valueTier": "premium",
+      "name": "The Monolith",
+      "badge": "Blackout Masterpiece",
+      "benefit": "The absolute pinnacle of stealth setups. Powered by the RTX 5080 and Core Ultra 9 for elite creators who demand the best",
+      "image": "noir_full",
+      "alt": "The Monolith",
+      "amazonUrl": "",
+      "pinterestMedia": "noir_full",
+      "priority": 15,
+      "active": true,
+      "isBuildUnit": true
     }
   ]
 }
