@@ -54,6 +54,12 @@
     --medal-border: rgba(255, 153, 0, 0.35);
     --medal-text: #FF9900;
     --sidebar-width: 320px;
+    --scrollbar-size: 8px;
+    --scrollbar-track: var(--bg-color);
+    --scrollbar-thumb: #3a3a3a;
+    --scrollbar-thumb-hover: rgba(255, 153, 0, 0.55);
+    --scrollbar-sidebar-track: var(--surface-color);
+    --scrollbar-sidebar-thumb: #454545;
 }
 
 .noir-coming-soon {
@@ -126,6 +132,51 @@ body {
     color: var(--text-main);
     -webkit-font-smoothing: antialiased;
     overflow-x: clip;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+.sidebar::-webkit-scrollbar,
+.main-content::-webkit-scrollbar,
+.modal-content::-webkit-scrollbar {
+    width: var(--scrollbar-size);
+    height: var(--scrollbar-size);
+}
+
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track,
+.main-content::-webkit-scrollbar-track,
+.modal-content::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: var(--scrollbar-sidebar-track);
+}
+
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb,
+.main-content::-webkit-scrollbar-thumb,
+.modal-content::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 999px;
+    border: 2px solid var(--scrollbar-track);
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-sidebar-thumb);
+    border-radius: 999px;
+    border: 2px solid var(--scrollbar-sidebar-track);
+}
+
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover,
+.sidebar::-webkit-scrollbar-thumb:hover,
+.main-content::-webkit-scrollbar-thumb:hover,
+.modal-content::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
 }
 
 .app-layout {
@@ -151,6 +202,8 @@ body {
     flex-direction: column;
     overflow-y: auto;
     z-index: 100;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-sidebar-thumb) var(--scrollbar-sidebar-track);
 }
 
 .sidebar-logo {
