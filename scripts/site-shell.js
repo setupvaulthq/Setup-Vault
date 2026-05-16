@@ -158,6 +158,10 @@
                 var section = btn.closest("section");
                 var productId = card && card.id ? card.id : "unknown_product";
                 var setupType = section && section.id ? section.id : "unknown_setup";
+                if (btn.getAttribute("data-exit-intent") === "1") {
+                    productId = "angel-keyboard";
+                    setupType = "exit_intent";
+                }
                 var priceTier = setupType === "stealth-operator" ? "upper_midrange" : "midrange_value";
                 var deviceType = getDeviceType();
                 var dayStamp = getWeekdayUTC();
