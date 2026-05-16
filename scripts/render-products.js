@@ -1,6 +1,7 @@
 (function() {
   var SITE_VERSION = "3.2";
   var SITE_MEDIA_ORIGIN = "https://www.setupvaulthq.com";
+  var AMAZON_PART_BTN_LABEL = "Check Current Price on Amazon";
 
   function resolveSiteAssetUrl(path) {
     if (!path) return "";
@@ -227,7 +228,7 @@
       '<p class="part-benefit-note">' + escapeHtml(benefit) + "</p>" +
       '<a href="' + escapeHtml(amazonUrl) + '" target="_blank" class="part-btn">' +
       '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M11 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1z"/><path d="M2 2.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V3h-12v-.5z"/><path d="M14 5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5zM1 4v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4H1z"/></svg>' +
-      "View on Amazon</a>" +
+      escapeHtml(AMAZON_PART_BTN_LABEL) + "</a>" +
       '<p class="trust-inline-note">Affiliate note: we may earn from qualifying purchases.</p>' +
       "</div>"
     );
