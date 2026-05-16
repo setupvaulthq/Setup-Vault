@@ -2,6 +2,7 @@
   var SITE_VERSION = "3.2";
   var SITE_MEDIA_ORIGIN = "https://www.setupvaulthq.com";
   var AMAZON_PART_BTN_LABEL = "Check Current Price on Amazon";
+  var AMAZON_PART_BTN_LABEL_COMPACT = "See Amazon Discount";
 
   function resolveSiteAssetUrl(path) {
     if (!path) return "";
@@ -180,7 +181,8 @@
     return isStealthSection(sectionId) ? "medal-badge medal-dark" : "medal-badge";
   }
 
-  function renderProductCard(product) {
+  function renderProductCard(product, options) {
+    options = options || {};
     var sectionId = product.section || "zen-workspace";
     var amazonUrl = product.amazonUrl || "#";
     var badge = product.badge || "Top Pick";
@@ -228,7 +230,7 @@
       '<p class="part-benefit-note">' + escapeHtml(benefit) + "</p>" +
       '<a href="' + escapeHtml(amazonUrl) + '" target="_blank" class="part-btn">' +
       '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M11 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1z"/><path d="M2 2.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V3h-12v-.5z"/><path d="M14 5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5zM1 4v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4H1z"/></svg>' +
-      escapeHtml(AMAZON_PART_BTN_LABEL) + "</a>" +
+      escapeHtml(options.compactCta ? AMAZON_PART_BTN_LABEL_COMPACT : AMAZON_PART_BTN_LABEL) + "</a>" +
       '<p class="trust-inline-note">Affiliate note: we may earn from qualifying purchases.</p>' +
       "</div>"
     );
@@ -319,7 +321,11 @@
     var desc = product.benefit || "Tap the photo to expand the internal parts.";
     var badgeText = product.badge || "PC Build";
     var detailsId = "buildUnit_" + (product.id || Math.random().toString(36).slice(2));
-    var partsHtml = (internals || []).map(renderProductCard).join("");
+    var partsHtml = (internals || [])
+      .map(function(p) {
+        return renderProductCard(p, { compactCta: true });
+      })
+      .join("");
     var partsCount = (internals || []).length;
     var summaryLabel =
       partsCount > 0
@@ -433,55 +439,6 @@
           return renderProductCard(p);
         });
       grid.innerHTML = pieces.join("");
-    });
-  }
-
-  function syncStaticCardTiers(data) {
-    var products = (data && data.products) || [];
-    if (!products.length) return;
-    var byId = {};
-    products.forEach(function(product) {
-      if (product && product.id) byId[product.id] = product;
-    });
-
-    var cards = document.querySelectorAll(".setup-content-grid .part-card[id]");
-    cards.forEach(function(card) {
-      var productId = card.getAttribute("id");
-      var matched = byId[productId];
-      if (!matched) return;
-      var tier = getTier(matched);
-      var category = matched.category || "gear";
-      card.setAttribute("data-tier", tier);
-      card.setAttribute("data-category", category);
-    });
-  }
-
-  function syncStaticPartCardCopy(products) {
-    if (!products || !products.length) return;
-    products.forEach(function(product) {
-      if (!product || !product.id || !product.active) return;
-      var card = document.getElementById(product.id);
-      if (!card || !card.classList.contains("part-card")) return;
-      var btn = card.querySelector(".part-btn");
-      if (!btn) return;
-      var benefitText = (product.benefit || "").trim();
-      if (benefitText) {
-        var note = card.querySelector(".part-benefit-note");
-        if (note) {
-          note.textContent = benefitText;
-        } else {
-          var p = document.createElement("p");
-          p.className = "part-benefit-note";
-          p.textContent = benefitText;
-          btn.insertAdjacentElement("beforebegin", p);
-        }
-      }
-      if (!card.querySelector(".trust-inline-note")) {
-        var trust = document.createElement("p");
-        trust.className = "trust-inline-note";
-        trust.textContent = "Affiliate note: we may earn from qualifying purchases.";
-        btn.insertAdjacentElement("afterend", trust);
-      }
     });
   }
 
@@ -894,8 +851,6 @@
         renderTopPicks((data && data.topPicks) || [], (data && data.products) || []);
         renderSectionProducts((data && data.products) || []);
         applyVaultNoirState((data && data.products) || []);
-        syncStaticCardTiers(data || {});
-        syncStaticPartCardCopy((data && data.products) || []);
         renderCategorySpotlights(data || {});
         renderCategoryLibrary(data || {});
         renderTierFilters((data && data.products) || []);

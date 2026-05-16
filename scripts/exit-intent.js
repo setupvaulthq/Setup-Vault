@@ -28,11 +28,21 @@
     return window.matchMedia("(max-width: 768px), (pointer: coarse)").matches;
   }
 
+  function isCookieBannerVisible() {
+    var banner = document.getElementById("cookieBanner");
+    if (!banner) return false;
+    var style = window.getComputedStyle(banner);
+    return style.display !== "none" && style.visibility !== "hidden";
+  }
+
   function isBlocked() {
     if (alreadyShown()) return true;
     if (document.body.classList.contains("focus-mode")) return true;
+    if (isCookieBannerVisible()) return true;
     var legalModal = document.getElementById("modalOverlay");
     if (legalModal && legalModal.style.display === "flex") return true;
+    var exitOverlay = document.getElementById("exitIntentOverlay");
+    if (exitOverlay && !exitOverlay.hidden) return true;
     return false;
   }
 
@@ -73,8 +83,26 @@
     overlay.querySelector(".exit-intent-close").addEventListener("click", hideModal);
     overlay.querySelector(".exit-intent-dismiss").addEventListener("click", hideModal);
 
-    document.addEventListener("keydown", function(ev) {
-      if (ev.key === "Escape" && !overlay.hidden) hideModal();
+    overlay.addEventListener("keydown", function(ev) {
+      if (ev.key === "Escape") {
+        hideModal();
+        return;
+      }
+      if (ev.key !== "Tab") return;
+      var nodes = overlay.querySelectorAll(
+        'button, a[href], [tabindex]:not([tabindex="-1"])'
+      );
+      if (!nodes.length) return;
+      var list = Array.prototype.slice.call(nodes);
+      var first = list[0];
+      var last = list[list.length - 1];
+      if (ev.shiftKey && document.activeElement === first) {
+        ev.preventDefault();
+        last.focus();
+      } else if (!ev.shiftKey && document.activeElement === last) {
+        ev.preventDefault();
+        first.focus();
+      }
     });
   }
 

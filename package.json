@@ -7,7 +7,8 @@
     "verify:deploy": "node scripts/verify-deploy.mjs",
     "lighthouse": "node scripts/run-lighthouse.mjs",
     "fonts:build": "node scripts/fetch-inter-fonts.mjs && node scripts/build-inter-local-css.mjs",
-    "optimize:images": "node scripts/optimize-assets.mjs"
+    "optimize:images": "node scripts/optimize-assets.mjs",
+    "audit:products": "node scripts/audit-products.mjs"
   },
   "devDependencies": {
     "lighthouse": "^12.2.1",

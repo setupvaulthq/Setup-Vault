@@ -14,9 +14,39 @@
         }
     };
 
+    var modalLastFocus = null;
+
+    function getModalFocusables(container) {
+        return Array.prototype.slice
+            .call(
+                container.querySelectorAll(
+                    'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+                )
+            )
+            .filter(function(el) {
+                return el.offsetParent !== null;
+            });
+    }
+
+    function trapModalTab(ev, modal) {
+        if (ev.key !== "Tab" || modal.style.display !== "flex") return;
+        var nodes = getModalFocusables(modal);
+        if (!nodes.length) return;
+        var first = nodes[0];
+        var last = nodes[nodes.length - 1];
+        if (ev.shiftKey && document.activeElement === first) {
+            ev.preventDefault();
+            last.focus();
+        } else if (!ev.shiftKey && document.activeElement === last) {
+            ev.preventDefault();
+            first.focus();
+        }
+    }
+
     window.openModal = function(type) {
         var modal = document.getElementById("modalOverlay");
         var body = document.getElementById("modalBody");
+        if (!modal || !body) return;
         var modalText = content[type].text;
         if (type === "privacy") {
             modalText =
@@ -25,16 +55,42 @@
                 "<p><b>Cookies and similar technologies:</b> essential cookies are used for core site functionality. Analytics and tracking technologies are optional and loaded only after consent. You can change your preference anytime by clearing site storage and reloading.</p>" +
                 "<p><b>Affiliate disclosure:</b> As an Amazon Associate I earn from qualifying purchases. Product availability and details may change on partner platforms.</p>";
         }
-        body.innerHTML = "<h3>" + content[type].title + "</h3>" + modalText;
+        modalLastFocus = document.activeElement;
+        body.innerHTML = "<h3 id=\"modalDialogTitle\">" + content[type].title + "</h3>" + modalText;
+        modal.setAttribute("role", "dialog");
+        modal.setAttribute("aria-modal", "true");
+        modal.setAttribute("aria-labelledby", "modalDialogTitle");
         modal.style.display = "flex";
         document.body.style.overflow = "hidden";
+        var closeBtn = modal.querySelector(".modal-close");
+        if (closeBtn) closeBtn.focus();
     };
 
     window.closeModal = function() {
         var modal = document.getElementById("modalOverlay");
+        if (!modal) return;
         modal.style.display = "none";
-        document.body.style.overflow = "auto";
+        modal.removeAttribute("aria-modal");
+        if (!document.body.classList.contains("focus-mode")) {
+            var exitOverlay = document.getElementById("exitIntentOverlay");
+            if (!exitOverlay || exitOverlay.hidden) {
+                document.body.style.overflow = "";
+            }
+        }
+        if (modalLastFocus && modalLastFocus.focus) {
+            modalLastFocus.focus();
+        }
+        modalLastFocus = null;
     };
+
+    document.addEventListener("keydown", function(ev) {
+        var modal = document.getElementById("modalOverlay");
+        if (ev.key === "Escape" && modal && modal.style.display === "flex") {
+            window.closeModal();
+            return;
+        }
+        if (modal) trapModalTab(ev, modal);
+    });
 
     document.addEventListener("DOMContentLoaded", function() {
         var focusCloseBtn = document.getElementById("focusCloseBtn");

@@ -17,6 +17,12 @@ const browser = await chromium.launch({ headless: true });
 for (const vp of viewports) {
   const page = await browser.newPage({ viewport: { width: vp.width, height: vp.height } });
   await page.goto(base, { waitUntil: "domcontentloaded", timeout: 60000 });
+  await page.waitForTimeout(1200);
+  const productStats = await page.evaluate(() => ({
+    partCards: document.querySelectorAll(".part-card[id] .part-btn").length,
+    amazonCtas: document.querySelectorAll('a.part-btn[href*="amzn"]').length,
+    dynamicGrids: document.querySelectorAll("[data-dynamic-section]").length,
+  }));
   const flexDir = await page.evaluate(() => {
     const el = document.querySelector(".app-layout");
     return el ? getComputedStyle(el).flexDirection : "missing";
@@ -35,6 +41,7 @@ for (const vp of viewports) {
       appLayoutFlexDirection: flexDir,
       mobileBottomBarDisplay: bottomBarDisplay,
       sidebarPosition,
+      productStats,
     }),
   );
   await page.close();
