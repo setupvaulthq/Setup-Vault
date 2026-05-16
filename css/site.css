@@ -54,12 +54,10 @@
     --medal-border: rgba(255, 153, 0, 0.35);
     --medal-text: #FF9900;
     --sidebar-width: 320px;
-    --scrollbar-size: 8px;
-    --scrollbar-track: var(--bg-color);
-    --scrollbar-thumb: #3a3a3a;
-    --scrollbar-thumb-hover: rgba(255, 153, 0, 0.55);
-    --scrollbar-sidebar-track: var(--surface-color);
-    --scrollbar-sidebar-thumb: #454545;
+    --scrollbar-size: 6px;
+    --scrollbar-thumb: rgba(255, 255, 255, 0.2);
+    --scrollbar-thumb-hover: rgba(255, 153, 0, 0.5);
+    --scrollbar-track: transparent;
 }
 
 .noir-coming-soon {
@@ -122,6 +120,7 @@
 html {
     scroll-behavior: smooth;
     overflow-x: clip;
+    color-scheme: dark;
 }
 
 body {
@@ -132,19 +131,29 @@ body {
     color: var(--text-main);
     -webkit-font-smoothing: antialiased;
     overflow-x: clip;
+    color-scheme: dark;
     scrollbar-width: thin;
     scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
 
+/* İnce koyu scrollbar — sidebar + sayfa aynı görünüm (Windows varsayılan griyi ezer) */
+.sidebar,
+.main-content,
+.modal-content {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+.sidebar::-webkit-scrollbar,
 html::-webkit-scrollbar,
 body::-webkit-scrollbar,
-.sidebar::-webkit-scrollbar,
 .main-content::-webkit-scrollbar,
 .modal-content::-webkit-scrollbar {
     width: var(--scrollbar-size);
     height: var(--scrollbar-size);
 }
 
+.sidebar::-webkit-scrollbar-track,
 html::-webkit-scrollbar-track,
 body::-webkit-scrollbar-track,
 .main-content::-webkit-scrollbar-track,
@@ -152,31 +161,39 @@ body::-webkit-scrollbar-track,
     background: var(--scrollbar-track);
 }
 
-.sidebar::-webkit-scrollbar-track {
-    background: var(--scrollbar-sidebar-track);
-}
-
+.sidebar::-webkit-scrollbar-thumb,
 html::-webkit-scrollbar-thumb,
 body::-webkit-scrollbar-thumb,
 .main-content::-webkit-scrollbar-thumb,
 .modal-content::-webkit-scrollbar-thumb {
-    background: var(--scrollbar-thumb);
+    background-color: var(--scrollbar-thumb);
     border-radius: 999px;
-    border: 2px solid var(--scrollbar-track);
+    border: none;
+    min-height: 48px;
 }
 
-.sidebar::-webkit-scrollbar-thumb {
-    background: var(--scrollbar-sidebar-thumb);
-    border-radius: 999px;
-    border: 2px solid var(--scrollbar-sidebar-track);
-}
-
+.sidebar::-webkit-scrollbar-thumb:hover,
 html::-webkit-scrollbar-thumb:hover,
 body::-webkit-scrollbar-thumb:hover,
-.sidebar::-webkit-scrollbar-thumb:hover,
 .main-content::-webkit-scrollbar-thumb:hover,
 .modal-content::-webkit-scrollbar-thumb:hover {
-    background: var(--scrollbar-thumb-hover);
+    background-color: var(--scrollbar-thumb-hover);
+}
+
+.sidebar::-webkit-scrollbar-button,
+html::-webkit-scrollbar-button,
+body::-webkit-scrollbar-button,
+.main-content::-webkit-scrollbar-button,
+.modal-content::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+.sidebar::-webkit-scrollbar-corner,
+html::-webkit-scrollbar-corner,
+body::-webkit-scrollbar-corner {
+    background: transparent;
 }
 
 .app-layout {
@@ -202,8 +219,7 @@ body::-webkit-scrollbar-thumb:hover,
     flex-direction: column;
     overflow-y: auto;
     z-index: 100;
-    scrollbar-width: thin;
-    scrollbar-color: var(--scrollbar-sidebar-thumb) var(--scrollbar-sidebar-track);
+    color-scheme: dark;
 }
 
 .sidebar-logo {
