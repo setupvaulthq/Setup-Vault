@@ -1,5 +1,5 @@
 (function() {
-  var SITE_VERSION = "3.2";
+  var SITE_VERSION = "3.5";
   var SITE_MEDIA_ORIGIN = "https://www.setupvaulthq.com";
   var AMAZON_PART_BTN_LABEL = "Check Current Price on Amazon";
   var AMAZON_PART_BTN_LABEL_COMPACT = "See Amazon Discount";
@@ -214,13 +214,13 @@
     var imageSrc = resolveSiteAssetUrl(image);
 
     return (
-      '<div class="' + cardClass + '" id="' + escapeHtml(product.id || "") + '" data-category="' + escapeHtml(category) + '" data-tier="' + escapeHtml(tier) + '">' +
+      '<div class="' + cardClass + '" id="' + escapeHtml(product.id || "") + '" data-category="' + escapeHtml(category) + '" data-tier="' + escapeHtml(tier) + '" data-product-name="' + escapeHtml(name) + '">' +
+      '<span class="tier-badge ' + escapeHtml(tier) + '">' + escapeHtml(getTierLabel(tier)) + "</span>" +
       '<div class="img-wrapper">' +
       '<a href="' + pinUrl + '" target="_blank" class="pinterest-save-btn">Save</a>' +
       '<img src="' + escapeHtml(imageSrc) + '" class="' + imageClass + '" alt="' + escapeHtml(alt) + '" width="' + imgW + '" height="' + imgH + '" loading="lazy">' +
       "</div>" +
       '<div class="' + medalClass + '">' + escapeHtml(badge) + "</div>" +
-      '<span class="tier-badge ' + escapeHtml(tier) + '">' + escapeHtml(getTierLabel(tier)) + "</span>" +
       '<div class="title-wrapper">' +
       '<h4 class="part-title">' + escapeHtml(name) + "</h4>" +
       '<a href="' +
@@ -285,34 +285,18 @@
     var sectionId = product.section || "";
     var isNoir = sectionId === "vault-noir";
     var isStealth = sectionId === "stealth-operator";
-    var palette = isNoir
-      ? {
-          card: "background-color: var(--noir-secondary); border: 1px solid var(--noir-border);",
-          summary:
-            "background-color: var(--noir-dominant); color: var(--noir-heading); border: 1px solid var(--noir-btn-border); padding: 15px; font-size: 16px; cursor: pointer;",
-          medalCls: "medal-badge medal-dark",
-          medalStyle: "background: var(--noir-dominant); color: var(--noir-accent); border-color: var(--noir-border);",
-          title: "color: var(--noir-heading); font-size: 20px;",
-          desc: "color: var(--noir-text-muted); font-size: 14px; margin-bottom: 16px;"
-        }
+    var themeClass = isNoir
+      ? "case-unit-card theme-noir-unit"
       : isStealth
-      ? {
-          card: "background-color: var(--dark-secondary); border-color: var(--dark-border);",
-          summary:
-            "background-color: var(--dark-dominant); color: var(--color-accent-contrast); border: 1px solid var(--dark-btn-border); padding: 15px; font-size: 16px; cursor: pointer;",
-          medalCls: "medal-badge medal-dark",
-          medalStyle: "",
-          title: "color: var(--color-accent-contrast); font-size: 20px;",
-          desc: "color: var(--dark-text-muted); font-size: 14px; margin-bottom: 20px;"
-        }
-      : {
-          card: "",
-          summary: "padding: 15px; font-size: 16px; cursor: pointer;",
-          medalCls: "medal-badge",
-          medalStyle: "",
-          title: "font-size: 20px;",
-          desc: "font-size: 14px; margin-bottom: 16px;"
-        };
+      ? "case-unit-card theme-stealth-unit"
+      : "case-unit-card theme-zen-unit";
+    var summaryClass = isNoir
+      ? "case-internals-summary theme-noir-summary"
+      : isStealth
+      ? "case-internals-summary theme-stealth-summary"
+      : "case-internals-summary";
+    var medalCls = isStealth || isNoir ? "medal-badge medal-dark" : "medal-badge";
+    var medalExtraClass = isNoir ? " theme-noir-medal" : "";
 
     var rawImage = (product && product.image) || "";
     var imgSrc = resolveSiteAssetUrl(rawImage);
@@ -331,16 +315,17 @@
       partsCount > 0
         ? "🔍 View PC Build Parts (" + partsCount + " items)"
         : "🔍 View PC Build Parts (waiting for items)";
+    var emptyHintClass = isNoir
+      ? "build-desc build-unit-empty theme-noir-text"
+      : isStealth
+      ? "build-desc build-unit-empty theme-stealth-text"
+      : "build-desc build-unit-empty";
     var emptyHint =
       partsCount > 0
         ? ""
-        : '<p class="build-desc" style="margin: 16px 0 0; font-size: 12px; color: ' +
-          (isNoir
-            ? "var(--noir-text-muted)"
-            : isStealth
-            ? "var(--dark-text-muted)"
-            : "var(--text-muted)") +
-          ';">Add products with section <strong>' +
+        : '<p class="' +
+          emptyHintClass +
+          '">Add products with section <strong>' +
           escapeHtml(sectionId || "this build") +
           "</strong> + category <strong>pc-component</strong> in Admin to populate the drawer.</p>";
 
@@ -361,39 +346,34 @@
         '"><span class="case-assembled-coming-soon-label">Coming Soon</span></div>';
 
     return (
-      '<div class="part-card case-unit-card" id="' +
+      '<div class="part-card ' +
+      themeClass +
+      '" id="' +
       escapeHtml(product.id || "") +
-      '" style="grid-column: 1 / -1; ' +
-      palette.card +
       '">' +
       heroVisual +
       '<div class="case-unit-details">' +
       '<div class="' +
-      palette.medalCls +
-      '"' +
-      (palette.medalStyle ? ' style="' + palette.medalStyle + '"' : "") +
-      ">" +
+      medalCls +
+      medalExtraClass +
+      '">' +
       escapeHtml(badgeText) +
       "</div>" +
-      '<h4 class="part-title" style="' +
-      palette.title +
-      '">' +
+      '<h4 class="part-title build-unit-title">' +
       escapeHtml(name) +
       "</h4>" +
-      '<p class="build-desc" style="' +
-      palette.desc +
-      '">' +
+      '<p class="build-desc build-unit-desc">' +
       escapeHtml(desc) +
       "</p>" +
       '<details class="case-internals-accordion" id="' +
       detailsId +
       '">' +
-      '<summary style="' +
-      palette.summary +
+      '<summary class="' +
+      summaryClass +
       '">' +
       summaryLabel +
       "</summary>" +
-      '<div class="case-parts-grid" style="margin-top: 20px;">' +
+      '<div class="case-parts-grid">' +
       partsHtml +
       "</div>" +
       "</details>" +
@@ -865,6 +845,9 @@
         }
         reapplyHashFocus();
         setTimeout(reapplyHashFocus, 0);
+        if (typeof window.__svUpdateBridgeChrome === "function") {
+          window.__svUpdateBridgeChrome();
+        }
         var badge = document.getElementById("siteVersionBadge");
         if (badge) {
           var dataVersion = data && data.meta && data.meta.version ? data.meta.version : "-";

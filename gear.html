@@ -2,128 +2,152 @@
 <html lang="en">
 <head>
     <script>
-      window.SV_TRACKING = {
-        gaId: "G-LLV9DT0GBS",
-        pinterestTagId: "2613814755639"
-      };
-    </script>
+  window.SV_TRACKING = {
+    gaId: "G-LLV9DT0GBS",
+    pinterestTagId: "2613814755639"
+  };
+</script>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gear Library | Setup Vault</title>
-    <meta name="description" content="Browse Setup Vault gear by category—keyboards, mice, headsets, monitors, desk mats, desk organizers, and lighting. Zen and Stealth picks together.">
-    <link rel="canonical" href="https://www.setupvaulthq.com/gear.html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gear Library | Setup Vault</title>
+<meta name="description" content="Browse Setup Vault gear by category—keyboards, mice, headsets, monitors, desk mats, desk organizers, and lighting. Zen and Stealth picks together.">
+<link rel="canonical" href="https://www.setupvaulthq.com/gear.html">
 
-    <meta property="og:title" content="Gear Library | Setup Vault">
-    <meta property="og:description" content="Category tabs with Zen and Stealth products side by side.">
-    <meta property="og:image" content="https://www.setupvaulthq.com/stealth_op.jfif">
-    <meta property="og:url" content="https://www.setupvaulthq.com/gear.html">
-    <meta property="og:type" content="website">
+<meta property="og:title" content="Gear Library | Setup Vault">
+<meta property="og:description" content="Category tabs with Zen and Stealth products side by side.">
+<meta property="og:image" content="https://www.setupvaulthq.com/stealth_op.jfif">
+<meta property="og:url" content="https://www.setupvaulthq.com/gear.html">
+<meta property="og:type" content="website">
 
-    <link rel="stylesheet" href="fonts/inter-local.css">
-    <link rel="stylesheet" href="css/site.css?v=9">
+<link rel="stylesheet" href="fonts/inter-local.css">
+<link rel="stylesheet" href="css/site.css?v=10">
+
+
 </head>
-<body>
-    <button type="button" class="focus-close-btn" id="focusCloseBtn" aria-label="Exit focus mode">✕ Focus Mode Off</button>
+<body data-page="gear">
+    <button type="button" class="focus-close-btn" id="focusCloseBtn" aria-label="Exit focus mode">✕ Exit Focus</button>
+
+<div class="bridge-strip" id="bridgeStrip" hidden>
+    <div class="bridge-strip-inner">
+        <p class="bridge-strip-text" id="bridgeStripText">You're viewing a curated pick — hand-tested for US gamers.</p>
+        <button type="button" class="bridge-strip-btn" id="bridgeStripBtn">Jump to product</button>
+    </div>
+</div>
+
+<div class="sticky-amazon-bar" id="stickyAmazonBar" hidden aria-hidden="true">
+    <div class="sticky-amazon-inner">
+        <p class="sticky-amazon-name" id="stickyAmazonName"></p>
+        <a class="part-btn sticky-amazon-cta" id="stickyAmazonCta" href="#" target="_blank" rel="noopener noreferrer">Check Current Price on Amazon</a>
+    </div>
+</div>
+
+    <header class="mobile-top-bar" id="mobileTopBar">
+    <a href="index.html" class="mobile-top-brand">
+        <picture>
+            <source type="image/webp" srcset="img-optimized/logo-130.webp 130w" sizes="40px">
+            <img src="logo.jfif" alt="" class="mobile-top-logo" width="40" height="40" decoding="async">
+        </picture>
+        <span class="mobile-top-title">Setup Vault</span>
+    </a>
+    <span class="mobile-top-badge">Curated Picks</span>
+</header>
+
 
     <div class="app-layout">
-        <aside class="sidebar">
-            <div class="hero-badge">Premium Curation</div>
-            <picture>
-                <source type="image/webp" srcset="img-optimized/logo-130.webp 130w, img-optimized/logo-260.webp 260w" sizes="130px">
-                <img src="logo.jfif" alt="Setup Vault PP" class="sidebar-logo" width="1024" height="1024" decoding="async" fetchpriority="high">
-            </picture>
-            <h1 class="sidebar-title">Setup Vault</h1>
-            <p class="sidebar-bio">Curating the ultimate clean &amp; minimalist workspace inspiration. Elevate your battlestation.</p>
+        <aside class="sidebar" id="siteSidebar">
+    <div class="hero-badge">Premium Curation</div>
+    <picture>
+        <source type="image/webp" srcset="img-optimized/logo-130.webp 130w, img-optimized/logo-260.webp 260w" sizes="130px">
+        <img src="logo.jfif" alt="Setup Vault PP" class="sidebar-logo" width="1024" height="1024" decoding="async" fetchpriority="high">
+    </picture>
+    <h1 class="sidebar-title">Setup Vault</h1>
+    <p class="sidebar-bio">Curating the ultimate clean &amp; minimalist workspace inspiration. Elevate your battlestation.</p>
 
-            <nav class="sidebar-nav">
-                <div class="nav-section">
-                    <p class="nav-section-label">The Vault (Builds)</p>
-                    <a href="index.html">🏠 Home &amp; Full Builds</a>
-                    <a href="noir.html">🌃 Vault Noir</a>
-                    <a href="zen.html">☁️ Zen Workspace</a>
-                    <a href="stealth.html">🦇 Stealth Operator</a>
-                    <a href="index.html#upcoming-vaults">🔒 Upcoming Vaults</a>
-                </div>
-                <div class="nav-section">
-                    <p class="nav-section-label">Gear Library</p>
-                    <a href="gear.html?cat=keyboard">⌨️ Keyboards &amp; Mouse</a>
-                    <a href="gear.html?cat=headset">🎧 Audio &amp; Displays</a>
-                    <a href="gear.html?cat=desk-mat">🪴 Desk Aesthetics</a>
-                    <a href="gear.html?cat=desk-organizer">🗄️ Desk Organizers</a>
-                    <a href="gear.html?cat=pc-case">🖥️ PC Cases</a>
-                    <a href="gear.html?cat=pc-component">🛠️ PC Components</a>
-                    <a href="gear.html?cat=desktop-audio">🔊 Desktop Audio</a>
-                </div>
-            </nav>
+    <nav class="sidebar-nav" aria-label="Site navigation">
+        <div class="nav-section">
+            <p class="nav-section-label">The Vault (Builds)</p>
+            <a href="index.html" data-nav="home">🏠 Home &amp; Full Builds</a>
+            <a href="noir.html" data-nav="noir">🌃 Vault Noir</a>
+            <a href="zen.html" data-nav="zen">☁️ Zen Workspace</a>
+            <a href="stealth.html" data-nav="stealth">🦇 Stealth Operator</a>
+            <a href="index.html#upcoming-vaults" data-nav="upcoming">🔒 Upcoming Vaults</a>
+        </div>
 
-            <div class="sidebar-footer-links">
-                <span onclick="openModal('about')">About Us</span>
-                <span onclick="openModal('privacy')">Privacy Policy</span>
-                <span onclick="openModal('terms')">Terms of Service</span>
-                <span id="cookiePrefsLink">Cookie Settings</span>
-                <span onclick="window.location.href='mailto:setupvaulthq@gmail.com'">Contact</span>
-                <p class="affiliate-footnote">* As an Amazon Associate I earn from qualifying purchases.</p>
-            </div>
-        </aside>
+        <div class="nav-section">
+            <p class="nav-section-label">Gear Library</p>
+            <a href="gear.html?cat=keyboard" data-nav="gear">⌨️ Keyboards &amp; Mouse</a>
+            <a href="gear.html?cat=headset" data-nav="gear">🎧 Audio &amp; Displays</a>
+            <a href="gear.html?cat=desk-mat" data-nav="gear">🪴 Desk Aesthetics</a>
+            <a href="gear.html?cat=desk-organizer" data-nav="gear">🗄️ Desk Organizers</a>
+            <a href="gear.html?cat=pc-case" data-nav="gear">🖥️ PC Cases</a>
+            <a href="gear.html?cat=pc-component" data-nav="gear">🛠️ PC Components</a>
+            <a href="gear.html?cat=desktop-audio" data-nav="gear">🔊 Desktop Audio</a>
+        </div>
+    </nav>
+
+    <div class="sidebar-footer-links">
+        <span onclick="openModal('about')">About Us</span>
+        <span onclick="openModal('privacy')">Privacy Policy</span>
+        <span onclick="openModal('terms')">Terms of Service</span>
+        <span id="cookiePrefsLink">Cookie Settings</span>
+        <span onclick="window.location.href='mailto:setupvaulthq@gmail.com'">Contact</span>
+        <p class="affiliate-footnote">* As an Amazon Associate I earn from qualifying purchases.</p>
+    </div>
+</aside>
 
         <main class="main-content">
-            <div class="trust-strip" id="trustStrip">
-                <p class="trust-title">Gear Library — Zen &amp; Stealth together</p>
-                <ul class="trust-points">
-                    <li>Each tab lists both builds’ picks in that category.</li>
-                    <li>Use tier chips to narrow value positioning.</li>
-                    <li>As an Amazon Associate I earn from qualifying purchases.</li>
-                </ul>
-            </div>
+            <div class="trust-bar page-trust-bar" id="trustStrip">
+    <span class="trust-bar-item">🎒 Zen &amp; Stealth together</span>
+    <span class="trust-bar-item">✓ Category tabs</span>
+    <span class="trust-bar-item">✓ Amazon Associate disclosure</span>
+</div>
 
-            <section id="gear-library">
-                <h2>🎒 Gear Library</h2>
-                <p class="build-desc">Open a category to compare Zen (Angel) and Stealth picks. Deep-link a tab with a query such as <a href="gear.html?cat=mouse">gear.html?cat=mouse</a>. <strong>PC cases and internal components</strong> are not in this catalog—see the <a href="index.html#zen-workspace">Angel</a> and <a href="index.html#stealth-operator">Stealth</a> build pages on Home.</p>
+<section id="gear-library">
+    <h2>🎒 Gear Library</h2>
+    <p class="build-desc">Open a category to compare Zen (Angel) and Stealth picks. Deep-link a tab with a query such as <a href="gear.html?cat=mouse">gear.html?cat=mouse</a>. <strong>PC cases and internal components</strong> are not in this catalog—see the <a href="index.html#zen-workspace">Angel</a> and <a href="index.html#stealth-operator">Stealth</a> build pages on Home.</p>
 
-                <div class="tier-wrap">
-                    <p class="tier-title">Filter by Budget Tier</p>
-                    <p class="tier-sub">Applies to the cards below.</p>
-                    <div class="tier-chips" id="tierFilterChips"></div>
-                </div>
+    <div class="tier-wrap">
+        <p class="tier-title">Filter by Budget Tier</p>
+        <p class="tier-sub">Applies to the cards below.</p>
+        <div class="tier-chips" id="tierFilterChips"></div>
+    </div>
 
-                <div id="categoryTabs" class="catalog-tabs"></div>
-                <div id="categoryProductsGrid" class="top-picks-grid"></div>
-            </section>
+    <div id="categoryTabs" class="catalog-tabs"></div>
+    <div id="categoryProductsGrid" class="top-picks-grid"></div>
+</section>
+
+<p class="back-to-builds"><a href="index.html">← See all builds on Home</a></p>
+
         </main>
     </div>
 
     <div class="mobile-bottom-bar">
-        <a href="zen.html">
-            <span>☁️</span>
-            Zen
-        </a>
-        <a href="stealth.html">
-            <span>🦇</span>
-            Stealth
-        </a>
-        <a href="gear.html">
-            <span>🎒</span>
-            Gear
-        </a>
-    </div>
+    <a href="index.html" data-nav="home"><span>🏠</span>Home</a>
+    <a href="zen.html" data-nav="zen"><span>☁️</span>Zen</a>
+    <a href="stealth.html" data-nav="stealth"><span>🦇</span>Stealth</a>
+    <a href="gear.html" data-nav="gear"><span>🎒</span>Gear</a>
+</div>
 
     <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <span class="modal-close" onclick="closeModal()">×</span>
-            <div id="modalBody" class="modal-body"></div>
-        </div>
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <span class="modal-close" onclick="closeModal()">×</span>
+        <div id="modalBody" class="modal-body"></div>
     </div>
-    <div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite" aria-label="Cookie consent">
-        <p>We use analytics and affiliate tracking technologies only with your consent. Essential functionality always stays on.</p>
-        <div class="cookie-actions">
-            <button class="primary" id="cookieAcceptBtn" type="button">Accept analytics cookies</button>
-            <button id="cookieRejectBtn" type="button">Reject non-essential cookies</button>
-            <button id="cookiePolicyBtn" type="button">Privacy policy</button>
-        </div>
-    </div>
+</div>
 
-    <script src="scripts/render-products.js?v=3.4" defer></script>
-    <script src="scripts/site-shell.js" defer></script>
-    <script src="scripts/exit-intent.js?v=1" defer></script>
+    <div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite" aria-label="Cookie consent">
+    <p>We use analytics and affiliate tracking technologies only with your consent. Essential functionality always stays on.</p>
+    <div class="cookie-actions">
+        <button class="primary" id="cookieAcceptBtn" type="button">Accept analytics cookies</button>
+        <button id="cookieRejectBtn" type="button">Reject non-essential cookies</button>
+        <button id="cookiePolicyBtn" type="button">Privacy policy</button>
+    </div>
+</div>
+
+    <script src="scripts/render-products.js?v=3.5" defer></script>
+<script src="scripts/site-shell.js?v=2" defer></script>
+<script src="scripts/exit-intent.js?v=1" defer></script>
+
 </body>
 </html>

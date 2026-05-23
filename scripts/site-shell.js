@@ -311,6 +311,117 @@
             if (window.location.hash) {
                 history.replaceState(null, "", window.location.pathname + window.location.search);
             }
+            updateBridgeChrome();
+        }
+
+        function getHashProductId() {
+            if (!window.location.hash || window.location.hash.length < 2) return "";
+            try {
+                return decodeURIComponent(window.location.hash.slice(1));
+            } catch (err) {
+                return window.location.hash.slice(1);
+            }
+        }
+
+        function getTargetProductCard() {
+            var targetId = getHashProductId();
+            if (!targetId) return null;
+            return document.getElementById(targetId);
+        }
+
+        function updateBridgeChrome() {
+            var bridgeStrip = document.getElementById("bridgeStrip");
+            var bridgeStripText = document.getElementById("bridgeStripText");
+            var stickyBar = document.getElementById("stickyAmazonBar");
+            var stickyName = document.getElementById("stickyAmazonName");
+            var stickyCta = document.getElementById("stickyAmazonCta");
+            var targetCard = getTargetProductCard();
+            var isMobile = (window.innerWidth || document.documentElement.clientWidth) <= 900;
+            var fromPinterest = /pinterest/i.test(trafficSource);
+
+            if (bridgeStrip && bridgeStripText) {
+                if (targetCard && targetCard.classList.contains("part-card")) {
+                    var productName =
+                        targetCard.getAttribute("data-product-name") ||
+                        (targetCard.querySelector(".part-title") &&
+                            targetCard.querySelector(".part-title").textContent) ||
+                        "this pick";
+                    bridgeStripText.textContent =
+                        "You're viewing " +
+                        productName +
+                        " — curated for US gamers" +
+                        (fromPinterest ? " (via Pinterest)" : "") +
+                        ".";
+                    bridgeStrip.hidden = false;
+                } else if (fromPinterest) {
+                    bridgeStripText.textContent =
+                        "Welcome from Pinterest — browse hand-picked battlestation gear with honest value tiers.";
+                    bridgeStrip.hidden = false;
+                } else {
+                    bridgeStrip.hidden = true;
+                }
+            }
+
+            if (stickyBar && stickyName && stickyCta) {
+                if (isMobile && targetCard && targetCard.classList.contains("part-card")) {
+                    var amazonBtn = targetCard.querySelector(".part-btn[href]");
+                    var displayName =
+                        targetCard.getAttribute("data-product-name") ||
+                        (targetCard.querySelector(".part-title") &&
+                            targetCard.querySelector(".part-title").textContent) ||
+                        "Curated pick";
+                    stickyName.textContent = displayName;
+                    if (amazonBtn) {
+                        stickyCta.href = amazonBtn.getAttribute("href") || "#";
+                        stickyCta.textContent = amazonBtn.textContent.trim() || "Check Current Price on Amazon";
+                    }
+                    stickyBar.hidden = false;
+                    stickyBar.setAttribute("aria-hidden", "false");
+                    document.body.classList.add("has-sticky-amazon");
+                } else {
+                    stickyBar.hidden = true;
+                    stickyBar.setAttribute("aria-hidden", "true");
+                    document.body.classList.remove("has-sticky-amazon");
+                }
+            }
+        }
+
+        function initBridgeStrip() {
+            var bridgeStripBtn = document.getElementById("bridgeStripBtn");
+            if (bridgeStripBtn) {
+                bridgeStripBtn.addEventListener("click", function() {
+                    var targetCard = getTargetProductCard();
+                    if (targetCard) {
+                        targetCard.scrollIntoView({ behavior: "smooth", block: "center" });
+                        if (!window.location.hash && targetCard.id) {
+                            window.location.hash = targetCard.id;
+                        }
+                        applyHashFocusMode();
+                        return;
+                    }
+                    var topPicks = document.getElementById("topPicksGrid");
+                    if (topPicks) {
+                        topPicks.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }
+                });
+            }
+            updateBridgeChrome();
+        }
+
+        function markActiveNav() {
+            var pageId = document.body.getAttribute("data-page") || "";
+            var navLinks = document.querySelectorAll(".sidebar-nav a[data-nav], .mobile-bottom-bar a[data-nav]");
+            navLinks.forEach(function(link) {
+                var navId = link.getAttribute("data-nav") || "";
+                var isActive = navId === pageId;
+                if (isActive) {
+                    link.classList.add("is-active");
+                    link.setAttribute("aria-current", "page");
+                } else {
+                    link.classList.remove("is-active");
+                    link.removeAttribute("aria-current");
+                }
+            });
         }
 
         function applyHashFocusMode() {
@@ -355,11 +466,6 @@
                 }
                 targetCard.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
 
-                if (isMobileViewport) {
-                    document.body.classList.remove("focus-mode");
-                    return;
-                }
-
                 focusActivateTimer = setTimeout(function() {
                     document.body.classList.add("focus-mode");
                     targetCard.classList.add("target-focus");
@@ -367,7 +473,7 @@
                     var cardRect = targetCard.getBoundingClientRect();
                     var vw = window.innerWidth || document.documentElement.clientWidth;
                     var sidebar = document.querySelector(".sidebar");
-                    var safeLeftBoundary = 240;
+                    var safeLeftBoundary = isMobileViewport ? 16 : 240;
                     if (sidebar && window.innerWidth > 900) {
                         safeLeftBoundary = sidebar.getBoundingClientRect().right + 40;
                     }
@@ -380,9 +486,11 @@
                     targetCard.classList.remove("focus-enter");
                     void targetCard.offsetWidth;
                     targetCard.classList.add("focus-enter");
-                }, 420);
+                    updateBridgeChrome();
+                }, isMobileViewport ? 180 : 420);
             } else {
                 document.body.classList.remove("focus-mode");
+                updateBridgeChrome();
             }
         }
 
@@ -420,10 +528,14 @@
             });
 
             window.__svApplyHashFocus = applyHashFocusMode;
+            window.__svUpdateBridgeChrome = updateBridgeChrome;
 
             applyHashFocusMode();
             initConsentUi();
+            initBridgeStrip();
+            markActiveNav();
             attachTopPickAnalytics();
             window.addEventListener("hashchange", applyHashFocusMode);
+            window.addEventListener("resize", updateBridgeChrome);
         });
 })();

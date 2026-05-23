@@ -2,145 +2,160 @@
 <html lang="en">
 <head>
     <script>
-      window.SV_TRACKING = {
-        gaId: "G-LLV9DT0GBS",
-        pinterestTagId: "2613814755639"
-      };
-    </script>
+  window.SV_TRACKING = {
+    gaId: "G-LLV9DT0GBS",
+    pinterestTagId: "2613814755639"
+  };
+</script>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vault Noir Build | Setup Vault</title>
-    <meta name="description" content="Vault Noir — heavy artillery battlestation built for streamers, esports grinders and creators. RTX 5080 + Core Ultra 9 firepower, hand-curated by Setup Vault above the Stealth Operator tier.">
-    <link rel="canonical" href="https://www.setupvaulthq.com/noir.html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vault Noir Build | Setup Vault</title>
+<meta name="description" content="Vault Noir — heavy artillery battlestation built for streamers, esports grinders and creators. RTX 5080 + Core Ultra 9 firepower, hand-curated above Stealth Operator.">
+<link rel="canonical" href="https://www.setupvaulthq.com/noir.html">
 
-    <meta property="og:title" content="Vault Noir Build | Setup Vault">
-    <meta property="og:description" content="The heavy-artillery rig for streamers and esports creators — RTX 5080, Core Ultra 9, blackout chassis. Hand-curated above the Stealth tier.">
-    <meta property="og:image" content="https://www.setupvaulthq.com/noir_setup.jpg">
-    <meta property="og:url" content="https://www.setupvaulthq.com/noir.html">
-    <meta property="og:type" content="website">
+<meta property="og:title" content="Vault Noir Build | Setup Vault">
+<meta property="og:description" content="The heavy-artillery rig for streamers and esports creators — RTX 5080, Core Ultra 9, blackout chassis.">
+<meta property="og:image" content="https://www.setupvaulthq.com/noir_setup.jpg">
+<meta property="og:url" content="https://www.setupvaulthq.com/noir.html">
+<meta property="og:type" content="website">
 
-    <link rel="stylesheet" href="fonts/inter-local.css">
-    <link rel="stylesheet" href="css/site.css?v=9">
-    <style>
-      body.theme-noir { background-color: var(--noir-dominant); color: var(--noir-heading); }
-      body.theme-noir .main-content { color: var(--noir-heading); }
-      body.theme-noir h2 { color: var(--noir-heading); border-bottom-color: var(--noir-border); }
-      body.theme-noir .trust-strip { background: linear-gradient(135deg, var(--noir-secondary) 0%, var(--noir-dominant) 100%); border-color: var(--noir-border); color: var(--noir-text-muted); }
-      body.theme-noir .trust-title { color: var(--noir-accent); }
-      body.theme-noir .trust-points li { color: var(--noir-text-muted); }
-      body.theme-noir .build-desc { color: var(--noir-text-muted); }
-      body.theme-noir .tier-wrap { background: var(--noir-secondary); border: 1px solid var(--noir-border); color: var(--noir-text-muted); }
-      body.theme-noir .tier-title { color: var(--noir-heading); }
-      body.theme-noir .tier-sub { color: var(--noir-text-muted); }
-      body.theme-noir .tier-chip { background: var(--noir-dominant); border-color: var(--noir-btn-border); color: var(--noir-text-muted); }
-      body.theme-noir .tier-chip.active { background: var(--noir-accent); border-color: var(--noir-accent); color: var(--noir-dominant); }
-    </style>
+<link rel="stylesheet" href="fonts/inter-local.css">
+<link rel="stylesheet" href="css/site.css?v=10">
+
+
 </head>
-<body class="theme-noir">
-    <button type="button" class="focus-close-btn" id="focusCloseBtn" aria-label="Exit focus mode">✕ Focus Mode Off</button>
+<body data-page="noir" class="theme-noir" data-theme="noir">
+    <button type="button" class="focus-close-btn" id="focusCloseBtn" aria-label="Exit focus mode">✕ Exit Focus</button>
+
+<div class="bridge-strip" id="bridgeStrip" hidden>
+    <div class="bridge-strip-inner">
+        <p class="bridge-strip-text" id="bridgeStripText">You're viewing a curated pick — hand-tested for US gamers.</p>
+        <button type="button" class="bridge-strip-btn" id="bridgeStripBtn">Jump to product</button>
+    </div>
+</div>
+
+<div class="sticky-amazon-bar" id="stickyAmazonBar" hidden aria-hidden="true">
+    <div class="sticky-amazon-inner">
+        <p class="sticky-amazon-name" id="stickyAmazonName"></p>
+        <a class="part-btn sticky-amazon-cta" id="stickyAmazonCta" href="#" target="_blank" rel="noopener noreferrer">Check Current Price on Amazon</a>
+    </div>
+</div>
+
+    <header class="mobile-top-bar" id="mobileTopBar">
+    <a href="index.html" class="mobile-top-brand">
+        <picture>
+            <source type="image/webp" srcset="img-optimized/logo-130.webp 130w" sizes="40px">
+            <img src="logo.jfif" alt="" class="mobile-top-logo" width="40" height="40" decoding="async">
+        </picture>
+        <span class="mobile-top-title">Setup Vault</span>
+    </a>
+    <span class="mobile-top-badge">Curated Picks</span>
+</header>
+
 
     <div class="app-layout">
-        <aside class="sidebar">
-            <div class="hero-badge">Premium Curation</div>
-            <picture>
-                <source type="image/webp" srcset="img-optimized/logo-130.webp 130w, img-optimized/logo-260.webp 260w" sizes="130px">
-                <img src="logo.jfif" alt="Setup Vault PP" class="sidebar-logo" width="1024" height="1024" decoding="async" fetchpriority="high">
-            </picture>
-            <h1 class="sidebar-title">Setup Vault</h1>
-            <p class="sidebar-bio">Curating the ultimate clean &amp; minimalist workspace inspiration. Elevate your battlestation.</p>
+        <aside class="sidebar" id="siteSidebar">
+    <div class="hero-badge">Premium Curation</div>
+    <picture>
+        <source type="image/webp" srcset="img-optimized/logo-130.webp 130w, img-optimized/logo-260.webp 260w" sizes="130px">
+        <img src="logo.jfif" alt="Setup Vault PP" class="sidebar-logo" width="1024" height="1024" decoding="async" fetchpriority="high">
+    </picture>
+    <h1 class="sidebar-title">Setup Vault</h1>
+    <p class="sidebar-bio">Curating the ultimate clean &amp; minimalist workspace inspiration. Elevate your battlestation.</p>
 
-            <nav class="sidebar-nav">
-                <div class="nav-section">
-                    <p class="nav-section-label">The Vault (Builds)</p>
-                    <a href="index.html">🏠 Home &amp; Full Builds</a>
-                    <a href="noir.html" aria-current="page">🌃 Vault Noir</a>
-                    <a href="zen.html">☁️ Zen Workspace</a>
-                    <a href="stealth.html">🦇 Stealth Operator</a>
-                    <a href="index.html#upcoming-vaults">🔒 Upcoming Vaults</a>
-                </div>
-                <div class="nav-section">
-                    <p class="nav-section-label">Gear Library</p>
-                    <a href="gear.html?cat=keyboard">⌨️ Keyboards &amp; Mouse</a>
-                    <a href="gear.html?cat=headset">🎧 Audio &amp; Displays</a>
-                    <a href="gear.html?cat=desk-mat">🪴 Desk Aesthetics</a>
-                    <a href="gear.html?cat=desk-organizer">🗄️ Desk Organizers</a>
-                    <a href="gear.html?cat=pc-case">🖥️ PC Cases</a>
-                    <a href="gear.html?cat=pc-component">🛠️ PC Components</a>
-                    <a href="gear.html?cat=desktop-audio">🔊 Desktop Audio</a>
-                </div>
-            </nav>
+    <nav class="sidebar-nav" aria-label="Site navigation">
+        <div class="nav-section">
+            <p class="nav-section-label">The Vault (Builds)</p>
+            <a href="index.html" data-nav="home">🏠 Home &amp; Full Builds</a>
+            <a href="noir.html" data-nav="noir">🌃 Vault Noir</a>
+            <a href="zen.html" data-nav="zen">☁️ Zen Workspace</a>
+            <a href="stealth.html" data-nav="stealth">🦇 Stealth Operator</a>
+            <a href="index.html#upcoming-vaults" data-nav="upcoming">🔒 Upcoming Vaults</a>
+        </div>
 
-            <div class="sidebar-footer-links">
-                <span onclick="openModal('about')">About Us</span>
-                <span onclick="openModal('privacy')">Privacy Policy</span>
-                <span onclick="openModal('terms')">Terms of Service</span>
-                <span id="cookiePrefsLink">Cookie Settings</span>
-                <span onclick="window.location.href='mailto:setupvaulthq@gmail.com'">Contact</span>
-                <p class="affiliate-footnote">* As an Amazon Associate I earn from qualifying purchases.</p>
-            </div>
-        </aside>
+        <div class="nav-section">
+            <p class="nav-section-label">Gear Library</p>
+            <a href="gear.html?cat=keyboard" data-nav="gear">⌨️ Keyboards &amp; Mouse</a>
+            <a href="gear.html?cat=headset" data-nav="gear">🎧 Audio &amp; Displays</a>
+            <a href="gear.html?cat=desk-mat" data-nav="gear">🪴 Desk Aesthetics</a>
+            <a href="gear.html?cat=desk-organizer" data-nav="gear">🗄️ Desk Organizers</a>
+            <a href="gear.html?cat=pc-case" data-nav="gear">🖥️ PC Cases</a>
+            <a href="gear.html?cat=pc-component" data-nav="gear">🛠️ PC Components</a>
+            <a href="gear.html?cat=desktop-audio" data-nav="gear">🔊 Desktop Audio</a>
+        </div>
+    </nav>
+
+    <div class="sidebar-footer-links">
+        <span onclick="openModal('about')">About Us</span>
+        <span onclick="openModal('privacy')">Privacy Policy</span>
+        <span onclick="openModal('terms')">Terms of Service</span>
+        <span id="cookiePrefsLink">Cookie Settings</span>
+        <span onclick="window.location.href='mailto:setupvaulthq@gmail.com'">Contact</span>
+        <p class="affiliate-footnote">* As an Amazon Associate I earn from qualifying purchases.</p>
+    </div>
+</aside>
 
         <main class="main-content">
-            <div class="trust-strip" id="trustStrip">
-                <p class="trust-title">Vault Noir — premium midnight battlestation</p>
-                <ul class="trust-points">
-                    <li>Heavy-artillery tier above Stealth Operator — RTX 5080 + Core Ultra 9 baseline.</li>
-                    <li>Built for streaming, esports and 4K/8K creator workflows in the same chassis.</li>
-                    <li>As an Amazon Associate I earn from qualifying purchases.</li>
-                </ul>
-            </div>
+            <div class="trust-bar page-trust-bar theme-noir-trust" id="trustStrip">
+    <span class="trust-bar-item">🌃 Vault Noir · RTX 5080 tier</span>
+    <span class="trust-bar-item">✓ Stream &amp; esports ready</span>
+    <span class="trust-bar-item">✓ Amazon Associate disclosure</span>
+</div>
 
-            <section id="vault-noir">
-                <h2>🌃 Vault Noir</h2>
-                <p class="build-desc">The shelf streamers, esports grinders and creators load up with when they need the rig to disappear and just deliver. Every peripheral and internal is benched against the RTX 5080 + Core Ultra 9 baseline before it lands here.</p>
+<section id="vault-noir">
+    <h2>🌃 Vault Noir</h2>
+    <p class="build-desc">The shelf streamers, esports grinders and creators load up with when they need the rig to disappear and just deliver.</p>
 
-                <div class="noir-coming-soon" data-noir-coming-soon>
-                    <span class="noir-coming-soon-kicker">Coming Soon</span>
-                    <p class="noir-coming-soon-title">The artillery is being assembled</p>
-                    <p class="noir-coming-soon-desc">Vault Noir is the heavy-hitter shelf — the rig you bring to ranked nights, 12-hour streams and editing marathons. Peripherals, the Monolith PC unit, and every component that pushes the 5080 to its limit are bench-verified one by one.</p>
-                    <p class="noir-coming-soon-meta">Cards reveal automatically as items go live in Admin.</p>
-                </div>
+    <div class="noir-coming-soon" data-noir-coming-soon>
+        <span class="noir-coming-soon-kicker">Coming Soon</span>
+        <p class="noir-coming-soon-title">The artillery is being assembled</p>
+        <p class="noir-coming-soon-desc">Vault Noir is the heavy-hitter shelf — peripherals, the Monolith PC unit, and every component that pushes the 5080 to its limit are bench-verified one by one.</p>
+        <p class="noir-coming-soon-meta">Cards reveal automatically as items go live in Admin.</p>
+    </div>
 
-                <div data-noir-products-wrap hidden>
-                    <div class="tier-wrap">
-                        <p class="tier-title">Filter by Budget Tier</p>
-                        <p class="tier-sub">No exact prices shown. Tiers reflect value positioning only.</p>
-                        <div class="tier-chips" id="tierFilterChips"></div>
-                    </div>
+    <div data-noir-products-wrap hidden>
+        <div class="tier-wrap theme-noir-tier">
+            <p class="tier-title">Filter by Budget Tier</p>
+            <p class="tier-sub">No exact prices shown. Tiers reflect value positioning only.</p>
+            <div class="tier-chips" id="tierFilterChips"></div>
+        </div>
 
-                    <div
-                        class="setup-content-grid"
-                        data-dynamic-section="vault-noir"
-                        data-category-exclude="pc-component"></div>
-                </div>
-            </section>
+        <div class="setup-content-grid" data-dynamic-section="vault-noir" data-category-exclude="pc-component"></div>
+    </div>
+</section>
+
+<p class="back-to-builds"><a href="index.html">← See all builds on Home</a></p>
+
         </main>
     </div>
 
     <div class="mobile-bottom-bar">
-        <a href="noir.html"><span>🌃</span>Noir</a>
-        <a href="zen.html"><span>☁️</span>Zen</a>
-        <a href="stealth.html"><span>🦇</span>Stealth</a>
-        <a href="gear.html"><span>🎒</span>Gear</a>
-    </div>
+    <a href="noir.html" data-nav="noir"><span>🌃</span>Noir</a>
+    <a href="zen.html" data-nav="zen"><span>☁️</span>Zen</a>
+    <a href="stealth.html" data-nav="stealth"><span>🦇</span>Stealth</a>
+    <a href="gear.html" data-nav="gear"><span>🎒</span>Gear</a>
+</div>
 
     <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <span class="modal-close" onclick="closeModal()">×</span>
-            <div id="modalBody" class="modal-body"></div>
-        </div>
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <span class="modal-close" onclick="closeModal()">×</span>
+        <div id="modalBody" class="modal-body"></div>
     </div>
-    <div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite" aria-label="Cookie consent">
-        <p>We use analytics and affiliate tracking technologies only with your consent. Essential functionality always stays on.</p>
-        <div class="cookie-actions">
-            <button class="primary" id="cookieAcceptBtn" type="button">Accept analytics cookies</button>
-            <button id="cookieRejectBtn" type="button">Reject non-essential cookies</button>
-            <button id="cookiePolicyBtn" type="button">Privacy policy</button>
-        </div>
-    </div>
+</div>
 
-    <script src="scripts/render-products.js?v=3.4" defer></script>
-    <script src="scripts/site-shell.js" defer></script>
-    <script src="scripts/exit-intent.js?v=1" defer></script>
+    <div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite" aria-label="Cookie consent">
+    <p>We use analytics and affiliate tracking technologies only with your consent. Essential functionality always stays on.</p>
+    <div class="cookie-actions">
+        <button class="primary" id="cookieAcceptBtn" type="button">Accept analytics cookies</button>
+        <button id="cookieRejectBtn" type="button">Reject non-essential cookies</button>
+        <button id="cookiePolicyBtn" type="button">Privacy policy</button>
+    </div>
+</div>
+
+    <script src="scripts/render-products.js?v=3.5" defer></script>
+<script src="scripts/site-shell.js?v=2" defer></script>
+<script src="scripts/exit-intent.js?v=1" defer></script>
+
 </body>
 </html>

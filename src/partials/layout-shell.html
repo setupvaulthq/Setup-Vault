@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{> head-tracking}}
+    {{> head-meta}}
+</head>
+<body data-page="{{PAGE_ID}}"{{BODY_ATTRS}}>
+    {{> bridge-chrome}}
+    {{> mobile-top-bar}}
+
+    <div class="app-layout">
+        {{> sidebar}}
+        <main class="main-content">
+            {{MAIN_CONTENT}}
+        </main>
+    </div>
+
+    {{MOBILE_BAR_PARTIAL}}
+    {{> modals-shell}}
+    {{> cookie-banner}}
+    {{> scripts}}
+</body>
+</html>

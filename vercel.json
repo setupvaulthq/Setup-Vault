@@ -1,4 +1,5 @@
 {
+  "buildCommand": "npm run build:site",
   "headers": [
     {
       "source": "/(.*)\\.(jfif|jpg|jpeg|png|webp|woff2)",

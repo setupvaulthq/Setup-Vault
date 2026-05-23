@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build:site": "node scripts/build-site.mjs",
     "smoke:site": "node scripts/smoke-site.mjs",
     "verify:deploy": "node scripts/verify-deploy.mjs",
     "lighthouse": "node scripts/run-lighthouse.mjs",
