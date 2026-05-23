@@ -1,5 +1,6 @@
 {
-  "buildCommand": "npm run build:site",
+  "buildCommand": "node scripts/build-site.mjs",
+  "outputDirectory": ".",
   "headers": [
     {
       "source": "/(.*)\\.(jfif|jpg|jpeg|png|webp|woff2)",
