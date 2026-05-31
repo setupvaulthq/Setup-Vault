@@ -174,138 +174,205 @@
     .priority-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
     .priority-row input#fPriority { min-width: 70px; width: 80px; }
     code { font-family: Consolas, "JetBrains Mono", monospace; font-size: 0.92em; color: var(--text-strong); background: var(--surface-2); padding: 1px 5px; border-radius: 4px; border: 1px solid var(--border-soft); }
-    a { color: #b4b8c0; }
+    a { color: #5fb98a; }
+
+    /* --- v3.1 cleaner layout --- */
+    .wrap { padding-bottom: 96px; }
+    input:focus, textarea:focus, select:focus { border-color: #3a9d63; box-shadow: 0 0 0 3px rgba(47,158,94,0.16); background: #1c1e23; }
+    .primary, .ok { background: #2f8155; border-color: #36955f; color: #eef6f1; font-weight: 600; }
+    .primary:hover, .ok:hover { background: #36975f; border-color: #3fa86b; }
+    .ghost { background: transparent; }
+    .ghost:hover { background: #1c1f25; }
+    button { font-weight: 500; }
+    .card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+    h1 { font-size: 16px; }
+    .sub { font-size: 12px; color: var(--muted); margin: 0; line-height: 1.5; }
+    .badges { display: flex; gap: 6px; flex-wrap: wrap; }
+    .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .form-grid .col-span { grid-column: 1 / -1; }
+    @media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } }
+    label.field { display: flex; flex-direction: column; gap: 5px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); font-weight: 600; margin: 0; }
+    label.field input, label.field select { width: 100%; min-width: 0; }
+    .hint { font-size: 11px; color: #74787f; margin: 4px 0 0; line-height: 1.45; }
+    .toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .toolbar input, .toolbar select { min-width: 0; width: auto; }
+    .toolbar .grow { flex: 1; min-width: 150px; }
+    .checkbox-field { display: flex; align-items: flex-start; gap: 9px; padding: 11px 13px; border: 1px dashed #3a4458; border-radius: 10px; background: rgba(47,158,94,0.06); cursor: pointer; font-size: 12px; line-height: 1.5; color: var(--text); }
+    .checkbox-field input { width: auto; min-width: 0; margin-top: 2px; }
+    .preview-card { display: flex; gap: 14px; align-items: center; }
+    .preview-thumb { width: 60px; height: 60px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .preview-thumb img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .preview-thumb .ph { font-size: 10px; color: var(--muted); text-align: center; padding: 4px; }
+    .preview-body { min-width: 0; }
+    .danger-btn { color: #c98c8c; border-color: #3a2a2a; }
+    .danger-btn:hover { background: #2a1c1c; border-color: #5a3a3a; }
+    .action-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; background: rgba(11,12,14,0.95); backdrop-filter: blur(10px); border-top: 1px solid var(--border); padding: 11px 16px; }
+    .action-bar-inner { max-width: 980px; margin: 0 auto; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .action-bar .status { flex: 1; min-width: 140px; font-size: 12px; color: var(--muted); margin: 0; }
+    .login-wrap { max-width: 380px; margin: 10vh auto 0; }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div id="loginCard" class="card">
+    <div id="loginCard" class="card login-wrap">
       <h1>Setup Vault Admin</h1>
-      <p>This page is intentionally not linked in the public UI.</p>
+      <p class="sub" style="margin:6px 0 14px;">Private panel — keep this URL to yourself.</p>
       <div class="row">
-        <input id="adminPassword" type="password" placeholder="Admin password">
-        <button id="loginBtn" class="primary">Enter Admin</button>
+        <input id="adminPassword" type="password" placeholder="Admin password" style="flex:1;min-width:160px;">
+        <button id="loginBtn" class="primary">Enter</button>
       </div>
-      <p class="danger" id="loginError"></p>
-      <p>Tip: Keep this URL private and do not share it publicly.</p>
+      <p class="danger" id="loginError" style="margin-top:10px;"></p>
     </div>
 
     <div id="adminApp" class="hidden">
       <div class="card">
-        <h1>Product Admin Panel</h1>
-        <p>Doldur, ekle, alttan <strong>Save to GitHub</strong> — site otomatik güncellenir.</p>
-        <span class="badge" id="adminVersionBadge">Admin v3.0</span>
-        <span class="badge" id="adminDataVersionBadge">Data v-</span>
-        <span class="badge" id="adminUpdatedAtBadge">Updated -</span>
-        <span class="badge" id="countAll">Products: 0</span>
-        <span class="badge" id="countActive">Active: 0</span>
-        <span class="badge" id="countPicks">Top Picks: 0</span>
+        <div class="card-head">
+          <h1>Product Admin</h1>
+          <div class="badges">
+            <span class="badge" id="countAll">Products: 0</span>
+            <span class="badge" id="countActive">Active: 0</span>
+            <span class="badge" id="countPicks">Top Picks: 0</span>
+            <span class="badge" id="adminDataVersionBadge">Data v-</span>
+            <span class="badge" id="adminUpdatedAtBadge">Updated -</span>
+            <span class="badge" id="adminVersionBadge">Admin v3.1</span>
+          </div>
+        </div>
+        <p class="sub" id="githubSaveHint">GitHub status…</p>
       </div>
 
       <div class="card">
-        <h1>Add New Product</h1>
-        <div class="grid">
-          <div>
-            <input id="fId" placeholder="e.g. bamboo-desk-tray (optional)" maxlength="96" title="URL slug — not Amazon ASIN or a numeric DB id">
-            <p class="mini" style="margin:6px 0 0;font-size:11px;line-height:1.35;color:#94a3b8;">
-              <strong>ID</strong> = kısa dosya/anchor adı (<code>harf-rakam-tire</code>). Veritabanı “max 11” veya ASIN değil; boş bırakırsan isimden üretilir (~80 karakter üstü engellenir).
-            </p>
-          </div>
-          <input id="fName" placeholder="Product name">
-          <input id="fImage" placeholder="Image file name (example: mouse.jpg)">
-          <input id="fAmazonUrl" placeholder="Amazon link (https://...)">
-          <select id="fSection" title="Build sayfası: Vault Noir / Zen / Stealth. Sadece Gear kataloğu için ilk seçenek.">
-            <option value="gear-library">Gear Library only (no build page)</option>
-            <option value="vault-noir">Vault Noir</option>
-            <option value="zen-workspace">Zen Workspace</option>
-            <option value="stealth-operator">Stealth Operator</option>
-          </select>
-          <p id="vaultNoirMatryoshkaHint" class="mini" style="display:none;margin:4px 0 0;grid-column:1/-1;font-size:11px;line-height:1.45;color:#94a3b8;">
-            <strong>Vault Noir (matryoshka):</strong> Dış grid = <strong>PC Components dışındaki</strong> tüm kategoriler (klavye, kasa şasisi, vb.). GPU/CPU/RAM/SSD/anakart/soğutucu/PSU için kategori mutlaka <code>pc-component</code> — bunlar yalnızca ana sayfa + <code>noir.html</code> üzerindeki <strong>birleşik kasa fotoğrafının altındaki iç parça accordion’unda</strong> listelenir (Zen/Stealth ile aynı akış).
-          </p>
-          <select id="fCategory"></select>
-          <select id="fValueTier">
-            <option value="entry">Entry Tier</option>
-            <option value="mid">Mid Tier</option>
-            <option value="premium">Premium Tier</option>
-          </select>
-          <select id="fMedalPreset">
-            <option value="Top Rated">Top Rated</option>
-            <option value="4.5+ Elite Choice">4.5+ Elite Choice</option>
-            <option value="Premium Tier">Premium Tier</option>
-            <option value="Verified Quality">Verified Quality</option>
-            <option value="Bestseller">Bestseller</option>
-            <option value="Stealth Choice">Stealth Choice</option>
-            <option value="Obsidian Tier">Obsidian Tier</option>
-            <option value="Blackout Masterpiece">Blackout Masterpiece</option>
-            <option value="custom">Custom medal...</option>
-          </select>
-          <input id="fBadgeCustom" placeholder="Custom medal text (optional)">
-          <div class="priority-row" style="grid-column: 1 / -1;">
-            <button type="button" id="priDec" title="Lower priority number">−</button>
-            <input id="fPriority" type="number" value="5" min="1" max="99999" placeholder="Priority">
-            <button type="button" id="priInc" title="Raise priority number">+</button>
-            <button type="button" id="priTopCategory" class="soft" title="Set higher than any product matching current list filters">Top in filter</button>
-          </div>
-          <select id="fActive">
-            <option value="true">Active</option>
-            <option value="false">Inactive</option>
-          </select>
-          <label for="fIsBuildUnit" style="grid-column:1/-1; display:flex; align-items:flex-start; gap:8px; padding:10px 12px; border:1px dashed #4338ca; border-radius:10px; background:#0a1226; cursor:pointer;">
-            <input type="checkbox" id="fIsBuildUnit" style="margin-top:3px;">
-            <span style="font-size:12px; line-height:1.5; color:#cbd5e1;">
-              <strong>Birleşik PC kartı (matryoshka)</strong> — bu ürün <em>Angel Core / Stealth Core</em> gibi birleşik PC görseli kartıdır. Amazon link gerekmez; aynı section’daki <code>pc-component</code> ürünleri otomatik olarak iç parça accordion’unda listelenir. Kategori için <code>pc-case</code> önerilir.
-            </span>
+        <div class="card-head">
+          <h1>Add / Edit Product</h1>
+          <button id="clearFormBtn" class="ghost">Clear</button>
+        </div>
+        <div class="form-grid">
+          <label class="field">Name
+            <input id="fName" placeholder="Product name">
           </label>
-        </div>
-        <input id="fBenefit" style="width:100%;" placeholder="Short benefit text (what this product is good at)">
-        <div class="form-extras">
-          <div class="thumb-box" id="formImagePreviewWrap" title="Image preview (site root path)">
-            <span class="thumb-placeholder" id="formImagePreviewPh">No image file</span>
-            <img id="formImagePreviewImg" alt="" class="hidden" width="120" height="80" decoding="async">
-          </div>
-          <div style="flex:1; min-width:200px;">
-            <p class="mini" id="amazonUrlHint" style="margin:0 0 6px;">Amazon / amzn.to link (boş bırakılabilir → birleşik PC kartı için).</p>
-            <div class="row" style="margin:0 0 8px; flex-wrap:wrap; gap:8px; align-items:center;">
-              <input type="file" id="fImageFile" accept="image/jpeg,image/png,image/webp,.jfif" style="flex:1; min-width:220px;">
-              <button type="button" id="uploadImageBtn" class="primary" disabled title="Görsel seç → tek tıklamayla repoya commit'lenir">Görseli yükle</button>
+          <label class="field">ID <span style="text-transform:none;color:#74787f;font-weight:500;">(optional)</span>
+            <input id="fId" placeholder="auto from name" maxlength="96">
+          </label>
+          <label class="field col-span">Image
+            <div class="row" style="gap:8px;">
+              <input id="fImage" placeholder="file name e.g. mouse.jpg" style="flex:1;min-width:150px;width:auto;">
+              <input type="file" id="fImageFile" accept="image/jpeg,image/png,image/webp,.jfif" style="flex:1;min-width:150px;width:auto;">
+              <button type="button" id="uploadImageBtn" class="primary" disabled title="Upload to repo in one click">Upload</button>
             </div>
-            <p class="mini" id="uploadImageHint" style="margin:0;line-height:1.5;color:#7a7d83;font-size:11px;">
-              Görsel seç → tek tıklamayla repoya commit’lenir. <strong>Image file name</strong> alanı otomatik dolar.
-            </p>
+          </label>
+          <label class="field col-span">Amazon link
+            <input id="fAmazonUrl" placeholder="https://amzn.to/…  (optional for Combined PC card)">
+          </label>
+          <label class="field">Section
+            <select id="fSection">
+              <option value="gear-library">Gear Library only</option>
+              <option value="vault-noir">Vault Noir</option>
+              <option value="zen-workspace">Zen Workspace</option>
+              <option value="stealth-operator">Stealth Operator</option>
+            </select>
+          </label>
+          <label class="field">Category
+            <select id="fCategory"></select>
+          </label>
+          <label class="field">Tier
+            <select id="fValueTier">
+              <option value="entry">Entry</option>
+              <option value="mid">Mid</option>
+              <option value="premium">Premium</option>
+            </select>
+          </label>
+          <label class="field">Medal
+            <select id="fMedalPreset">
+              <option value="Top Rated">Top Rated</option>
+              <option value="4.5+ Elite Choice">4.5+ Elite Choice</option>
+              <option value="Premium Tier">Premium Tier</option>
+              <option value="Verified Quality">Verified Quality</option>
+              <option value="Bestseller">Bestseller</option>
+              <option value="Stealth Choice">Stealth Choice</option>
+              <option value="Obsidian Tier">Obsidian Tier</option>
+              <option value="Blackout Masterpiece">Blackout Masterpiece</option>
+              <option value="custom">Custom…</option>
+            </select>
+          </label>
+          <label class="field col-span">Custom medal <span style="text-transform:none;color:#74787f;font-weight:500;">(optional)</span>
+            <input id="fBadgeCustom" placeholder="Leave empty to use the preset above">
+          </label>
+          <label class="field">Priority
+            <div class="priority-row">
+              <button type="button" id="priDec" title="Lower">−</button>
+              <input id="fPriority" type="number" value="5" min="1" max="99999">
+              <button type="button" id="priInc" title="Raise">+</button>
+              <button type="button" id="priTopCategory" class="soft" title="Higher than any item in current list filter">Top</button>
+            </div>
+          </label>
+          <label class="field">Status
+            <select id="fActive">
+              <option value="true">Active</option>
+              <option value="false">Inactive</option>
+            </select>
+          </label>
+          <label class="field col-span">Benefit
+            <input id="fBenefit" placeholder="Short line — what this product is good at">
+          </label>
+          <div class="col-span">
+            <label class="checkbox-field" for="fIsBuildUnit">
+              <input type="checkbox" id="fIsBuildUnit">
+              <span><strong>Combined PC card</strong> — Amazon link optional; same-section <code>pc-component</code> items auto-list inside. Category <code>pc-case</code> recommended.</span>
+            </label>
+            <p class="hint" id="vaultNoirMatryoshkaHint" style="display:none;">Vault Noir: outer grid shows non-<code>pc-component</code> items; GPU/CPU/RAM etc. must use category <code>pc-component</code>.</p>
           </div>
         </div>
-        <p class="field-hint" id="formHint">Name and image file are required. (Amazon URL also required unless this is a Birleşik PC kartı.)</p>
+        <p class="hint" id="amazonUrlHint">Paste an Amazon or amzn.to link.</p>
+        <p class="field-hint" id="formHint">Name + image required (and Amazon URL, unless Combined PC card).</p>
         <div class="preview-card" id="livePreviewCard">
-          <h3 class="preview-title" id="previewName">Preview: Product name</h3>
-          <p class="preview-meta" id="previewMeta">Category: keyboard | Section: gear-library | Medal: Top Rated</p>
-          <p class="preview-meta" id="previewLink">Amazon: https://...</p>
+          <div class="preview-thumb" id="formImagePreviewWrap">
+            <span class="ph" id="formImagePreviewPh">No image</span>
+            <img id="formImagePreviewImg" alt="" class="hidden" width="60" height="60" decoding="async">
+          </div>
+          <div class="preview-body">
+            <p class="preview-title" id="previewName">Product name</p>
+            <p class="preview-meta" id="previewMeta">Category: … | Section: …</p>
+            <p class="preview-meta" id="previewLink">Amazon: …</p>
+          </div>
         </div>
-        <div class="row" style="margin-top: 10px;">
+        <div class="row" style="margin-top:14px;">
           <button id="addProductBtn" class="ok">Add Product</button>
-          <button id="clearFormBtn">Clear Form</button>
         </div>
-        <p class="muted">Ekledikten sonra alttaki <strong>Save to GitHub</strong> butonuna bas — site ~1–2 dakikada güncellenir.</p>
       </div>
 
       <div class="card" id="topPicksSection">
-        <h1>Top Picks Manager</h1>
-        <p>Top picks are selected manually from your product list (no auto add).</p>
-        <div class="grid">
-          <select id="topPickProduct1"></select>
-          <input id="topPickLabel1" placeholder="Label for Top Pick 1">
-          <select id="topPickProduct2"></select>
-          <input id="topPickLabel2" placeholder="Label for Top Pick 2">
-          <select id="topPickProduct3"></select>
-          <input id="topPickLabel3" placeholder="Label for Top Pick 3">
+        <div class="card-head">
+          <h1>Top Picks</h1>
+          <button id="saveTopPicksBtn" class="primary">Save Top Picks</button>
         </div>
-        <button id="saveTopPicksBtn" class="primary">Save Top Picks</button>
+        <div class="form-grid">
+          <label class="field">Pick 1
+            <select id="topPickProduct1"></select>
+          </label>
+          <label class="field">Label 1
+            <input id="topPickLabel1" placeholder="Label for Top Pick 1">
+          </label>
+          <label class="field">Pick 2
+            <select id="topPickProduct2"></select>
+          </label>
+          <label class="field">Label 2
+            <input id="topPickLabel2" placeholder="Label for Top Pick 2">
+          </label>
+          <label class="field">Pick 3
+            <select id="topPickProduct3"></select>
+          </label>
+          <label class="field">Label 3
+            <input id="topPickLabel3" placeholder="Label for Top Pick 3">
+          </label>
+        </div>
       </div>
 
       <div class="card">
-        <h1>Current Products (Menu View)</h1>
-        <div class="row" style="margin-bottom: 10px;">
-          <input id="listSearch" placeholder="Search by product name...">
+        <div class="card-head">
+          <h1>Products</h1>
+          <button id="refreshListBtn" class="ghost">Refresh</button>
+        </div>
+        <div class="toolbar" style="margin-bottom:10px;">
+          <input id="listSearch" class="grow" placeholder="Search name…">
           <select id="listSectionFilter">
             <option value="all">All Sections</option>
             <option value="gear-library">Gear Library only</option>
@@ -319,23 +386,24 @@
             <option value="active">Active only</option>
             <option value="inactive">Inactive only</option>
           </select>
-          <button id="refreshListBtn">Refresh List</button>
         </div>
-        <p class="mini" id="dragSortHint" style="margin:0 0 8px;">Tip: Choose a single Section and Category (All status, no search) to drag products and auto-update priorities.</p>
+        <p class="hint" id="dragSortHint" style="margin:0 0 8px;">Tip: pick one Section + Category (status All, no search) to drag-reorder priority.</p>
         <div class="products-panel" id="productsList"></div>
       </div>
 
       <div class="card">
-        <div class="row">
-          <button id="reloadBtn">Reload Live JSON</button>
-          <button id="validateBtn">Validate</button>
-          <button id="saveGithubBtn" class="ok" type="button" disabled title="Repoya data/products.json yazar — Vercel otomatik deploy">Save to GitHub → live site</button>
+        <button id="toggleAdvancedBtn" class="advanced-toggle" type="button">Show advanced JSON editor</button>
+        <textarea id="jsonEditor" spellcheck="false" class="hidden" style="margin-top:10px;"></textarea>
+      </div>
+
+      <div class="action-bar">
+        <div class="action-bar-inner">
+          <p class="status" id="statusLine">Ready.</p>
+          <button id="reloadBtn" class="ghost">Reload</button>
+          <button id="validateBtn" class="ghost">Validate</button>
+          <button id="saveGithubBtn" class="ok" type="button" disabled title="Write data/products.json to repo — Vercel auto-deploys">Save to GitHub</button>
           <button id="logoutBtn" class="warn">Logout</button>
         </div>
-        <p class="mini" id="githubSaveHint" style="margin:8px 0 6px;line-height:1.5;">GitHub durumu yükleniyor…</p>
-        <p id="statusLine" class="mini" style="margin:0;">Ready.</p>
-        <button id="toggleAdvancedBtn" class="advanced-toggle" type="button">Show advanced JSON editor</button>
-        <textarea id="jsonEditor" spellcheck="false" class="hidden"></textarea>
       </div>
     </div>
   </div>
@@ -344,7 +412,7 @@
     (function() {
       var ADMIN_API_BASE = "/api/admin";
       var DATA_PATH = "data/products.json";
-      var ADMIN_VERSION = "3.0";
+      var ADMIN_VERSION = "3.1";
       var FALLBACK_CATEGORIES = [
         { id: "keyboard", label: "Keyboards" },
         { id: "mouse", label: "Mouse" },
@@ -793,7 +861,7 @@
                 uploadImageBtn.style.opacity = "1";
               }
               githubSaveHint.innerHTML =
-                "<strong>GitHub bağlı:</strong> «GitHub’a kaydet → canlı site» ile <code>data/products.json</code> repoya yazılır; «GitHub’a görsel yükle» ile JPG/PNG/WebP repo köküne gider. Vercel deploy sonrası sitede görünür.";
+                "<strong>GitHub bağlı.</strong> Ekle/düzenle → <strong>Save to GitHub</strong>. Site ~1–2 dk içinde güncellenir.";
             } else {
               saveGithubBtn.disabled = true;
               saveGithubBtn.style.opacity = "0.65";
@@ -802,7 +870,7 @@
                 uploadImageBtn.style.opacity = "0.65";
               }
               githubSaveHint.innerHTML =
-                "Otomatik kayıt için Vercel’e <code>GITHUB_TOKEN</code>, <code>GITHUB_OWNER</code>, <code>GITHUB_REPO</code> ekleyin (bkz. VERCEL_ADMIN_SETUP.md). Yoksa her eklemeden sonra inen <strong>products.json</strong> dosyasını projede <code>data/products.json</code> olarak kaydedip <code>git push</code> yapın; görselleri de manuel repo köküne ekleyin.";
+                "GitHub bağlı değil — Vercel env (<code>GITHUB_TOKEN/OWNER/REPO</code>) ekleyin ya da advanced editördeki JSON’u <code>data/products.json</code>’a kaydedip push edin.";
             }
           })
           .catch(function() {
@@ -864,8 +932,7 @@
                 if (fImageFile) fImageFile.value = "";
                 updateFormState();
                 setStatus(
-                  (result.body.message || "Görsel yüklendi.") +
-                    " Sonra «Add Product» veya mevcut ürünü güncelle; ardından «GitHub’a kaydet → canlı site».",
+                  (result.body.message || "Görsel yüklendi.") + " Şimdi Add Product → Save to GitHub.",
                   false
                 );
               } else {
@@ -1073,8 +1140,8 @@
         populateTopPickSelectors(parsed);
         setStatus(
           editingProductId
-            ? "Ürün güncellendi. Aşağıdan Save to GitHub'a basarsan canlıya çıkar."
-            : "Ürün eklendi. Aşağıdan Save to GitHub'a basarsan canlıya çıkar.",
+            ? "Güncellendi — alttan Save to GitHub."
+            : "Eklendi — alttan Save to GitHub.",
           false
         );
         resetProductForm();
