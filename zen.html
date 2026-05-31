@@ -10,6 +10,14 @@
 
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+(function () {
+    var key = "sv_color_mode_v1";
+    var stored = localStorage.getItem(key);
+    var mode = stored === "dark" || stored === "light" ? stored : "light";
+    document.documentElement.setAttribute("data-color-mode", mode);
+})();
+</script>
 <title>Zen Workspace Gear | Setup Vault</title>
 <meta name="description" content="Curated Zen (Angel) workspace peripherals—keyboards, mice, headsets, monitors, and desk essentials in a clean, minimalist aesthetic.">
 <link rel="canonical" href="https://www.setupvaulthq.com/zen.html">
@@ -21,7 +29,7 @@
 <meta property="og:type" content="website">
 
 <link rel="stylesheet" href="fonts/inter-local.css">
-<link rel="stylesheet" href="css/site.css?v=10">
+<link rel="stylesheet" href="css/site.css?v=11">
 
 
 </head>
@@ -51,6 +59,10 @@
         <span class="mobile-top-title">Setup Vault</span>
     </a>
     <span class="mobile-top-badge">Curated Picks</span>
+    <button type="button" class="color-mode-toggle color-mode-toggle--compact" aria-label="Switch to dark mode" aria-pressed="false">
+        <span class="color-mode-icon" aria-hidden="true">🌙</span>
+        <span class="color-mode-label">Dark mode</span>
+    </button>
 </header>
 
 
@@ -87,6 +99,10 @@
     </nav>
 
     <div class="sidebar-footer-links">
+        <button type="button" class="color-mode-toggle" aria-label="Switch to dark mode" aria-pressed="false">
+            <span class="color-mode-icon" aria-hidden="true">🌙</span>
+            <span class="color-mode-label">Dark mode</span>
+        </button>
         <span onclick="openModal('about')">About Us</span>
         <span onclick="openModal('privacy')">Privacy Policy</span>
         <span onclick="openModal('terms')">Terms of Service</span>
@@ -161,7 +177,7 @@
 </div>
 
     <script src="scripts/render-products.js?v=3.5" defer></script>
-<script src="scripts/site-shell.js?v=2" defer></script>
+<script src="scripts/site-shell.js?v=3" defer></script>
 <script src="scripts/exit-intent.js?v=1" defer></script>
 
 </body>

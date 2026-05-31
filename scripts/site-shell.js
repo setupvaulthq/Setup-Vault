@@ -424,6 +424,35 @@
             });
         }
 
+        function initColorMode() {
+            var storageKey = "sv_color_mode_v1";
+            var root = document.documentElement;
+
+            function applyMode(mode) {
+                var isDark = mode === "dark";
+                root.setAttribute("data-color-mode", mode);
+                document.querySelectorAll(".color-mode-toggle").forEach(function(btn) {
+                    btn.setAttribute("aria-pressed", isDark ? "true" : "false");
+                    btn.setAttribute("aria-label", isDark ? "Switch to light mode" : "Switch to dark mode");
+                    var icon = btn.querySelector(".color-mode-icon");
+                    var label = btn.querySelector(".color-mode-label");
+                    if (icon) icon.textContent = isDark ? "\u2600\uFE0F" : "\uD83C\uDF19";
+                    if (label) label.textContent = isDark ? "Light mode" : "Dark mode";
+                });
+            }
+
+            var stored = localStorage.getItem(storageKey);
+            applyMode(stored === "dark" || stored === "light" ? stored : "light");
+
+            document.querySelectorAll(".color-mode-toggle").forEach(function(btn) {
+                btn.addEventListener("click", function() {
+                    var next = root.getAttribute("data-color-mode") === "dark" ? "light" : "dark";
+                    localStorage.setItem(storageKey, next);
+                    applyMode(next);
+                });
+            });
+        }
+
         function applyHashFocusMode() {
             if (focusActivateTimer) {
                 clearTimeout(focusActivateTimer);
@@ -533,6 +562,7 @@
             applyHashFocusMode();
             initConsentUi();
             initBridgeStrip();
+            initColorMode();
             markActiveNav();
             attachTopPickAnalytics();
             window.addEventListener("hashchange", applyHashFocusMode);

@@ -7,9 +7,9 @@ const ROOT = path.resolve(__dirname, "..");
 const PARTIALS_DIR = path.join(ROOT, "src", "partials");
 const TEMPLATES_DIR = path.join(ROOT, "src", "templates");
 
-const SITE_CSS_VERSION = "10";
+const SITE_CSS_VERSION = "11";
 const RENDER_VERSION = "3.5";
-const SHELL_VERSION = "2";
+const SHELL_VERSION = "3";
 
 function readPartial(name) {
   return fs.readFileSync(path.join(PARTIALS_DIR, `${name}.html`), "utf8");

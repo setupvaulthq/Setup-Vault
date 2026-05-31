@@ -1,5 +1,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+(function () {
+    var key = "sv_color_mode_v1";
+    var stored = localStorage.getItem(key);
+    var mode = stored === "dark" || stored === "light" ? stored : "light";
+    document.documentElement.setAttribute("data-color-mode", mode);
+})();
+</script>
 <title>{{TITLE}}</title>
 <meta name="description" content="{{DESCRIPTION}}">
 <link rel="canonical" href="{{CANONICAL}}">
