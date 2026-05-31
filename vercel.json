@@ -30,6 +30,9 @@
       ]
     }
   ],
+  "rewrites": [
+    { "source": "/admin", "destination": "/admin.html" }
+  ],
   "redirects": [
     {
       "source": "/:path*",
