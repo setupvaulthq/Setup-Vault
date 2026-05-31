@@ -7,8 +7,8 @@ const ROOT = path.resolve(__dirname, "..");
 const PARTIALS_DIR = path.join(ROOT, "src", "partials");
 const TEMPLATES_DIR = path.join(ROOT, "src", "templates");
 
-const SITE_CSS_VERSION = "11";
-const RENDER_VERSION = "3.5";
+const SITE_CSS_VERSION = "13";
+const RENDER_VERSION = "3.7";
 const SHELL_VERSION = "3";
 
 function readPartial(name) {

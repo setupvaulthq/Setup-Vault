@@ -229,9 +229,8 @@
       "</div>" +
       '<p class="part-benefit-note">' + escapeHtml(benefit) + "</p>" +
       '<a href="' + escapeHtml(amazonUrl) + '" target="_blank" class="part-btn">' +
-      '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M11 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1z"/><path d="M2 2.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V3h-12v-.5z"/><path d="M14 5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5zM1 4v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4H1z"/></svg>' +
+      '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg>' +
       escapeHtml(options.compactCta ? AMAZON_PART_BTN_LABEL_COMPACT : AMAZON_PART_BTN_LABEL) + "</a>" +
-      '<p class="trust-inline-note">Affiliate note: we may earn from qualifying purchases.</p>' +
       "</div>"
     );
   }
@@ -359,9 +358,14 @@
       '">' +
       escapeHtml(badgeText) +
       "</div>" +
+      '<div class="title-wrapper">' +
       '<h4 class="part-title build-unit-title">' +
       escapeHtml(name) +
       "</h4>" +
+      '<a href="#' +
+      escapeHtml(product.id || "") +
+      '" class="copy-link-icon" title="Right click to copy link">🔗</a>' +
+      "</div>" +
       '<p class="build-desc build-unit-desc">' +
       escapeHtml(desc) +
       "</p>" +
