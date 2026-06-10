@@ -400,6 +400,19 @@ body::-webkit-scrollbar-corner {
 }
 .sidebar-nav a:hover { background-color: var(--bg-color); transform: translateX(5px); color: var(--primary-accent); }
 
+.vault-group-toggle {
+    display: flex; align-items: center; justify-content: space-between; width: 100%;
+    background: none; border: 1px solid transparent; cursor: pointer;
+    color: var(--text-main); padding: 12px 16px; border-radius: 10px;
+    font-weight: 600; font-size: 14px; margin-bottom: 5px; font-family: inherit;
+    transition: all 0.2s ease;
+}
+.vault-group-toggle:hover { background-color: var(--bg-color); color: var(--primary-accent); }
+.vault-group-caret { font-size: 11px; transition: transform 0.2s ease; opacity: 0.7; }
+.vault-group-toggle[aria-expanded="true"] .vault-group-caret { transform: rotate(180deg); }
+.vault-group-panel { padding-left: 14px; margin-bottom: 5px; }
+.vault-group-panel a { font-size: 13px; }
+
 .mobile-top-bar {
     display: none;
     position: sticky;

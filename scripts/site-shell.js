@@ -408,6 +408,7 @@
             updateBridgeChrome();
         }
 
+        window.__svMarkActiveNav = markActiveNav;
         function markActiveNav() {
             var pageId = document.body.getAttribute("data-page") || "";
             var navLinks = document.querySelectorAll(".sidebar-nav a[data-nav], .mobile-bottom-bar a[data-nav]");

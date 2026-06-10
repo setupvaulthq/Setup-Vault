@@ -375,6 +375,29 @@
         </div>
       </div>
 
+      <div class="card" id="subVaultSection">
+        <div class="card-head">
+          <h1>Sub-Vaults</h1>
+          <button id="addSubVaultBtn" class="ok">Add Sub-Vault</button>
+        </div>
+        <div class="form-grid">
+          <label class="field">Parent category
+            <select id="svParent"></select>
+          </label>
+          <label class="field">Sub-vault name
+            <input id="svName" placeholder="e.g. Phantom">
+          </label>
+          <label class="field">Icon (optional)
+            <input id="svIcon" placeholder="🌑" maxlength="4">
+          </label>
+          <label class="field">Section id (optional)
+            <input id="svSection" placeholder="auto from name">
+          </label>
+        </div>
+        <p class="field-hint">New sub-vaults appear under the chosen parent in the sidebar and open a filtered gear view (gear.html?vault=…). Tag products with this section id to populate it.</p>
+        <div class="products-panel" id="subVaultList" style="margin-top:10px;"></div>
+      </div>
+
       <div class="card">
         <div class="card-head">
           <h1>Products</h1>
@@ -484,6 +507,12 @@
       var topPickLabel1 = document.getElementById("topPickLabel1");
       var topPickLabel2 = document.getElementById("topPickLabel2");
       var topPickLabel3 = document.getElementById("topPickLabel3");
+      var svParent = document.getElementById("svParent");
+      var svName = document.getElementById("svName");
+      var svIcon = document.getElementById("svIcon");
+      var svSection = document.getElementById("svSection");
+      var addSubVaultBtn = document.getElementById("addSubVaultBtn");
+      var subVaultList = document.getElementById("subVaultList");
       var editingProductId = "";
       var listSearch = document.getElementById("listSearch");
       var listActiveFilter = document.getElementById("listActiveFilter");
@@ -1179,7 +1208,84 @@
           topPickLabel2.value = p2.label || "Best Utility Pick";
           topPickLabel3.value = p3.label || "Best Premium Pick";
         }
+        renderSubVaultUi(data);
       }
+
+      function renderSubVaultUi(data) {
+        var nav = Array.isArray(data && data.navigation) ? data.navigation : [];
+        svParent.innerHTML = nav.map(function(p) {
+          return '<option value="' + p.id + '">' + ((p.icon ? p.icon + " " : "") + p.label) + "</option>";
+        }).join("");
+        if (!nav.length) {
+          subVaultList.innerHTML = '<p class="hint">No parent categories defined in navigation.</p>';
+          return;
+        }
+        var rows = [];
+        nav.forEach(function(parent) {
+          (parent.children || []).forEach(function(child) {
+            rows.push(
+              '<div class="product-item">' +
+              "<h3>" + escapeHtml(parent.label + " · " + (child.icon ? child.icon + " " : "") + child.label) + "</h3>" +
+              '<p class="mini">ID: ' + escapeHtml(child.id) + "</p>" +
+              '<p class="mini">Link: ' + escapeHtml(child.href || "-") + "</p>" +
+              '<div class="row item-actions"><button type="button" class="ghost danger" data-del-subvault="' +
+              escapeHtml(parent.id + "|" + child.id) + '">Delete</button></div></div>'
+            );
+          });
+        });
+        subVaultList.innerHTML = rows.length ? rows.join("") : '<p class="hint">No sub-vaults yet.</p>';
+      }
+
+      function addSubVaultFromForm() {
+        var parsed = validateEditorJson();
+        if (!parsed) return;
+        if (!Array.isArray(parsed.navigation)) parsed.navigation = [];
+        var parentId = svParent.value;
+        var parent = parsed.navigation.find(function(p) { return p.id === parentId; });
+        if (!parent) { setStatus("Pick a parent category first.", true); return; }
+        var name = (svName.value || "").trim();
+        if (!name) { setStatus("Sub-vault name is required.", true); return; }
+        var id = slugify(svSection.value || name);
+        if (!Array.isArray(parent.children)) parent.children = [];
+        if (parent.children.some(function(c) { return c.id === id; })) {
+          setStatus("A sub-vault with that id already exists under " + parent.label + ".", true);
+          return;
+        }
+        parent.children.push({
+          id: id,
+          label: name,
+          icon: (svIcon.value || "").trim() || parent.icon || "",
+          href: "gear.html?vault=" + id
+        });
+        bumpDataMeta(parsed);
+        jsonEditor.value = JSON.stringify(parsed, null, 2);
+        svName.value = "";
+        svIcon.value = "";
+        svSection.value = "";
+        renderSubVaultUi(parsed);
+        refreshCounts(parsed);
+        setStatus('Sub-vault "' + name + '" added under ' + parent.label + ". Save to GitHub to publish.", false);
+      }
+
+      function deleteSubVault(parentId, childId) {
+        var parsed = getEditorData();
+        if (!parsed || !Array.isArray(parsed.navigation)) return;
+        var parent = parsed.navigation.find(function(p) { return p.id === parentId; });
+        if (!parent || !Array.isArray(parent.children)) return;
+        parent.children = parent.children.filter(function(c) { return c.id !== childId; });
+        bumpDataMeta(parsed);
+        jsonEditor.value = JSON.stringify(parsed, null, 2);
+        renderSubVaultUi(parsed);
+        refreshCounts(parsed);
+        setStatus("Sub-vault removed. Save to GitHub to publish.", false);
+      }
+
+      subVaultList.addEventListener("click", function(e) {
+        var btn = e.target.closest("[data-del-subvault]");
+        if (!btn) return;
+        var parts = (btn.getAttribute("data-del-subvault") || "").split("|");
+        if (parts.length === 2) deleteSubVault(parts[0], parts[1]);
+      });
 
       function saveTopPicksFromSelectors() {
         var parsed = validateEditorJson();
@@ -1411,6 +1517,7 @@
       addProductBtn.addEventListener("click", addProductFromForm);
       clearFormBtn.addEventListener("click", resetProductForm);
       saveTopPicksBtn.addEventListener("click", saveTopPicksFromSelectors);
+      addSubVaultBtn.addEventListener("click", addSubVaultFromForm);
       toggleAdvancedBtn.addEventListener("click", function() {
         var isHidden = jsonEditor.classList.contains("hidden");
         if (isHidden) {

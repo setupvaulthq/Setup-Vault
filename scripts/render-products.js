@@ -439,6 +439,15 @@
     var products = (data.products || []).filter(function(product) {
       return Boolean(product.active);
     });
+    var vaultParam =
+      typeof URLSearchParams !== "undefined"
+        ? new URLSearchParams(window.location.search).get("vault")
+        : null;
+    if (vaultParam) {
+      products = products.filter(function(product) {
+        return product.section === vaultParam;
+      });
+    }
     if (!categories.length || !products.length) return;
 
     tabsWrap.innerHTML = categories
@@ -782,6 +791,64 @@
     };
   }
 
+  function renderVaultNav(navItems) {
+    var host = document.getElementById("vaultNav");
+    if (!host || !navItems || !navItems.length) return;
+    var currentPage = document.body.getAttribute("data-page") || "";
+
+    function navLink(item) {
+      var a = document.createElement("a");
+      a.href = item.href || "#";
+      a.setAttribute("data-nav", item.id || "");
+      a.textContent = ((item.icon ? item.icon + " " : "") + (item.label || "")).trim();
+      return a;
+    }
+
+    var frag = document.createDocumentFragment();
+    navItems.forEach(function(item) {
+      var children = item.children || [];
+      if (!children.length) {
+        frag.appendChild(navLink(item));
+        return;
+      }
+      var group = document.createElement("div");
+      group.className = "vault-group";
+      var childIds = children.map(function(c) { return c.id; });
+      var isOpen = childIds.indexOf(currentPage) !== -1;
+
+      var toggle = document.createElement("button");
+      toggle.type = "button";
+      toggle.className = "vault-group-toggle";
+      toggle.setAttribute("aria-expanded", String(isOpen));
+      toggle.innerHTML =
+        '<span>' + ((item.icon ? item.icon + " " : "") + (item.label || "")).trim() +
+        '</span><span class="vault-group-caret" aria-hidden="true">▾</span>';
+
+      var panel = document.createElement("div");
+      panel.className = "vault-group-panel";
+      if (!isOpen) panel.hidden = true;
+      children.forEach(function(child) {
+        panel.appendChild(navLink(child));
+      });
+
+      toggle.addEventListener("click", function() {
+        var open = toggle.getAttribute("aria-expanded") === "true";
+        toggle.setAttribute("aria-expanded", String(!open));
+        panel.hidden = open;
+      });
+
+      group.appendChild(toggle);
+      group.appendChild(panel);
+      frag.appendChild(group);
+    });
+
+    host.innerHTML = "";
+    host.appendChild(frag);
+    if (typeof window.__svMarkActiveNav === "function") {
+      window.__svMarkActiveNav();
+    }
+  }
+
   function loadProductsData() {
     fetch("data/products.json", { cache: "no-store" })
       .then(function(response) {
@@ -795,6 +862,7 @@
           return;
         }
         exposeProductStore(data || {});
+        renderVaultNav((data && data.navigation) || []);
         renderTopPicks((data && data.topPicks) || [], (data && data.products) || []);
         renderSectionProducts((data && data.products) || []);
         applyVaultNoirState((data && data.products) || []);

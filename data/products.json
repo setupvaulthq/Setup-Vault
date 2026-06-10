@@ -5,6 +5,24 @@
     "currency": "USD",
     "defaultDisclosure": "As an Amazon Associate, Setup Vault earns from qualifying purchases."
   },
+  "navigation": [
+    {
+      "id": "zen",
+      "label": "Vault Zen",
+      "icon": "☁️",
+      "href": "zen.html",
+      "children": []
+    },
+    {
+      "id": "onyx",
+      "label": "Vault Onyx",
+      "icon": "🌑",
+      "children": [
+        { "id": "stealth", "label": "Stealth", "href": "stealth.html" },
+        { "id": "noir", "label": "Noir", "href": "noir.html" }
+      ]
+    }
+  ],
   "categories": [
     {
       "id": "keyboard",
