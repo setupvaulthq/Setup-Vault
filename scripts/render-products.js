@@ -581,46 +581,6 @@
     }
   }
 
-  function renderGearLibraryHomeSection(data) {
-    var mount = document.getElementById("gearLibraryHomeMount");
-    if (!mount) return;
-    var categories = data.categories || [];
-    var products = (data.products || []).filter(function(p) {
-      return Boolean(p.active) && p.section === "gear-library";
-    });
-    if (!products.length) {
-      mount.innerHTML =
-        '<p class="pick-note">Gear-only picks will appear here as you add them in Admin.</p>';
-      return;
-    }
-    var html = categories
-      .map(function(cat) {
-        var catProducts = products
-          .filter(function(p) {
-            return p.category === cat.id;
-          })
-          .sort(function(a, b) {
-            return (b.priority || 0) - (a.priority || 0);
-          });
-        if (!catProducts.length) return "";
-        var cards = catProducts.map(renderProductCard).join("");
-        return (
-          '<div class="gear-library-category-block" data-category="' +
-          escapeHtml(cat.id) +
-          '">' +
-          '<h3 class="gear-library-cat-title">' +
-          escapeHtml(cat.label) +
-          "</h3>" +
-          '<div class="setup-content-grid gear-library-product-grid">' +
-          cards +
-          "</div>" +
-          "</div>"
-        );
-      })
-      .join("");
-    mount.innerHTML = html;
-  }
-
   function renderTierFilters(products) {
     var chips = document.getElementById("tierFilterChips");
     if (!chips) return;
@@ -646,7 +606,6 @@
       var cards = document.querySelectorAll(
         ".setup-content-grid .part-card[data-tier], " +
           "#vault-noir .case-parts-grid .part-card[data-tier], " +
-          "#gearLibraryHomeMount .part-card[data-tier], " +
           "#categoryProductsGrid .pick-card[data-tier], " +
           "#categorySpotlightGrid .spotlight-card[data-tier], " +
           "#topPicksGrid .pick-card[data-tier]"
@@ -842,7 +801,6 @@
         renderCategorySpotlights(data || {});
         renderCategoryLibrary(data || {});
         renderTierFilters((data && data.products) || []);
-        renderGearLibraryHomeSection(data || {});
         if (typeof window.__svReapplyTierFilter === "function") {
           window.__svReapplyTierFilter();
         }
