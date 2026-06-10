@@ -1,4 +1,24 @@
-﻿:root {
+﻿/* ============================================================================
+   Setup Vault — site.css
+   Color palette is defined once as tokens in :root / [data-color-mode="dark"] /
+   .theme-noir below. DO NOT change token values — components reference them.
+
+   Table of contents (search the ALL-CAPS banner to jump):
+     00 TOKENS .................. :root light, dark-panel, dark-mode, Vault Noir
+     01 BASE / OVERFLOW ......... reset, body, sticky-safe overflow
+     02 SCROLLBAR ............... slim dark scrollbar
+     03 SIDEBAR ................. desktop left nav
+     04 FOCUS CHROME / BRIDGE ... Exit Focus btn, bridge strip, sticky Amazon bar
+     05 MAIN CONTENT ............ hero, trust bar, top picks, tiers, spotlights
+     06 GEAR LIBRARY (HOME) ..... home gear mount + category tabs
+     07 PRODUCT CARD CSS ........ .part-card, image wrapper, title, Amazon CTA
+     08 PC UNIT ................. build-unit cards + internals accordion
+     09 MOBILE BOTTOM BAR
+     10 RESPONSIVE .............. phone / narrow tablet
+     11 GEAR LIBRARY TABS ....... catalog tabs + dynamic Stealth/Noir cards
+     12 EXIT-INTENT ............. once-per-session popup
+   ========================================================================== */
+:root {
     /* Light mode — 60% soft blue-gray base, 30% cooler surfaces, 10% calm green accent */
     --accent-rgb: 30, 135, 75;
     --color-dominant: #E6EEF6;
@@ -183,7 +203,7 @@
 .noir-coming-soon-meta strong { color: var(--noir-accent); font-weight: 700; }
 [data-noir-products-wrap][hidden] { display: none !important; }
 
-/* hidden değil clip: Chromium'da body/html overflow-x:hidden sticky'yi öldürüyor */
+/* clip, not hidden: in Chromium, overflow-x:hidden on body/html breaks position:sticky */
 html {
     scroll-behavior: smooth;
     overflow-x: clip;
@@ -211,7 +231,7 @@ body {
     color-scheme: dark;
 }
 
-/* İnce koyu scrollbar — sidebar + sayfa aynı görünüm (Windows varsayılan griyi ezer) */
+/* 02 SCROLLBAR — slim dark scrollbar; sidebar + page share one look (overrides the default Windows gray) */
 .sidebar,
 .main-content,
 .modal-content {
@@ -277,8 +297,8 @@ body::-webkit-scrollbar-corner {
     min-height: 100vh;
 }
 
-/* --- SIDEBAR --- */
-/* align-self: flex-start — flex'te stretch olunca sidebar tüm sayfa boyu uzar ve sticky bozulur */
+/* 03 SIDEBAR */
+/* align-self: flex-start — without it, flex stretch makes the sidebar full-height and breaks sticky */
 .sidebar {
     width: var(--sidebar-width);
     flex-shrink: 0;
@@ -955,7 +975,7 @@ a.pick-link[href*="amazon.com"]:hover {
 .tier-badge.mid { background: var(--tier-mid-bg); color: var(--tier-mid-text); border: 1px solid rgba(var(--accent-rgb), 0.35); }
 .tier-badge.premium { background: var(--tier-premium-bg); color: var(--tier-premium-text); border: 1px solid rgba(196, 181, 253, 0.35); }
 
-/* KART CSS'İ */
+/* 07 PRODUCT CARD CSS */
 .part-card { position: relative; background: var(--surface-color); border: 1px solid var(--border-subtle); border-radius: 18px; padding: 18px; display: flex; flex-direction: column; transition: transform 0.45s ease, box-shadow 0.45s ease, opacity 0.3s ease, filter 0.3s ease; scroll-margin-top: 100px; }
 .part-card .tier-badge { order: -2; margin-bottom: 10px; }
 .part-card .img-wrapper { order: -1; }
@@ -965,7 +985,7 @@ a.pick-link[href*="amazon.com"]:hover {
 .part-card.target-focus.focus-shift-right { transform: translate(32px, -10px) scale(1.28); transform-origin: left center; }
 .part-card.target-focus.focus-shift-left { transform: translate(-48px, -10px) scale(1.28); }
 
-/* PINTEREST TARGET EFEKTİ */
+/* PINTEREST TARGET EFFECT */
 .part-card:target { border-color: var(--amazon-orange) !important; box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.25), var(--shadow-hover) !important; transform: translateY(-8px); animation: highlightPulse 1.5s ease-out; }
 [data-color-mode="dark"] .part-card:target { box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.25), 0 15px 30px rgba(0,0,0,0.45) !important; }
 .focus-mode .part-card.target-focus:target { transform: translateY(-10px) scale(1.28); }
@@ -983,7 +1003,7 @@ a.pick-link[href*="amazon.com"]:hover {
 @keyframes focusCardIn { 0% { transform: translateY(18px) scale(1.01); opacity: 0.85; } 100% { transform: translateY(-10px) scale(1.28); opacity: 1; } }
 .part-card.target-focus.focus-enter { animation: focusCardIn 0.55s ease; }
 
-/* RESİM WRAPPER VE PINTEREST BUTONU — flex + padding: tam görünür ürün, kırpma yok */
+/* IMAGE WRAPPER & PINTEREST BUTTON — flex + padding: full product visible, no cropping */
 .img-wrapper {
     position: relative;
     z-index: 0;
@@ -1051,7 +1071,7 @@ a.pick-link[href*="amazon.com"]:hover {
 .medal-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--medal-bg); border: 1px solid var(--medal-border); color: var(--medal-text); padding: 5px 11px; border-radius: 999px; font-size: 10px; font-weight: 800; letter-spacing: 0.4px; text-transform: uppercase; margin-bottom: 15px; width: fit-content; }
 .medal-dark { background: #1F2937; border: 1px solid #374151; color: #D1D5DB; }
 
-/* BAŞLIK VE KOPYALA İKONU */
+/* TITLE & COPY-LINK ICON */
 .title-wrapper { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 15px; }
 .part-title { font-size: 15px; font-weight: 700; margin: 0; line-height: 1.4; flex: 1; }
 .part-benefit-note { font-size: 12px; color: var(--text-muted); margin: -8px 0 12px; line-height: 1.45; }
@@ -1099,7 +1119,7 @@ a.pick-link[href*="amazon.com"]:hover {
 }
 .trust-inline-note { margin: 8px 0 0; font-size: 11px; color: var(--text-footnote); }
 
-/* PC UNIT KISMI */
+/* 08 PC UNIT */
 .case-unit-card { grid-column: 1 / -1; background-color: var(--surface-color); border: 1px solid var(--border-subtle); display: grid; grid-template-columns: 1fr 1.5fr; gap: 30px; align-items: center; padding: 30px; border-radius: 16px; }
 .theme-stealth-unit { background-color: var(--dark-secondary); border-color: var(--dark-border); }
 .theme-noir-unit { background-color: var(--noir-secondary); border: 1px solid var(--noir-border); }
@@ -1171,7 +1191,7 @@ a.pick-link[href*="amazon.com"]:hover {
 .locked-title { font-size: 18px; font-weight: 700; margin: 0 0 10px; color: var(--dark-heading); }
 .locked-desc { font-size: 13px; color: var(--dark-text-muted); margin: 0; }
 
-/* MOBİL ALT MENÜ */
+/* 09 MOBILE BOTTOM BAR */
 .mobile-bottom-bar {
     display: none;
     position: fixed;
