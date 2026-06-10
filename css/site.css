@@ -518,6 +518,11 @@ body::-webkit-scrollbar-corner {
     background: var(--amazon-orange-hover);
     border-color: var(--amazon-orange-hover);
 }
+/* In focus mode the fixed "Exit Focus" button sits at the top-right corner;
+   reserve room so "Jump to product" doesn't crowd up against it. */
+.focus-mode .bridge-strip-inner {
+    padding-right: 150px;
+}
 
 .sticky-amazon-bar {
     position: fixed;
@@ -971,7 +976,7 @@ a.pick-link[href*="amazon.com"]:hover {
 /* Do not scale images inside overflow:hidden wrapper — avoids cropped edges in focus mode */
 .focus-mode .focus-eligible.target-focus .part-image,
 .focus-mode .focus-eligible.target-focus .stealth-part-image { transform: none; }
-.focus-close-btn { position: fixed; top: 18px; right: 18px; z-index: 1600; display: none; align-items: center; gap: 8px; border: 1px solid var(--border-subtle); background: var(--focus-close-bg); color: var(--text-primary); font-size: 12px; font-weight: 700; border-radius: 999px; padding: 10px 14px; cursor: pointer; backdrop-filter: blur(6px); box-shadow: var(--shadow-soft); }
+.focus-close-btn { position: fixed; top: 30px; right: 18px; z-index: 1600; display: none; align-items: center; gap: 8px; border: 1px solid var(--border-subtle); background: var(--focus-close-bg); color: var(--text-primary); font-size: 12px; font-weight: 700; border-radius: 999px; padding: 10px 14px; cursor: pointer; backdrop-filter: blur(6px); box-shadow: var(--shadow-soft); }
 [data-color-mode="dark"] .focus-close-btn { box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45); }
 .focus-close-btn:hover { background: var(--color-secondary); border-color: rgba(var(--accent-rgb), 0.45); color: var(--amazon-orange); }
 .focus-mode .focus-close-btn { display: inline-flex; }

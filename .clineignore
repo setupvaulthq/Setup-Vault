@@ -1,0 +1,18 @@
+# Cline Ignore File
+# Bu dosya Cline tarafından taranmayacak dosya ve klasörleri belirtir
+
+# Klasörler
+node_modules/
+img-optimized/
+.git/
+
+# Görsel dosyaları
+*.jpg
+*.jpeg
+*.png
+*.jfif
+*.gif
+*.bmp
+*.webp
+*.svg
+*.ico
