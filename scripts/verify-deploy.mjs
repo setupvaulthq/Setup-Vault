@@ -15,7 +15,10 @@ async function fetchText(url) {
 }
 
 const local = fs.readFileSync(path.join(root, "index.html"), "utf8");
-const data = JSON.parse(fs.readFileSync(path.join(root, "products.json"), "utf8"));
+// Catalog data lives in data/products.json (the live, JSON-driven source).
+// NOTE: products now render client-side, so product ids no longer appear in
+// the static index.html — the id-presence check below is a legacy heuristic.
+const data = JSON.parse(fs.readFileSync(path.join(root, "data/products.json"), "utf8"));
 
 const live = await fetchText("https://setupvaulthq.com/");
 
