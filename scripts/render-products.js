@@ -1,5 +1,9 @@
 (function() {
+  // Cache-bust suffix appended to product MEDIA URLs (images). This is separate
+  // from build-site.mjs RENDER_VERSION, which cache-busts THIS script's URL.
   var SITE_VERSION = "3.5";
+  // Canonical origin used to build absolute media/share URLs. Must match the
+  // same origin hardcoded in scripts/site-shell.js (copy-link helper).
   var SITE_MEDIA_ORIGIN = "https://www.setupvaulthq.com";
   var AMAZON_PART_BTN_LABEL = "Check Current Price on Amazon";
   var AMAZON_PART_BTN_LABEL_COMPACT = "See Amazon Discount";
@@ -493,7 +497,7 @@
               "</p>" +
               '<a href="' +
               standaloneGearAnchorHref(product, true) +
-              '" class="copy-link-icon" title="Sağ tıkla bağlantıyı kopyala">🔗</a>' +
+              '" class="copy-link-icon" title="Right-click to copy link">🔗</a>' +
               "</div>"
             : '<p class="pick-name">' + escapeHtml(product.name || "") + "</p>";
           var cardId =
@@ -725,7 +729,7 @@
             "</p>" +
             '<a href="' +
             standaloneGearAnchorHref(best, true) +
-            '" class="copy-link-icon" title="Sağ tıkla bağlantıyı kopyala">🔗</a>' +
+            '" class="copy-link-icon" title="Right-click to copy link">🔗</a>' +
             "</div>"
           : '<p class="pick-name">' + escapeHtml(best.name) + "</p>";
         var spotId = "";

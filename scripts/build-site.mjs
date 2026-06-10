@@ -1,3 +1,17 @@
+/**
+ * build-site.mjs — static-site generator for Setup Vault.
+ *
+ * Reads page templates from src/templates/ and shared chunks from src/partials/,
+ * expands Handlebars-style `{{> partial}}` includes and `{{VAR}}` variables, and
+ * writes the public HTML pages to the repo root.
+ *
+ * IMPORTANT: the OUTPUT filenames (index/zen/stealth/noir/gear.html) are the live
+ * public URLs and must NOT change — they are indexed by search engines and linked
+ * across the site. The `name`/`label` fields on each page below are documentation
+ * only (what the page IS), they do not affect the output filename.
+ *
+ * Run: `node scripts/build-site.mjs` (or `npm run build:site`).
+ */
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -7,9 +21,11 @@ const ROOT = path.resolve(__dirname, "..");
 const PARTIALS_DIR = path.join(ROOT, "src", "partials");
 const TEMPLATES_DIR = path.join(ROOT, "src", "templates");
 
-const SITE_CSS_VERSION = "13";
-const RENDER_VERSION = "3.7";
-const SHELL_VERSION = "3";
+// Cache-bust query strings appended to asset URLs in the head/scripts partials.
+// Bump the matching one whenever you change that asset, so browsers refetch it.
+const SITE_CSS_VERSION = "13"; // bump on any css/site.css change
+const RENDER_VERSION = "3.8"; // bump on any scripts/render-products.js change
+const SHELL_VERSION = "3"; // bump on any scripts/site-shell.js change
 
 function readPartial(name) {
   return fs.readFileSync(path.join(PARTIALS_DIR, `${name}.html`), "utf8");
@@ -26,8 +42,12 @@ function expandIncludes(content, vars) {
   return result;
 }
 
+// Each entry: `name`/`label` describe what the page is (docs only); `template`
+// is the source in src/templates/; `output` is the public filename (do not rename).
 const pages = [
   {
+    name: "home-hub",
+    label: "Home / Bridge landing",
     template: "index.html",
     output: "index.html",
     vars: {
@@ -47,6 +67,8 @@ const pages = [
     }
   },
   {
+    name: "build-zen",
+    label: "Zen Workspace build / gear",
     template: "zen.html",
     output: "zen.html",
     vars: {
@@ -65,6 +87,8 @@ const pages = [
     }
   },
   {
+    name: "build-stealth",
+    label: "Stealth Operator build / gear",
     template: "stealth.html",
     output: "stealth.html",
     vars: {
@@ -83,6 +107,8 @@ const pages = [
     }
   },
   {
+    name: "build-noir",
+    label: "Vault Noir premium build",
     template: "noir.html",
     output: "noir.html",
     vars: {
@@ -95,13 +121,15 @@ const pages = [
       OG_TITLE: "Vault Noir Build | Setup Vault",
       OG_DESCRIPTION:
         "The heavy-artillery rig for streamers and esports creators — RTX 5080, Core Ultra 9, blackout chassis.",
-      OG_IMAGE: "https://www.setupvaulthq.com/noir_setup.jpg",
+      OG_IMAGE: "https://www.setupvaulthq.com/noir_full.jfif",
       OG_URL: "https://www.setupvaulthq.com/noir.html",
       MOBILE_BAR: "noir",
       EXTRA_HEAD: ""
     }
   },
   {
+    name: "gear-catalog",
+    label: "Gear Library (tabbed cross-build catalog)",
     template: "gear.html",
     output: "gear.html",
     vars: {
@@ -144,7 +172,7 @@ for (const page of pages) {
   });
   fs.writeFileSync(path.join(ROOT, page.output), html, "utf8");
   built += 1;
-  console.log(`Built ${page.output}`);
+  console.log(`Built ${page.output} (${page.label})`);
 }
 
 console.log(`Done — ${built} pages written.`);
