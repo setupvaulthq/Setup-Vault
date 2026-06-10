@@ -67,19 +67,19 @@ const pages = [
     }
   },
   {
-    name: "build-zen",
-    label: "Zen Workspace build / gear",
+    name: "vault-zen",
+    label: "Vault Zen (Angel) build / gear",
     template: "zen.html",
     output: "zen.html",
     vars: {
       PAGE_ID: "zen",
       BODY_ATTRS: ' data-theme="zen"',
-      TITLE: "Zen Workspace Gear | Setup Vault",
+      TITLE: "Vault Zen Gear | Setup Vault",
       DESCRIPTION:
-        "Curated Zen (Angel) workspace peripherals—keyboards, mice, headsets, monitors, and desk essentials in a clean, minimalist aesthetic.",
+        "Vault Zen (Angel) workspace peripherals—keyboards, mice, headsets, monitors, and desk essentials in a clean, minimalist aesthetic.",
       CANONICAL: "https://www.setupvaulthq.com/zen.html",
-      OG_TITLE: "Zen Workspace Gear | Setup Vault",
-      OG_DESCRIPTION: "Hand-picked Zen build peripherals and desk gear with honest value tiers.",
+      OG_TITLE: "Vault Zen Gear | Setup Vault",
+      OG_DESCRIPTION: "Hand-picked Vault Zen (Angel) peripherals and desk gear with honest value tiers.",
       OG_IMAGE: "https://www.setupvaulthq.com/stealth_op.jfif",
       OG_URL: "https://www.setupvaulthq.com/zen.html",
       MOBILE_BAR: "default",
@@ -87,19 +87,19 @@ const pages = [
     }
   },
   {
-    name: "build-stealth",
-    label: "Stealth Operator build / gear",
+    name: "vault-onyx-stealth",
+    label: "Vault Onyx — Stealth set",
     template: "stealth.html",
     output: "stealth.html",
     vars: {
       PAGE_ID: "stealth",
       BODY_ATTRS: ' data-theme="stealth"',
-      TITLE: "Stealth Operator Gear | Setup Vault",
+      TITLE: "Vault Onyx · Stealth Gear | Setup Vault",
       DESCRIPTION:
-        "Stealth Operator peripherals—all-black battlestation picks: mice, keyboards, headsets, monitors, and desk accessories.",
+        "Vault Onyx · Stealth peripherals—all-black battlestation picks: mice, keyboards, headsets, monitors, and desk accessories.",
       CANONICAL: "https://www.setupvaulthq.com/stealth.html",
-      OG_TITLE: "Stealth Operator Gear | Setup Vault",
-      OG_DESCRIPTION: "Dark-aesthetic curated gear with value tiers for the Stealth build.",
+      OG_TITLE: "Vault Onyx · Stealth Gear | Setup Vault",
+      OG_DESCRIPTION: "Dark-aesthetic curated gear with value tiers — the Stealth set of Vault Onyx.",
       OG_IMAGE: "https://www.setupvaulthq.com/stealth_op.jfif",
       OG_URL: "https://www.setupvaulthq.com/stealth.html",
       MOBILE_BAR: "default",
@@ -107,18 +107,18 @@ const pages = [
     }
   },
   {
-    name: "build-noir",
-    label: "Vault Noir premium build",
+    name: "vault-onyx-noir",
+    label: "Vault Onyx — Noir set",
     template: "noir.html",
     output: "noir.html",
     vars: {
       PAGE_ID: "noir",
       BODY_ATTRS: ' class="theme-noir" data-theme="noir"',
-      TITLE: "Vault Noir Build | Setup Vault",
+      TITLE: "Vault Onyx · Noir Build | Setup Vault",
       DESCRIPTION:
-        "Vault Noir — heavy artillery battlestation built for streamers, esports grinders and creators. RTX 5080 + Core Ultra 9 firepower, hand-curated above Stealth Operator.",
+        "Vault Onyx · Noir — heavy artillery battlestation built for streamers, esports grinders and creators. RTX 5080 + Core Ultra 9 firepower, the top set of Vault Onyx.",
       CANONICAL: "https://www.setupvaulthq.com/noir.html",
-      OG_TITLE: "Vault Noir Build | Setup Vault",
+      OG_TITLE: "Vault Onyx · Noir Build | Setup Vault",
       OG_DESCRIPTION:
         "The heavy-artillery rig for streamers and esports creators — RTX 5080, Core Ultra 9, blackout chassis.",
       OG_IMAGE: "https://www.setupvaulthq.com/noir_full.jfif",
