@@ -314,6 +314,43 @@
             updateBridgeChrome();
         }
 
+        // Center a target element in the real viewport, accounting for any
+        // sticky/fixed top chrome (mobile top bar + bridge strip). Using a manual
+        // offset instead of scrollIntoView({block:"center"}) avoids the
+        // scroll-margin-top:100px on .part-card pushing the card too high.
+        function centerInViewport(el) {
+            if (!el || typeof el.getBoundingClientRect !== "function") return;
+
+            function doScroll(smooth) {
+                var topChrome = 0;
+                ["mobile-top-bar", "bridge-strip"].forEach(function(sel) {
+                    var node = document.querySelector("." + sel);
+                    if (!node) return;
+                    var style = window.getComputedStyle(node);
+                    if (style.position === "fixed" || style.position === "sticky") {
+                        if (style.display !== "none" && style.visibility !== "hidden") {
+                            topChrome += node.getBoundingClientRect().height;
+                        }
+                    }
+                });
+                var rect = el.getBoundingClientRect();
+                var viewportH = window.innerHeight || document.documentElement.clientHeight;
+                var usableH = viewportH - topChrome;
+                var target =
+                    rect.top + window.scrollY - topChrome - (usableH / 2) + (rect.height / 2);
+                if (target < 0) target = 0;
+                window.scrollTo({ top: target, behavior: smooth ? "smooth" : "auto" });
+            }
+
+            // Re-center after layout settles: lazy-loaded images below the fold
+            // grow the document and push the card down, so a single scroll lands
+            // off-center (notably on mobile). Recompute a couple of times.
+            doScroll(true);
+            setTimeout(function() { doScroll(true); }, 350);
+            setTimeout(function() { doScroll(false); }, 750);
+        }
+        window.__svCenterInViewport = centerInViewport;
+
         function getHashProductId() {
             if (!window.location.hash || window.location.hash.length < 2) return "";
             try {
@@ -392,7 +429,7 @@
                 bridgeStripBtn.addEventListener("click", function() {
                     var targetCard = getTargetProductCard();
                     if (targetCard) {
-                        targetCard.scrollIntoView({ behavior: "smooth", block: "center" });
+                        centerInViewport(targetCard);
                         if (!window.location.hash && targetCard.id) {
                             window.location.hash = targetCard.id;
                         }
@@ -494,7 +531,7 @@
                         ? ancestorDetails.parentElement.closest("details")
                         : null;
                 }
-                targetCard.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
+                centerInViewport(targetCard);
 
                 focusActivateTimer = setTimeout(function() {
                     document.body.classList.add("focus-mode");

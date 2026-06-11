@@ -24,8 +24,8 @@ const TEMPLATES_DIR = path.join(ROOT, "src", "templates");
 // Cache-bust query strings appended to asset URLs in the head/scripts partials.
 // Bump the matching one whenever you change that asset, so browsers refetch it.
 const SITE_CSS_VERSION = "15"; // bump on any css/site.css change
-const RENDER_VERSION = "4.0"; // bump on any scripts/render-products.js change
-const SHELL_VERSION = "5"; // bump on any scripts/site-shell.js change
+const RENDER_VERSION = "4.1"; // bump on any scripts/render-products.js change
+const SHELL_VERSION = "6"; // bump on any scripts/site-shell.js change
 
 function readPartial(name) {
   return fs.readFileSync(path.join(PARTIALS_DIR, `${name}.html`), "utf8");

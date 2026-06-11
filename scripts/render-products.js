@@ -582,7 +582,9 @@
       window.requestAnimationFrame(function() {
         window.requestAnimationFrame(function() {
           var el = document.getElementById(hashId);
-          if (el && typeof el.scrollIntoView === "function") {
+          if (el && typeof window.__svCenterInViewport === "function") {
+            window.__svCenterInViewport(el);
+          } else if (el && typeof el.scrollIntoView === "function") {
             el.scrollIntoView({ behavior: "smooth", block: "center" });
           }
         });
