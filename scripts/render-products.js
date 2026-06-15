@@ -121,18 +121,8 @@
     }
   }
 
-  /** gear.html?cat=…#id → index.html#id for standalone catalog cards (home Gear Library). */
-  function maybeRedirectGearCatalogHashToHome(data) {
-    if (!isGearLibraryHtmlPage()) return false;
-    var hashId = getWindowHashProductId();
-    if (!hashId) return false;
-    var products = (data && data.products) || [];
-    var found = products.find(function(p) {
-      return p && p.id === hashId && p.active && p.section === "gear-library";
-    });
-    if (!found) return false;
-    window.location.replace("index.html#" + encodeURIComponent(hashId));
-    return true;
+  function maybeRedirectGearCatalogHashToHome(_data) {
+    return false;
   }
 
   function standaloneGearAnchorHref(product, withCatQuery) {
@@ -579,14 +569,16 @@
     draw(initialCat);
 
     if (hashId) {
+      var scrollToHash = function() {
+        var el = document.getElementById(hashId);
+        if (el && typeof el.scrollIntoView === "function") {
+          el.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      };
       window.requestAnimationFrame(function() {
-        window.requestAnimationFrame(function() {
-          var el = document.getElementById(hashId);
-          if (el && typeof el.scrollIntoView === "function") {
-            el.scrollIntoView({ behavior: "smooth", block: "center" });
-          }
-        });
+        window.requestAnimationFrame(scrollToHash);
       });
+      setTimeout(scrollToHash, 120);
     }
   }
 
